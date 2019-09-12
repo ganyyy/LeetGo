@@ -49,6 +49,105 @@ func threeSum(nums []int) [][3]int {
 	return res
 }
 
+func threeSumClosest(nums []int, target int) int {
+	sLen := len(nums)
+	abs := func(x int) int {
+		if x < 0 {
+			return -x
+		}
+		return x
+	}
+	getSum := func(k, i, j int) int {
+		return nums[k] + nums[i] + nums[j]
+	}
+	sort.Ints(nums)
+	min := 0
+	minVal := 0
+	init := true
+	for k := 0; k < sLen-2; k++ {
+		i, j := k+1, sLen-1
+		for i < j {
+			sum := getSum(k, i, j)
+			dis := abs(sum - target)
+			if dis == 0 {
+				// 找到相同的就返回
+				return sum
+			}
+			if init {
+				minVal = sum
+				min = dis
+				init = false
+			}
+			if i+1 >= j {
+				if dis < min {
+					dis = min
+					minVal = sum
+				}
+				break
+			}
+			vI, vJ := getSum(k, i+1, j), getSum(k, i, j-1)
+			dI, dJ := abs(vI-target), abs(vJ-target)
+			if dI == dJ {
+				i++
+				j--
+			} else {
+				if dI > dJ {
+					if dJ < min {
+						min = dJ
+						minVal = vJ
+					}
+					j--
+				} else {
+					if dI < min {
+						min = dI
+						minVal = vI
+					}
+					i++
+				}
+			}
+		}
+	}
+	return minVal
+}
+
 func main() {
-	fmt.Println(threeSum([]int{-2, 0, 0, 2, 2}))
+	arrNums := [][]int{
+		{1, 1, -1, -1, 3},
+		{1, 2, 4, 8, 16, 32, 64, 128},
+		{1, -3, 3, 5, 4, 1},
+		{0, 1, 2},
+		{0, 2, 1, -3},
+		{1, 1, -1, -1, 3},
+		{1, 1, 1, 0},
+	}
+	arrTarget := []int{
+		-1,
+		82,
+		1,
+		0,
+		1,
+		-1,
+		100,
+	}
+	arrResult := []int{
+		-1,
+		82,
+		1,
+		3,
+		0,
+		-1,
+		3,
+	}
+
+	for i := 0; i < len(arrResult); i++ {
+		res := threeSumClosest(arrNums[i], arrTarget[i])
+		if res != arrResult[i] {
+			fmt.Printf("i:%d\nnums:%v, \n target:%d, expect:%d, result:%d\n", i, arrNums[i], arrTarget[i], arrResult[i], res)
+			fmt.Printf("-------------------\n")
+		}
+	}
+	//res := threeSumClosest(arrNums[4], arrTarget[4])
+	//fmt.Printf("%d\n",res)
+	//if res == arrResult[4] {
+	//}
 }
