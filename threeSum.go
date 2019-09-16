@@ -50,6 +50,12 @@ func threeSum(nums []int) [][3]int {
 }
 
 func threeSumClosest(nums []int, target int) int {
+	defer func() {
+		err := recover()
+		if err != nil {
+			fmt.Printf("error test:%v, %d\n", nums, target)
+		}
+	}()
 	sLen := len(nums)
 	abs := func(x int) int {
 		if x < 0 {
@@ -61,9 +67,8 @@ func threeSumClosest(nums []int, target int) int {
 		return nums[k] + nums[i] + nums[j]
 	}
 	sort.Ints(nums)
-	min := 0
-	minVal := 0
-	init := true
+	minVal := nums[0] + nums[1] + nums[2]
+	minDis := abs(minVal - target)
 	for k := 0; k < sLen-2; k++ {
 		i, j := k+1, sLen-1
 		for i < j {
@@ -73,37 +78,20 @@ func threeSumClosest(nums []int, target int) int {
 				// 找到相同的就返回
 				return sum
 			}
-			if init {
+			if minDis > dis {
+				minDis = dis
 				minVal = sum
-				min = dis
-				init = false
 			}
-			if i+1 >= j {
-				if dis < min {
-					dis = min
-					minVal = sum
+			if sum > target {
+				for i < j && nums[j] == nums[j-1] {
+					j--
 				}
-				break
-			}
-			vI, vJ := getSum(k, i+1, j), getSum(k, i, j-1)
-			dI, dJ := abs(vI-target), abs(vJ-target)
-			if dI == dJ {
-				i++
 				j--
 			} else {
-				if dI > dJ {
-					if dJ < min {
-						min = dJ
-						minVal = vJ
-					}
-					j--
-				} else {
-					if dI < min {
-						min = dI
-						minVal = vI
-					}
+				for i < j && nums[i] == nums[i+1] {
 					i++
 				}
+				i++
 			}
 		}
 	}
@@ -119,6 +107,7 @@ func main() {
 		{0, 2, 1, -3},
 		{1, 1, -1, -1, 3},
 		{1, 1, 1, 0},
+		{13, 2, 0, -14, -20, 19, 8, -5, -13, -3, 20, 15, 20, 5, 13, 14, -17, -7, 12, -6, 0, 20, -19, -1, -15, -2, 8, -2, -9, 13, 0, -3, -18, -9, -9, -19, 17, -14, -19, -4, -16, 2, 0, 9, 5, -7, -4, 20, 18, 9, 0, 12, -1, 10, -17, -11, 16, -13, -14, -3, 0, 2, -18, 2, 8, 20, -15, 3, -13, -12, -2, -19, 11, 11, -10, 1, 1, -10, -2, 12, 0, 17, -19, -7, 8, -19, -17, 5, -5, -10, 8, 0, -12, 4, 19, 2, 0, 12, 14, -9, 15, 7, 0, -16, -5, 16, -12, 0, 2, -16, 14, 18, 12, 13, 5, 0, 5, 6},
 	}
 	arrTarget := []int{
 		-1,
@@ -128,6 +117,7 @@ func main() {
 		1,
 		-1,
 		100,
+		-59,
 	}
 	arrResult := []int{
 		-1,
@@ -137,6 +127,7 @@ func main() {
 		0,
 		-1,
 		3,
+		-58,
 	}
 
 	for i := 0; i < len(arrResult); i++ {
@@ -146,7 +137,11 @@ func main() {
 			fmt.Printf("-------------------\n")
 		}
 	}
-	//res := threeSumClosest(arrNums[4], arrTarget[4])
+	/*
+		[]
+		-59
+	*/
+	//res := threeSumClosest(arrNums[6], arrTarget[6])
 	//fmt.Printf("%d\n",res)
 	//if res == arrResult[4] {
 	//}
