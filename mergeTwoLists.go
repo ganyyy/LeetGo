@@ -1,23 +1,7 @@
 package main
 
 import "fmt"
-
-type ListNode struct {
-	Val  int
-	Next *ListNode
-}
-
-func (l *ListNode) Add(val int) {
-	node := &ListNode{
-		Val:  val,
-		Next: nil,
-	}
-	s := l
-	for s.Next != nil {
-		s = s.Next
-	}
-	s.Next = node
-}
+import . "leetgo/data"
 
 func mergeTwoLists(l1 *ListNode, l2 *ListNode) *ListNode {
 	if nil == l2 {
@@ -59,13 +43,6 @@ func mergeTwoLists(l1 *ListNode, l2 *ListNode) *ListNode {
 		}
 	}
 	return head
-}
-
-func ShowList(head *ListNode) {
-	for head != nil {
-		fmt.Printf("%d->", head.Val)
-		head = head.Next
-	}
 }
 
 func main() {

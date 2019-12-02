@@ -1,18 +1,7 @@
 package main
 
 import "fmt"
-
-func (l *ListNode) Add(val int) {
-	node := &ListNode{
-		Val:  val,
-		Next: nil,
-	}
-	s := l
-	for s.Next != nil {
-		s = s.Next
-	}
-	s.Next = node
-}
+import . "leetgo/data"
 
 func removeNthFromEnd(head *ListNode, n int) *ListNode {
 	var left = head
@@ -38,30 +27,14 @@ func removeNthFromEnd(head *ListNode, n int) *ListNode {
 	}
 }
 
-func AddNode(before *ListNode, val int) *ListNode {
-	next := &ListNode{
-		Val:  val,
-		Next: nil,
-	}
-	before.Next = next
-	return next
-}
-
-func ShowList(head *ListNode) {
-	for head != nil {
-		fmt.Printf("%d->", head.Val)
-		head = head.Next
-	}
-}
 
 func main() {
 	head := &ListNode{
 		Val:  1,
 		Next: nil,
 	}
-	next := head
 	for _i := 2; _i <= 5; _i++ {
-		next = AddNode(next, _i)
+		head.Add(_i)
 	}
 
 	ShowList(head)
