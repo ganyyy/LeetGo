@@ -21,7 +21,11 @@ func (l *ListNode) Add(val int) {
 
 func ShowList(head *ListNode) {
 	for head != nil {
-		fmt.Printf("%d->", head.Val)
+		fmt.Printf("%d", head.Val)
 		head = head.Next
+		if nil != head {
+			fmt.Print("->")
+		}
 	}
+	fmt.Println()
 }
