@@ -15,7 +15,7 @@ func mergeKLists(lists []*ListNode) *ListNode {
 	interval := 1
 
 	for interval < total {
-		for i := 0; i < total-interval; i += interval*2 {
+		for i := 0; i < total-interval; i += interval * 2 {
 			lists[i] = mergeTwoList(lists[i], lists[i+interval])
 		}
 		interval *= 2
@@ -59,7 +59,6 @@ func mergeTwoList(list1, list2 *ListNode) *ListNode {
 	}
 	return head
 }
-
 
 // 想法是两两合并
 
