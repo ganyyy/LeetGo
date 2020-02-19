@@ -58,5 +58,5 @@ func max(a, b int) int {
 }
 
 func main() {
-	fmt.Println(jump3([]int{1, 2, 3, 4, 5}))
+	fmt.Println(jump([]int{1, 2, 3, 4, 5}))
 }
