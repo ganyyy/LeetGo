@@ -40,10 +40,62 @@ func insert(intervals [][]int, newInterval []int) [][]int {
 	return intervals[:l+1]
 }
 
+// 失败了, 无法处理将数据插入到中间的情况
+func insert2(intervals [][]int, newInterval []int) [][]int {
+	if len(intervals) == 0 {
+		return append(intervals, newInterval)
+	}
+	l, r := 0, 1
+	isInsert := false
+	for r < len(intervals) {
+		left, right := intervals[l], intervals[r]
+		if !isInsert {
+			isInsert = combine(left, newInterval)
+		}
+		if left[1] >= right[0] {
+			if left[1] < right[1] {
+				left[1] = right[1]
+			}
+		} else {
+			l++
+			intervals[l] = right
+		}
+		r++
+	}
+	// 最后还是没插入,
+	if !isInsert {
+		// 合并interval[i]和newInterval
+		left := intervals[l]
+		if !combine(left, newInterval) {
+			// 新增, 判断是加前边还是后边
+			if left[0] > newInterval[1] {
+				intervals = append(append([][]int{}, newInterval), intervals...)
+			} else {
+				intervals = append(intervals, newInterval)
+			}
+			l++
+		}
+	}
+	return intervals[:l+1]
+}
+
+func combine(a, b []int) bool {
+	if (a[0] <= b[0] && b[0] <= a[1]) || (b[0] <= a[0] && a[0] <= b[1]) {
+		if a[0] > b[0] {
+			a[0] = b[0]
+		}
+		if a[1] < b[1] {
+			a[1] = b[1]
+		}
+		return true
+	}
+	return false
+}
+
 func main() {
-	fmt.Println(insert([][]int{
-		{1, 3},
+	fmt.Println(insert2([][]int{
+		{6, 8},
 	}, []int{
-		0, 8,
+		1, 5,
 	}))
 }
