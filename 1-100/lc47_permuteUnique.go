@@ -2,28 +2,30 @@ package main
 
 import (
 	"fmt"
+	"sort"
 )
 
 func permuteUnique(nums []int) [][]int {
 	var res [][]int
-	addVal(nil, nums, &res)
+	sort.Ints(nums)
+	addVal(nums, 0, &res)
 	return res
 }
 
-func addVal(pre, next []int, res *[][]int) {
-	if len(next) == 1 {
-		*res = append(*res, append(pre, next[0]))
+func addVal(nums []int, left int, res *[][]int) {
+	if left == len(nums) {
+		*res = append(*res, append([]int(nil), nums...))
 		return
 	}
-	mp := make(map[int]struct{})
-	for i := 0; i < len(next); i++ {
-		if _, ok := mp[next[i]]; ok {
+	m := make(map[int]struct{})
+	for i := left; i < len(nums); i++ {
+		if _, ok := m[nums[i]]; ok {
 			continue
 		}
-		next[0], next[i] = next[i], next[0]
-		addVal(append(pre, next[0]), next[1:], res)
-		next[i], next[0] = next[0], next[i]
-		mp[next[i]] = struct{}{}
+		nums[left], nums[i] = nums[i], nums[left]
+		addVal(nums, left+1, res)
+		nums[left], nums[i] = nums[i], nums[left]
+		m[nums[i]] = struct{}{}
 	}
 }
 

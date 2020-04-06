@@ -29,6 +29,22 @@ func localRotate(matrix [][]int, start, len int) {
 			matrix[start+len-i][start]
 	}
 }
+func rotate2(matrix [][]int) {
+	n := len(matrix)
+	// 对角线反转
+	for i := 0; i < n-1; i++ {
+		for j := i + 1; j < n; j++ {
+			matrix[i][j], matrix[j][i] = matrix[j][i], matrix[i][j]
+		}
+	}
+	// 中点反转
+	mid, t := n>>1, n-1
+	for i := 0; i < n; i++ {
+		for j := 0; j < mid; j++ {
+			matrix[i][j], matrix[i][t-j] = matrix[i][t-j], matrix[i][j]
+		}
+	}
+}
 
 func main() {
 	var matrix = [][]int{
