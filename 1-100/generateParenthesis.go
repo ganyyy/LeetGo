@@ -21,7 +21,34 @@ func getRes(res *[]string, str []byte, l, r, total int) {
 	}
 }
 
+func generateParenthesis2(n int) []string {
+
+	res := make([]string, 0)
+
+	tmp := make([]byte, n*2)
+
+	var generate func(int, int)
+
+	generate = func(left, right int) {
+		if left == right && right == n {
+			res = append(res, string(tmp))
+			return
+		}
+		if right > left || left > n {
+			return
+		}
+		tmp[left+right] = '('
+		generate(left+1, right)
+		tmp[left+right] = ')'
+		generate(left, right+1)
+	}
+
+	generate(0, 0)
+
+	return res
+}
+
 func main() {
-	res := generateParenthesis(3)
+	res := generateParenthesis2(3)
 	fmt.Println(res)
 }
