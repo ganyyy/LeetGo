@@ -1,6 +1,9 @@
 package main
 
-import "fmt"
+import (
+	"fmt"
+	"math"
+)
 
 func maxSubArray(nums []int) int {
 	res, sum := nums[0], 0
@@ -31,6 +34,22 @@ func maxSubArrayDP(nums []int) int {
 	return m
 }
 
+func maxSubArray2(nums []int) int {
+
+	res, max := 0, math.MinInt32
+	for i := 0; i < len(nums); i++ {
+		if v := res + nums[i]; v > 0 {
+			res = v
+		} else {
+			res = 0
+		}
+		if res > max {
+			max = res
+		}
+	}
+	return max
+}
+
 func max(a, b int) int {
 	if a > b {
 		return a
@@ -39,5 +58,5 @@ func max(a, b int) int {
 }
 
 func main() {
-	fmt.Println(maxSubArrayDP([]int{-2, 1, -3, 4, -1, 2, 1, -5, 4}))
+	fmt.Println(maxSubArray2([]int{-2, 1, -3, 4, -1, 2, 1, -5, 4}))
 }
