@@ -23,6 +23,26 @@ func singleNumber(nums []int) []int {
 	return []int{a, b}
 }
 
+func singleNumbers(nums []int) []int {
+	var odd int
+	for _, i := range nums {
+		odd ^= i
+	}
+
+	// 取最后一位1
+	flag := odd & (-odd)
+
+	// 记录两个值其中的一个
+	var res int
+	for _, i := range nums {
+		if i&flag != 0 {
+			res ^= i
+		}
+	}
+	// 输出结果
+	return []int{res, odd ^ res}
+}
+
 func main() {
 
 }
