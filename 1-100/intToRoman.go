@@ -1,6 +1,9 @@
 package main
 
-import "fmt"
+import (
+	"fmt"
+	"strings"
+)
 
 func intToRoman(num int) string {
 	k := []int{
@@ -9,13 +12,13 @@ func intToRoman(num int) string {
 		100, 400, 500, 900,
 		1000,
 	}
-	v := [][]byte{
-		[]byte("I"), []byte("IV"), []byte("V"), []byte("IX"),
-		[]byte("X"), []byte("XL"), []byte("L"), []byte("XC"),
-		[]byte("C"), []byte("CD"), []byte("D"), []byte("CM"),
-		[]byte("M"),
+	v := []string{
+		"I", "IV", "V", "IX",
+		"X", "XL", "L", "XC",
+		"C", "CD", "D", "CM",
+		"M",
 	}
-	res := make([]byte, 0)
+	res := strings.Builder{}
 
 	i := len(k) - 1
 	for num != 0 {
@@ -24,14 +27,14 @@ func intToRoman(num int) string {
 			d := num / tK
 			tV := v[i]
 			for j := 0; j < d; j++ {
-				res = append(res, tV...)
+				res.WriteString(tV)
 			}
 			num = num % tK
 		} else {
 			i--
 		}
 	}
-	return string(res)
+	return res.String()
 }
 
 func main() {
