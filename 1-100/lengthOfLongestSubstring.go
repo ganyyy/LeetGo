@@ -22,6 +22,30 @@ func lengthOfLongestSubstring(s string) int {
 	return mLen
 }
 
+func lengthOfLongestSubstring2(s string) int {
+	pos := make([]int, 128)
+	for i := 0; i < 128; i++ {
+		pos[i] = -1
+	}
+	var max, start int
+	for i, v := range s {
+		if t := pos[v]; -1 != t && start <= t {
+			// 计算长度
+			if l := i - start; l > max {
+				max = l
+			}
+			// 重置位置
+			start = t + 1
+		}
+		pos[v] = i
+	}
+	if v := len(s) - start; v > max {
+		return v
+	} else {
+		return max
+	}
+}
+
 func main() {
-	fmt.Println(lengthOfLongestSubstring("aab"))
+	fmt.Println(lengthOfLongestSubstring2(""))
 }
