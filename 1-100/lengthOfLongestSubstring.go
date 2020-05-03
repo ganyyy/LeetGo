@@ -23,22 +23,24 @@ func lengthOfLongestSubstring(s string) int {
 }
 
 func lengthOfLongestSubstring2(s string) int {
+	// pos[v] = t 第几个位置出现的
 	pos := make([]int, 128)
-	for i := 0; i < 128; i++ {
-		pos[i] = -1
-	}
+	// 最大值和左指针
 	var max, start int
 	for i, v := range s {
-		if t := pos[v]; -1 != t && start <= t {
+		// 存在 且 在出现在左指针的后边, 计算最大长度, 更新左值针位置
+		if t := pos[v]; 0 != t && start < t {
 			// 计算长度
 			if l := i - start; l > max {
 				max = l
 			}
 			// 重置位置
-			start = t + 1
+			start = t
 		}
-		pos[v] = i
+		// 更新一下当前字母的出现位置
+		pos[v] = i + 1
 	}
+	// 可能会出现最后一个字母 不在pos中, 做一个判断
 	if v := len(s) - start; v > max {
 		return v
 	} else {
@@ -47,5 +49,5 @@ func lengthOfLongestSubstring2(s string) int {
 }
 
 func main() {
-	fmt.Println(lengthOfLongestSubstring2(""))
+	fmt.Println(lengthOfLongestSubstring2("aab"))
 }
