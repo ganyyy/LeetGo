@@ -1,5 +1,7 @@
 package main
 
+import "math"
+
 func findMedianSortedArrays(nums1 []int, nums2 []int) float64 {
 	// 保证 nums1是短的那一个
 	if len(nums1) > len(nums2) {
@@ -155,6 +157,77 @@ func min(a, b int) int {
 		return a
 	}
 	return b
+}
+
+func findMedianSortedArrays3(nums1 []int, nums2 []int) float64 {
+	// 取两个数组中较短的为 nums1
+	if len(nums1) > len(nums2) {
+		nums1, nums2 = nums2, nums1
+	}
+	// 保留两者的长度
+	m, n := len(nums1), len(nums2)
+
+	// 计算总偏移量 防溢出写法
+	var total = m + (n-m+1)>>1
+
+	left, right := 0, m
+
+	// i, j 分别表示 两个数组分割线的右边的第一个数的下标
+	// 1, 2, 3 |, 4, 5
+	// 1, 2, | 3, 4, 5
+	// 此时 i = 3, j = 2. 满足 i+j = total
+	// 同时还需要满足 nums1[i-1] <= nums2[j] && nums2[j-1] <= nums1[i]
+	// 即分割线左边的都要小于分割线右边的(本身nums1[i-1]<nums1[i], nums2[j-1]<nums2[j])
+	for left < right {
+		i := left + (right-left+1)>>1
+		j := total - i
+		// 凡是取i-1之类的,要注意边界问题
+		if nums1[i-1] > nums2[j] {
+			right = i - 1
+		} else {
+			left = i
+		}
+	}
+	i, j := left, total-left
+
+	nums1LeftMax := math.MinInt32
+	if i != 0 {
+		nums1LeftMax = nums1[i-1]
+	}
+	nums1RightMin := math.MaxInt32
+	if i != m {
+		nums1RightMin = nums1[i]
+	}
+	nums2LeftMax := math.MinInt32
+	if j != 0 {
+		nums2LeftMax = nums2[j-1]
+	}
+	nums2RightMin := math.MaxInt32
+	if j != n {
+		nums2RightMin = nums2[j]
+	}
+
+	// 区分偶数和奇数个 个数
+	if (m+n)&1 == 1 {
+		return float64(getMax(nums1LeftMax, nums2LeftMax))
+	} else {
+		return float64(getMax(nums1LeftMax, nums2LeftMax)+getMin(nums1RightMin, nums2RightMin)) / 2
+	}
+}
+
+func getMax(a, b int) int {
+	if a > b {
+		return a
+	} else {
+		return b
+	}
+}
+func getMin(a, b int) int {
+	if a > b {
+		return b
+	} else {
+		return a
+	}
 }
 
 func main() {
