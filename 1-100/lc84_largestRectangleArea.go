@@ -36,31 +36,33 @@ func max(a, b int) int {
 
 // 堆栈法
 func largestRectangleArea2(heights []int) int {
-	// 通过push 0 进入heights可以保证一个循环内走完
-	//heights = append(heights, 0)
+	// 栈中存放的是比当前索引高度要小的 索引, 如果比当前高度高, 那就选择出栈
 	stack := make([]int, 0, len(heights)+1)
+	// 保证添加的首个索引比后序的都小, 那就永远不会出栈
 	stack = append(stack, -1)
-	mArea := 0
-	for i := 0; i < len(heights); i++ {
-		// 如果栈顶不为空(-1), 并且栈顶对应的值值比当前值要大, 那么就计算一波最大值
-		for t := len(stack) - 1; stack[t] != -1 && heights[stack[t]] >= heights[i]; t = len(stack) - 1 {
-			// 长度为栈顶, 宽度为当前位置到栈顶索引的位置-1
-			// 栈是[-1, 0, 1], 当前位置是2, 长度为 2-0-1=1
-			// 出栈后变成[-1, 0], 当前位置依旧是2, 长度为2-(-1)-1=2
-			// 继续出栈, 栈变成[-1]或者height[stack.top] < v时终止循环, 保证栈内元素对应的高是递增的
+	var mArea int
+
+	//   [2, 1, 5, 6, 2, 3] 的矩形 数组 想象成
+	// [-1, 2, 1, 5, 6, 2, 3]  几条边构成 的 图形
+	// 比如当前循环到了 i=4, v=2
+	// 此时栈中的元素为 [-1, 1, 2, 3]
+	// heights[3] >= 2, area = heights[3] * (4- [2] -1) = 6*1, 3 出栈
+	// heights[2] >= 2, area = heights[2] * (4- [1] -1) = 5*2, 2 出栈
+	// heights[1] <  2, break
+
+	for i, v := range heights {
+		// 保证栈内元素都是一直递增的, 如果出现比当前更高的, 就出栈
+		for t := len(stack) - 1; t != 0 && heights[stack[t]] >= v; t-- {
+			// 计算矩阵中的最大高度
 			mArea = max(mArea, heights[stack[t]]*(i-stack[t-1]-1))
-			// 栈顶出栈
 			stack = stack[:t]
 		}
-		// 当前索引入栈
 		stack = append(stack, i)
 	}
-	// 最后还需要判断一下栈是否为空, 因为站内元素对应的高一定是递增的, 所以可以进行
-	for t := len(stack) - 1; stack[t] != -1; t = len(stack) - 1 {
-		// 栈内剩下的元素一定是递增关系, 并且当前相当于走完了全部的循环, 相当于终止索引为height.length
-		mArea = max(mArea, heights[stack[t]]*(len(heights)-stack[t-1]-1))
-		// 计算完成后出栈
-		stack = stack[:t]
+
+	// 预防 一直递增的问题, 此时的宽度就是 整个数组的宽度
+	for t, h := len(stack)-1, len(heights); t != 0; t-- {
+		mArea = max(mArea, heights[stack[t]]*(h-stack[t-1]-1))
 	}
 	return mArea
 }
