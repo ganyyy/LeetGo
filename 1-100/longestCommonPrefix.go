@@ -46,6 +46,23 @@ func longestCommonPrefix(strs []string) string {
 	return strs[0][:index]
 }
 
+func longestCommonPrefixN(strs []string) string {
+	if len(strs) < 1 {
+		return ""
+	}
+	res := strs[0]
+	for _, v := range strs[1:] {
+		var i int
+		for ; i < len(v) && i < len(res) && v[i] == res[i]; i++ {
+		}
+		if i < len(res) {
+			res = res[:i]
+		}
+	}
+
+	return res
+}
+
 func main() {
 	fmt.Println(longestCommonPrefix([]string{"aaa", "aa", "aaa"}))
 }
