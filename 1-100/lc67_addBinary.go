@@ -53,6 +53,41 @@ func addBinary(a string, b string) string {
 	return string(res)
 }
 
+func addBinary2(a string, b string) string {
+	// b始终最长
+	if len(a) > len(b) {
+		a, b = b, a
+	}
+	res := []byte(b)
+	sub := len(b) - len(a)
+	// 进位标志
+	var add byte
+	for i := len(b) - 1; i >= 0; i-- {
+		cur := res[i] - '0' + add
+		if i-sub >= 0 {
+			cur += a[i-sub] - '0'
+		}
+		if cur >= 2 {
+			res[i] = cur - 2 + '0'
+			add = 1
+		} else {
+			res[i] = cur + '0'
+			add = 0
+		}
+		if add == 0 && i-sub < 0 {
+			break
+		}
+	}
+	if add == 1 {
+		return "1" + string(res)
+	} else {
+		return string(res)
+	}
+}
+
 func main() {
-	fmt.Println(addBinary("1111110", "0"))
+	fmt.Println(addBinary2(
+		"1011",
+		"110"),
+	)
 }
