@@ -1,7 +1,5 @@
 package main
 
-import "fmt"
-
 // // 这里利用了值二分法 找指定的第K小的元素
 // func kthSmallest(matrix [][]int, k int) int {
 //     n := len(matrix)
