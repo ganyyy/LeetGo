@@ -9,7 +9,7 @@ import (
 func main() {
 	dst := make([]byte, 32)
 	md5Ctx := md5.New()
-	md5Ctx.Write([]byte("恪慎克孝"))
+	md5Ctx.Write([]byte("文和"))
 	hex.Encode(dst, md5Ctx.Sum(nil))
 	for i := 1; i < 100000000; i++ {
 		md5Ctx.Reset()
