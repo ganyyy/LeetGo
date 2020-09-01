@@ -6,17 +6,17 @@ import (
 )
 
 func isNumber(s string) bool {
+	s = strings.TrimSpace(s)
 	if len(s) == 0 {
 		return false
 	}
+	// e 后面可以跟负数, 不能跟小数
+	// -后边不能跟-
+	// .后边不能跟
 	isE := false     // 指数
 	isSmall := false // 小数
 	isFlag := false  // 负数
 	isDig := false   // 整数
-	// e 后面可以跟负数, 不能跟小数
-	// -后边不能跟-
-	// .后边不能跟
-	s = strings.TrimSpace(s)
 	for i := 0; i < len(s); i++ {
 		c := s[i]
 		if c == 'e' {
@@ -55,26 +55,27 @@ func isNumber(s string) bool {
 
 func main() {
 	ss := []string{
-		"0",
-		" 0.1 ",
-		"abc",
-		"1 a",
-		"2e10",
-		" -90e3   ",
-		" 1e",
-		"e3",
-		" 6e-1",
-		" 99e2.5 ",
-		"53.5e93",
-		" --6 ",
-		"-+3",
-		"95a54e53",
-		"+3",
-		".1",
-		".",
-		"+",
-		"-",
-		"e",
+		//"0",
+		//" 0.1 ",
+		//"abc",
+		//"1 a",
+		//"2e10",
+		//" -90e3   ",
+		//" 1e",
+		//"e3",
+		//" 6e-1",
+		//" 99e2.5 ",
+		//"53.5e93",
+		//" --6 ",
+		//"-+3",
+		//"95a54e53",
+		//"+3",
+		//".1",
+		//".",
+		//"+",
+		//"-",
+		//"e",
+		" ",
 	}
 	for _, s := range ss {
 		fmt.Println(s, isNumber(s))
