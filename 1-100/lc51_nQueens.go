@@ -79,7 +79,7 @@ func solveNQueens2(n int) [][]string {
 
 	cols := make([]int, n)   // 同一行, 最多n个值
 	ml := make([]int, n*2)   // 主对角线 主对角线的 row-col = const, 最大为(n-1, 0), 最小为(0, n-1), 需要通过+n 来保证都是>0的
-	sl := make([]int, 2*n+1) // 次对角线 次对角线的 row+col = const, 最大为(n-1, n-1)
+	sl := make([]int, 2*n-1) // 次对角线 次对角线的 row+col = const, 最大为(n-1, n-1)
 
 	dfs = func(i int) {
 		if i == n {
@@ -99,7 +99,9 @@ func solveNQueens2(n int) [][]string {
 			res = append(res, vs)
 		} else {
 			for j := 0; j < n; j++ {
-				// 尝试每列添加
+				// 尝试每列添加, 主对角线添加, 次对角线添加,
+				// 因为每列是唯一的, 主对角线上是唯一的, 次对角线也是唯一的
+				// 所以必须保证 每一个位置都不为0
 				if cols[j] == 0 && ml[i-j+n] == 0 && sl[i+j] == 0 {
 					// 更新列, 主次对角线, 棋盘对应位置的值
 					cols[j], ml[i-j+n], sl[i+j], chess[i][j] = 1, 1, 1, 1
