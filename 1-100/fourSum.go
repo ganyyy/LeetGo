@@ -47,6 +47,49 @@ func fourSum(nums []int, target int) [][]int {
 	return res
 }
 
+func fourSum2(nums []int, target int) [][]int {
+	var ln = len(nums)
+	if ln < 4 {
+		return nil
+	}
+	// 先排序
+	sort.Ints(nums)
+	// 然后, emmm
+	var i, j, k, l, r int
+	var res [][]int
+	r = target
+	for i < ln-3 {
+		r -= nums[i]
+		for j = i + 1; j < ln-2; {
+			r -= nums[j]
+			k, l = j+1, ln-1
+			for k < l {
+				if v := nums[k] + nums[l]; v == r {
+					res = append(res, []int{nums[i], nums[j], nums[k], nums[l]})
+					for k = k + 1; k < l && nums[k] == nums[k-1]; k++ {
+					}
+					for l = l - 1; k < l && nums[l] == nums[l+1]; l-- {
+					}
+				} else if v > r {
+					for l = l - 1; k < l && nums[l] == nums[l+1]; l-- {
+					}
+				} else {
+					for k = k + 1; k < l && nums[k] == nums[k-1]; k++ {
+					}
+				}
+			}
+			r += nums[j]
+			for j = j + 1; j < ln-2 && nums[j] == nums[j-1]; j++ {
+			}
+		}
+		// 跳过相同的值
+		for i = i + 1; i < ln-3 && nums[i] == nums[i-1]; i++ {
+		}
+		r = target
+	}
+	return res
+}
+
 /**
 [-3,-2,-1,0,0,1,2,3]
 0
@@ -59,9 +102,14 @@ func fourSum(nums []int, target int) [][]int {
 
 [0,0,0,0]
 0
+
+[1,-2,-5,-4,-3,3,3,5]
+-11
+
 */
 
 func main() {
-	res := fourSum([]int{0, 0, 0, 0}, 0)
+	t := []int{1, -2, -5, -4, -3, 3, 3, 5}
+	res := fourSum2(t, -11)
 	fmt.Println(res)
 }
