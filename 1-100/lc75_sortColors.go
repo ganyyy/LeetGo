@@ -46,6 +46,27 @@ func sortColors2(nums []int) {
 	}
 }
 
+func sortColors3(nums []int) {
+	// 分别代表每个数字的起始索引
+	_0, _1, _2 := -1, 0, len(nums)
+	for _1 < _2 {
+		switch nums[_1] {
+		case 0:
+			// 如果是0的话, 移动到浅表
+			_0++
+			nums[_0], nums[_1] = nums[_1], nums[_0]
+			_1++
+		case 1:
+			// 如果是1的话, 跳过看下一个
+			_1++
+		case 2:
+			// 如果是2的话, 移动到后边
+			_2--
+			nums[_2], nums[_1] = nums[_1], nums[_2]
+		}
+	}
+}
+
 func main() {
 	v := []int{
 		1, 2, 0,
