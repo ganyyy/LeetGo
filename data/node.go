@@ -7,7 +7,7 @@ type ListNode struct {
 	Next *ListNode
 }
 
-func (l *ListNode) Add(val int) {
+func (l *ListNode) Add(val int) *ListNode {
 	node := &ListNode{
 		Val:  val,
 		Next: nil,
@@ -17,6 +17,7 @@ func (l *ListNode) Add(val int) {
 		s = s.Next
 	}
 	s.Next = node
+	return node
 }
 
 func ShowList(head *ListNode) {
