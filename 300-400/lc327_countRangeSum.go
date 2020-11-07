@@ -1,5 +1,7 @@
 package main
 
+import "fmt"
+
 // 归并排序的方式解决问题
 func countRangeSum(nums []int, lower int, upper int) int {
 	if len(nums) == 0 {
@@ -80,4 +82,43 @@ func countRangeSum2(nums []int, lower int, upper int) int {
 		sum = 0
 	}
 	return res
+}
+
+func mergeSort(nums []int) {
+	if len(nums) == 0 {
+		return
+	}
+	var tmp = make([]int, len(nums))
+	var helper func([]int)
+
+	helper = func(nums []int) {
+		var ln = len(nums)
+		if ln <= 1 {
+			return
+		}
+		var mid = ln / 2
+		helper(nums[:mid])
+		helper(nums[mid:])
+		var p1, p2 int
+		for i := 0; i < len(nums); i++ {
+			if p1 < mid && (p2 == ln-mid || nums[p1] < nums[mid+p2]) {
+				tmp[i] = nums[p1]
+				p1++
+			} else {
+				tmp[i] = nums[mid+p2]
+				p2++
+			}
+		}
+		for i := 0; i < len(nums); i++ {
+			nums[i] = tmp[i]
+		}
+	}
+
+	helper(nums)
+}
+
+func main() {
+	var t = []int{1, 1231, 41, 2341, 3, 14, 1, 523, 5, 23, 231, 3, 1245, 1, 412, 41, 41}
+	mergeSort(t)
+	fmt.Println(t)
 }
