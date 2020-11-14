@@ -27,6 +27,9 @@ func removeKdigits(num string, k int) string {
 		for j = 0; j < len(bs) && bs[j] == '0'; j++ {
 		}
 		bs = bs[j:]
+		if len(bs) == 0 {
+			return "0"
+		}
 	}
 	return *(*string)(unsafe.Pointer(&bs))
 }
@@ -36,9 +39,12 @@ func main() {
 		"1432999",
 		"1432119",
 		"1432911",
+		"10",
+		"100",
+		"1000",
 	}
 
 	for _, n := range testCases {
-		fmt.Println(removeKdigits(n, 3))
+		fmt.Println(removeKdigits(n, 1))
 	}
 }
