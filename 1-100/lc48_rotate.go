@@ -46,12 +46,50 @@ func rotate2(matrix [][]int) {
 	}
 }
 
+func rotate3(matrix [][]int) {
+	var m, n = len(matrix), len(matrix[0])
+
+	var left, right, top, bottom = 0, n - 1, 0, m - 1
+
+	// 一圈之后, 上下左右都要缩一下
+
+	for left < right {
+		for i := 0; i < right-left; i++ {
+			matrix[top][left+i], matrix[top+i][right], matrix[bottom][right-i], matrix[bottom-i][left] =
+				matrix[bottom-i][left], matrix[top][left+i], matrix[top+i][right], matrix[bottom][right-i]
+		}
+		left++
+		right--
+		top++
+		bottom--
+	}
+}
+
+func rotate4(matrix [][]int) {
+	var n = len(matrix)
+
+	// 上下翻转
+	for i := 0; i < n/2; i++ {
+		matrix[i], matrix[n-i-1] = matrix[n-i-1], matrix[i]
+	}
+	// 对角线反转
+	for i := 0; i < n; i++ {
+		for j := i; j < n; j++ {
+			matrix[i][j], matrix[j][i] = matrix[j][i], matrix[i][j]
+		}
+	}
+
+}
+
 func main() {
 	var matrix = [][]int{
-		{1, 2},
-		{4, 5},
+		{5, 1, 9, 11},
+		{2, 4, 8, 10},
+		{13, 3, 6, 7},
+		{15, 14, 12, 16},
 	}
-	rotate(matrix)
+
+	rotate4(matrix)
 	for i := 0; i < len(matrix); i++ {
 		fmt.Println(matrix[i])
 	}
