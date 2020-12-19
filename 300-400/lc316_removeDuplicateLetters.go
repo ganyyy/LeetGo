@@ -33,3 +33,34 @@ func removeDuplicateLetters(s string) string {
 
 	return string(stack)
 }
+
+func removeDuplicateLettersNew(s string) string {
+	// 最终结果
+	var stack = make([]byte, 0, len(s))
+	// 临时计数
+	var cnt [26]int
+	// 存在标记
+	var set [26]bool
+
+	// 统计每个元素的个数
+	for i := 0; i < len(s); i++ {
+		cnt[s[i]-'a']++
+	}
+	var top int
+	for i := 0; i < len(s); i++ {
+		var idx = s[i] - 'a'
+		if set[idx] {
+			cnt[idx]--
+			continue
+		}
+		for top = len(stack) - 1; top >= 0 && cnt[stack[top]-'a'] > 0 && stack[top] > s[i]; top = len(stack) - 1 {
+			// 出栈
+			set[stack[top]-'a'] = false
+			stack = stack[:top]
+		}
+		set[idx] = true
+		stack = append(stack, s[i])
+		cnt[idx]--
+	}
+	return string(stack)
+}
