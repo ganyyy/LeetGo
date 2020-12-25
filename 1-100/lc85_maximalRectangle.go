@@ -57,6 +57,58 @@ func maximalRectangle(matrix [][]byte) int {
 	return mArea
 }
 
+func maximalRectangle2(matrix [][]byte) int {
+	// 对每一行按照上一题的做法进行处理
+	if len(matrix) == 0 {
+		return 0
+	}
+	var res int
+	var tmp = make([]int, len(matrix[0]))
+	for _, row := range matrix {
+		for i, b := range row {
+			if b == '1' {
+				tmp[i]++
+			} else {
+				tmp[i] = 0
+			}
+		}
+		res = max(res, largestRectangleArea23(tmp))
+	}
+
+	return res
+}
+
+func largestRectangleArea23(heights []int) int {
+	// 单调递增栈处理
+	var stack = make([]int, 1, len(heights)+1)
+	stack[0] = -1
+
+	var res int
+	for i, v := range heights {
+		for t := len(stack) - 1; t != 0 && heights[stack[t]] >= v; t-- {
+			// 长度就是栈中的最后一个数值
+			// 宽度就是 i 距离 栈顶前一个元素的距离
+			res = max(res, heights[stack[t]]*(i-stack[t-1]-1))
+			stack = stack[:t]
+		}
+		stack = append(stack, i)
+	}
+
+	// 计算剩余的递增栈
+	for t, h := len(stack)-1, len(heights); t != 0; t-- {
+		res = max(res, heights[stack[t]]*(h-stack[t-1]-1))
+	}
+
+	return res
+}
+
+func max(a, b int) int {
+	if a > b {
+		return a
+	}
+	return b
+}
+
 func main() {
 
 }

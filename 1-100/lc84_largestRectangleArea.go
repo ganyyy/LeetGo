@@ -67,6 +67,30 @@ func largestRectangleArea2(heights []int) int {
 	return mArea
 }
 
+func largestRectangleAreaNew(heights []int) int {
+	// 单调递增栈处理
+	var stack = make([]int, 1, len(heights)+1)
+	stack[0] = -1
+
+	var res int
+	for i, v := range heights {
+		for t := len(stack) - 1; t != 0 && heights[stack[t]] >= v; t-- {
+			// 长度就是栈中的最后一个数值
+			// 宽度就是 i 距离 栈顶前一个元素的距离
+			res = max(res, heights[stack[t]]*(i-stack[t-1]-1))
+			stack = stack[:t]
+		}
+		stack = append(stack, i)
+	}
+
+	// 计算剩余的递增栈
+	for t, h := len(stack)-1, len(heights); t != 0; t-- {
+		res = max(res, heights[stack[t]]*(h-stack[t-1]-1))
+	}
+
+	return res
+}
+
 func main() {
 	fmt.Println(largestRectangleArea([]int{2, 1, 5, 6, 2, 3}))
 }
