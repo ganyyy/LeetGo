@@ -19,6 +19,30 @@ func maxProfit(prices []int) int {
 	return secSell
 }
 
+func maxProfit3(prices []int) int {
+
+	if len(prices) < 2 {
+		return 0
+	}
+
+	// 0代表买, 1代表卖
+	var first, second [2]int
+
+	first[0] = -prices[0]
+	first[1] = 0
+	second = first
+
+	for i := 1; i < len(prices); i++ {
+		first[0] = max(first[0], -prices[i])
+		first[1] = max(first[1], first[0]+prices[i])
+
+		second[0] = max(second[0], first[1]-prices[i])
+		second[1] = max(second[1], second[0]+prices[i])
+	}
+
+	return second[1]
+}
+
 func max(a, b int) int {
 	if a > b {
 		return a
