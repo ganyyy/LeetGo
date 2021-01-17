@@ -1,4 +1,4 @@
-package _00_800
+package main
 
 // 一般牵扯到图的问题, 要么深度优先遍历, 要么广度优先遍历
 func isBipartite(graph [][]int) bool {

@@ -1,4 +1,4 @@
-package _00_800
+package main
 
 func numJewelsInStones(J string, S string) int {
 	src := [52]byte{}

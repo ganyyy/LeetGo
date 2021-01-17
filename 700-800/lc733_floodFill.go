@@ -1,4 +1,4 @@
-package _00_800
+package main
 
 func floodFill(image [][]int, sr int, sc int, newColor int) [][]int {
 	old := image[sr][sc]

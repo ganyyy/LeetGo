@@ -1,4 +1,4 @@
-package _00_800
+package main
 
 func partitionLabels(S string) []int {
 	// 每个字母在S中占据的最远的位置

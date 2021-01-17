@@ -1,6 +1,9 @@
-package _00_800
+package main
 
-import "testing"
+import (
+	"fmt"
+	"testing"
+)
 
 func Test_LC763PartitionLabels(t *testing.T) {
 	var ret = partitionLabels("aaaab")
@@ -9,4 +12,15 @@ func Test_LC763PartitionLabels(t *testing.T) {
 
 func TestMonotoneIncreasingDigits(t *testing.T) {
 	t.Log(monotoneIncreasingDigits(10))
+}
+
+func TestAccountMerge(t *testing.T) {
+	var src = [][]string{
+		{"John", "johnsmith@mail.com", "john_newyork@mail.com"},
+		{"John", "johnsmith@mail.com", "john00@mail.com"},
+		{"Mary", "mary@mail.com"},
+		{"John", "johnnybravo@mail.com"},
+	}
+
+	fmt.Println(accountsMerge(src))
 }

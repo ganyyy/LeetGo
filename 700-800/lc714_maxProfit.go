@@ -1,4 +1,4 @@
-package _00_800
+package main
 
 func maxProfit(prices []int, fee int) int {
 	if len(prices) == 0 {

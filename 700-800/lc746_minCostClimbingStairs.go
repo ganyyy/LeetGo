@@ -1,4 +1,4 @@
-package _00_800
+package main
 
 func minCostClimbingStairs(cost []int) int {
 	// dp. a 表示当前点的前2个位置的消耗, b表示当前点的前1个位置的消耗

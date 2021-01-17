@@ -1,4 +1,4 @@
-package _00_800
+package main
 
 import (
 	"strconv"
