@@ -46,3 +46,36 @@ func minKBitFlips(A []int, K int) int {
 	}
 	return res
 }
+
+func minKBitFlips2(A []int, K int) int {
+	// 优化一下空间复杂度
+	// 基于1进行优化
+
+	var res, flip int
+
+	for i := 0; i < len(A); i++ {
+		// 这里判断一下i-K >= 0
+		// 如果满足条件再看一下 A[i-K] > 1
+		// 如果都满足, 说明需要将flip值回复过去
+		if i-K >= 0 && A[i-K] > 1 {
+			flip ^= 1
+			A[i-K] -= 2
+		}
+		// 说明需要进行反转
+		if A[i] != flip {
+			continue
+		}
+
+		// 判断一下数组是否发生了越界
+		if i+K > len(A) {
+			return -1
+		}
+
+		// 当前需要反转
+		res++
+		flip ^= 1
+		A[i] += 2
+	}
+
+	return res
+}
