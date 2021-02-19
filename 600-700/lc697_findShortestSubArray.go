@@ -97,6 +97,36 @@ func findShortestSubArray2(nums []int) int {
 	return res
 }
 
+func (n numCnt) dis() int {
+	return n[EndPos] - n[StartPos] + 1
+}
+
+func findShortestSubArray3(nums []int) int {
+	var m = make(map[int]numCnt, 100)
+	// 统计每个数字的个数
+	// 一步到位吧
+	var mm numCnt
+	mm[EndPos] = math.MaxInt32
+	for i, v := range nums {
+		var cnt, ok = m[v]
+		if ok {
+			cnt[EndPos] = i
+			cnt[Count]++
+		} else {
+			cnt[StartPos] = i
+			cnt[EndPos] = i
+			cnt[Count] = 1
+		}
+
+		// 如果大于最大值 或者 等于最大值但是距离更小
+		if mm[Count] < cnt[Count] || (mm[Count] == cnt[Count] && mm.dis() > cnt.dis()) {
+			mm = cnt
+		}
+		m[v] = cnt
+	}
+	return mm.dis()
+}
+
 func max(a, b int) int {
 	if a > b {
 		return a
