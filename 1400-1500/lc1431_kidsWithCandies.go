@@ -18,7 +18,3 @@ func kidsWithCandies(candies []int, extraCandies int) []bool {
 	}
 	return res
 }
-
-func main() {
-
-}
