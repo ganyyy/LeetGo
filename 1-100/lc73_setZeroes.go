@@ -56,6 +56,68 @@ func setZeroes(matrix [][]int) {
 	}
 }
 
+func setZeroes2(matrix [][]int) {
+	// 把中间的0移动到边缘上
+	var row = len(matrix)
+	if row == 0 {
+		return
+	}
+	var col = len(matrix[0])
+
+	// 判断是否需要清楚首行和首列
+	var clearRow, clearCol bool
+	for i := 0; i < col; i++ {
+		if matrix[0][i] == 0 {
+			clearRow = true
+			break
+		}
+	}
+	for i := 0; i < row; i++ {
+		if matrix[i][0] == 0 {
+			clearCol = true
+			break
+		}
+	}
+
+	// 中间每一个0, 把对应的 [0]col, row[0]置为0
+	for i := 1; i < row; i++ {
+		for j := 1; j < col; j++ {
+			if matrix[i][j] == 0 {
+				matrix[0][j] = 0
+				matrix[i][0] = 0
+			}
+		}
+	}
+
+	// 遍历所有为0的首行, 首列. 将对应行/列置为0
+	for i := 1; i < row; i++ {
+		if matrix[i][0] == 0 {
+			for j := 1; j < col; j++ {
+				matrix[i][j] = 0
+			}
+		}
+	}
+	for j := 1; j < col; j++ {
+		if matrix[0][j] == 0 {
+			for i := 1; i < row; i++ {
+				matrix[i][j] = 0
+			}
+		}
+	}
+
+	// 看看首行/首列是否要置为0
+	if clearRow {
+		for i := 0; i < col; i++ {
+			matrix[0][i] = 0
+		}
+	}
+	if clearCol {
+		for i := 0; i < row; i++ {
+			matrix[i][0] = 0
+		}
+	}
+}
+
 func main() {
 	matrix := [][]int{
 		{1, 0, 3},
