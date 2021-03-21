@@ -38,3 +38,36 @@ func numDistinct(s string, t string) int {
 	}
 	return dp[len(s)][len(t)]
 }
+
+func numDistinctSingleDP(s string, t string) int {
+	// len(s) >= len(t)
+
+	var dp = make([]int, len(t)+1)
+	// 空串自带一个字串
+	dp[0] = 1
+	// 由二维降低到一维, 需要考虑的是遍历的次数和需要保存的数据分别是什么
+	// 这道题目中, 需要遍历len(s)次,
+	// 遍历到第i次的dp[j]表示 t[:j+1]在s[:i+1]中子序列的个数(j <= i)
+	// 状态转移方程不变.
+	var lt = len(t)
+	for i := 1; i <= len(s); i++ {
+		// 这里是个重点. dp压缩中, 什么时候需要倒序? 什么时候不需要倒序?
+		// 具体通过DP转移方程来进行判断
+		// 如果转移方程中, 数据全部依赖于前态, 那么就需要进行倒序处理
+		// 如果部分依赖于前态, 部分依赖于当前态, 那么就可以正序处理
+		for j := min(i, lt); j >= 1; j-- {
+			if s[i-1] == t[j-1] {
+				dp[j] += dp[j-1]
+			}
+		}
+	}
+
+	return dp[len(t)]
+}
+
+func min(a, b int) int {
+	if a < b {
+		return a
+	}
+	return b
+}

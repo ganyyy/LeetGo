@@ -184,6 +184,73 @@ func dp(i, j int, s, p string) bool {
 	return ans
 }
 
+func isMatch5(s string, p string) bool {
+	if s == p {
+		return true
+	}
+	if len(p) == 0 {
+		return false
+	}
+
+	const (
+		_ = iota
+		TRUE
+		FALSE
+	)
+
+	// dp仅用于记忆化搜索, 不作为匹配的条件
+	var dp = make([][]int, len(s)+1)
+	for i := 0; i < len(s)+1; i++ {
+		dp[i] = make([]int, len(p)+1)
+	}
+
+	var dfs func(i, j int) bool
+
+	dfs = func(i, j int) (match bool) {
+		if dp[i][j] != 0 {
+			return dp[i][j] == TRUE
+		}
+		if j == len(p) {
+			match = i == len(s)
+		} else {
+			var equal = i < len(s) && (s[i] == p[j] || p[j] == '.')
+			if j+1 < len(p) && p[j+1] == '*' {
+				// * 特殊处理. 相当于匹配N个字符 或者匹配0个字符
+				match = (equal && dfs(i+1, j)) || dfs(i, j+2)
+			} else {
+				match = equal && dfs(i+1, j+1)
+			}
+		}
+		if match {
+			dp[i][j] = TRUE
+		} else {
+			dp[i][j] = FALSE
+		}
+		return
+	}
+	return dfs(0, 0)
+}
+
+func isMatch6(s string, p string) bool {
+	// 这里包含了许多的重复运算.
+	// 通过记忆化DP可以减少不必要的运算次数
+	var dfs func(i, j int) bool
+	dfs = func(i, j int) bool {
+		if j == len(p) {
+			return i == len(s)
+		}
+		var equal = i < len(s) && (s[i] == p[j] || p[j] == '.')
+		if j+1 < len(p) && p[j+1] == '*' {
+			// * 特殊处理. 相当于匹配N个字符 或者匹配0个字符
+			return (equal && dfs(i+1, j)) || dfs(i, j+2)
+		} else {
+			return equal && dfs(i+1, j+1)
+		}
+	}
+	// 从头开始匹配
+	return dfs(0, 0)
+}
+
 func main() {
-	fmt.Println(isMatch("aaab", "a*ab"))
+	fmt.Println(isMatch5("aab", "c*a*b"))
 }
