@@ -26,18 +26,46 @@ func deleteDuplicates(head *ListNode) *ListNode {
 	return ret.Next
 }
 
+func deleteDuplicates2(head *ListNode) *ListNode {
+	if head == nil || head.Next == nil {
+		return head
+	}
+	var h = &ListNode{Val: head.Val - 1, Next: head}
+	pre, head := h, head.Next
+	var remove bool
+	for ; head != nil; head = head.Next {
+		if pre.Next.Val == head.Val {
+			remove = true
+			continue
+		}
+		if remove {
+			pre.Next = head
+			remove = false
+		} else {
+			pre = pre.Next
+		}
+	}
+	if remove {
+		pre.Next = nil
+	}
+	return h.Next
+}
+
 func main() {
 	var head = &ListNode{
 		Val:  1,
 		Next: nil,
 	}
 	head.Add(1)
-	head.Add(1)
-
 	head.Add(2)
+	//head.Add(2)
+	//head.Add(3)
+
 	head.Add(3)
-	head.Add(3)
-	head.Add(3)
+	head.Add(4)
+	//head.Add(4)
+	//head.Add(5)
+	head.Add(5)
 	ShowList(head)
-	ShowList(deleteDuplicates(head))
+	ShowList(deleteDuplicates2(head))
 }
