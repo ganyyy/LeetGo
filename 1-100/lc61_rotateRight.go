@@ -28,6 +28,33 @@ func rotateRight(head *ListNode, k int) *ListNode {
 	return tmp
 }
 
+func rotateRight2(head *ListNode, k int) *ListNode {
+	// 首尾相连, 最后断开
+	if head == nil || head.Next == nil {
+		return head
+	}
+	var cur = head
+	var cnt = 1
+	for cur.Next != nil {
+		cnt++
+		cur = cur.Next
+	}
+	// 连接成环
+	cur.Next = head
+
+	// 减少不必要的遍历次数
+	k %= cnt
+	k = cnt - k
+	for k > 0 {
+		cur = cur.Next
+		k--
+	}
+
+	head = cur.Next
+	cur.Next = nil
+	return head
+}
+
 func main() {
 	head := &ListNode{
 		Val: 1,
