@@ -58,6 +58,25 @@ func find132patternStack(nums []int) bool {
 	return false
 }
 
+func find132patternStackFront(nums []int) bool {
+	// st是一个递增栈, 保证栈顶对应位置的值最小, 且大于 num[i]
+	var st []int
+	// mm是一个指定位置最小值的数组, mm[i]表示 nums[:i]中的最小值
+	var mm = []int{math.MaxInt32}
+
+	for i, v := range nums {
+		for len(st) != 0 && nums[st[len(st)-1]] <= v {
+			st = st[:len(st)-1]
+		}
+		if len(st) != 0 && mm[st[len(st)-1]] < v {
+			return true
+		}
+		st = append(st, i)
+		mm = append(mm, min(mm[len(mm)-1], v))
+	}
+	return false
+}
+
 func min(a, b int) int {
 	if a < b {
 		return a

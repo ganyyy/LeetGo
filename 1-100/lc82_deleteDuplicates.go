@@ -30,9 +30,11 @@ func deleteDuplicates2(head *ListNode) *ListNode {
 	if head == nil || head.Next == nil {
 		return head
 	}
-	var h = &ListNode{Val: head.Val - 1, Next: head}
+	//var h = &ListNode{Val: head.Val - 1, Next: head}
+	var h = &ListNode{Next: head}
 	pre, head := h, head.Next
 	var remove bool
+	// 严格意义上来讲, 和之前额没啥区别. 不存在更差的可能
 	for ; head != nil; head = head.Next {
 		if pre.Next.Val == head.Val {
 			remove = true
