@@ -20,6 +20,46 @@ func removeDuplicates(nums []int) int {
 	return j + 1
 }
 
+func removeDuplicates2(nums []int) int {
+	// 低于两个的不用看了
+	if len(nums) <= 2 {
+		return len(nums)
+	}
+	// 双指针走起
+	var l, r int
+
+	var pre = nums[0]
+	var cnt int
+	for ; r < len(nums); r++ {
+		if pre != nums[r] {
+			pre = nums[r]
+			cnt = 1
+			nums[l] = nums[r]
+			l++
+			continue
+		}
+		cnt++
+		if cnt <= 2 {
+			nums[l] = nums[r]
+			l++
+			continue
+		}
+	}
+	return l
+}
+
+func removeDuplicates3(nums []int) int {
+	i, j := 1, 2
+	for ; j < len(nums); j++ {
+		if nums[j] != nums[i-1] {
+			i++
+			nums[i] = nums[j]
+		}
+	}
+
+	return i + 1
+}
+
 func main() {
 	arr := []int{0, 0, 1, 1, 1, 1, 2, 3, 3}
 	cnt := removeDuplicates(arr)
