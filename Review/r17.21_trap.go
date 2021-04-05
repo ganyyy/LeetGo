@@ -10,14 +10,14 @@ func trap(height []int) int {
 			if lMax > height[left] {
 				res += lMax - height[left]
 			} else {
-				lMax = max(lMax, height[left])
+				lMax = height[left]
 			}
 			left++
 		} else {
 			if rMax > height[right] {
 				res += rMax - height[right]
 			} else {
-				rMax = max(rMax, height[right])
+				rMax = height[right]
 			}
 			right--
 		}
