@@ -18,6 +18,24 @@ func myPow(x float64, n int) float64 {
 	}
 }
 
+func myPow2(x float64, n int) float64 {
+	// 二分?
+	var res float64 = 1
+	var i = n
+	for n != 0 {
+		if n&1 != 0 {
+			res *= x
+		}
+		n /= 2
+		x *= x
+	}
+
+	if i < 0 {
+		return 1.0 / res
+	}
+	return res
+}
+
 func main() {
 
 }
