@@ -28,6 +28,7 @@ func findMin2(nums []int) int {
 	var l, r = 0, len(nums) - 1
 	var mid int
 
+	// 运气好的好, 这个效率也会好不少
 	for l <= r {
 		// 有序了, 返回最小值就行
 		if nums[l] < nums[r] {

@@ -5,6 +5,8 @@ func isUgly(n int) bool {
 		return false
 	}
 
+	// 从大到小, 依次的除过来. 最终剩下的如果不是1就说明有问题
+
 	for n%5 == 0 {
 		n /= 5
 	}

@@ -50,6 +50,8 @@ func removeDuplicates2(nums []int) int {
 
 func removeDuplicates3(nums []int) int {
 	i, j := 1, 2
+	// 这也是双指针的一种应用, 通过预留一个空位的形式实现了 超过2的移除
+	// 实际上如果是N, 这个也能这么用..
 	for ; j < len(nums); j++ {
 		if nums[j] != nums[i-1] {
 			i++

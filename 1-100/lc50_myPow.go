@@ -20,6 +20,13 @@ func myPow(x float64, n int) float64 {
 
 func myPow2(x float64, n int) float64 {
 	// 二分?
+
+	// 这么理解
+	// 2^10 = (((2^2)^2)^2) * 2 * 2
+	// 这里通过二分找快速的找到最接近的 2的指数次幂
+	// 中间的每一个单数都相当于 多乘以一次
+	// 不管怎么计算, 最终 n 都会到1, 此时 的res就是最终的结果
+
 	var res float64 = 1
 	var i = n
 	for n != 0 {

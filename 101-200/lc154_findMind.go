@@ -24,6 +24,7 @@ func findMin3(nums []int) int {
 	var mid int
 
 	for l < r {
+		// 这个的平均时间复杂度会更优一点, 去掉了重复的计算
 		for l < r && nums[l] == nums[l+1] {
 			l++
 		}

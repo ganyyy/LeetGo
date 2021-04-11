@@ -49,6 +49,7 @@ func search(nums []int, target int) bool {
 		//         }
 		//     }
 		// }
+		// 这题的核心就是 找到有序的部分, 然后根据mid推测拐点所在的位置
 		if nums[mid] >= nums[l] {
 			// 左半部分有序
 			if target < nums[mid] && target >= nums[l] {
