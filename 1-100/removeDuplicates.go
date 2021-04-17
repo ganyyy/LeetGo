@@ -17,6 +17,17 @@ func removeDuplicates(nums []int) int {
 	return i + 1
 }
 
+func removeDuplicates4(nums []int) int {
+	var left int
+	for right := 1; right < len(nums); right++ {
+		if nums[left] != nums[right] {
+			left++
+			nums[left] = nums[right]
+		}
+	}
+	return left + 1
+}
+
 func main() {
 	nums := []int{1, 1, 2, 2, 3, 3, 4, 4}
 	l := removeDuplicates(nums)
