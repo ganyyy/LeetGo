@@ -13,6 +13,17 @@ func removeElement(nums []int, val int) int {
 	return i
 }
 
+func removeElement2(nums []int, val int) int {
+	var left int
+	for right := 0; right < len(nums); right++ {
+		if nums[right] != val {
+			nums[left] = nums[right]
+			left++
+		}
+	}
+	return left
+}
+
 func main() {
 	nums := []int{3, 3, 3, 1}
 	l := removeElement(nums, 3)
