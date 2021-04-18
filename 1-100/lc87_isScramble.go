@@ -13,6 +13,8 @@ func isScramble3(s1 string, s2 string) bool {
 	// (s11=s22) dp[i][j+k-w][w] && (s12=s21)dp[i+w][j][k-w]
 
 	// 日了, 真他妈人才, 这都想得到?
+	// 写了都看不懂, 所以写了有啥用?
+	// 这玩意是背的?
 	ln := len(s1)
 	if ln == 1 {
 		return s1 == s2
