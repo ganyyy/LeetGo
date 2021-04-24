@@ -14,6 +14,9 @@ func combinationSum4(nums []int, target int) int {
 	// dp 表示 到达每一个数字的可能次数
 	var dp = make([]int, target+1)
 	dp[0] = 1
+	// 关于目标和选项谁在外的问题, 是个大学问
+	// 如果是组合([1,2]等同于[2,1])问题, 那么选项在外边
+	// 如果是排列([1,2]不同于[2,1])问题, 那么目标在外边
 	for i := 1; i <= target; i++ {
 		for j := 0; j < len(nums); j++ {
 			if i == nums[j] {

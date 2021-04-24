@@ -33,13 +33,16 @@ func largestDivisibleSubset2(nums []int) []int {
 	var n = len(nums)
 	var dp = make([]int, n)
 	var mi, ml int
+	//
 	for i := 0; i < n; i++ {
 		dp[i] = 1
+		// 遍历小于 i 的每个数, 获取余数最大的那个值
 		for j := i - 1; j >= 0; j-- {
 			if nums[i]%nums[j] == 0 {
 				dp[i] = max(dp[i], dp[j]+1)
 			}
 		}
+		// 同步更新一下最大的结果长度和最大到达的索引位置
 		if dp[i] > ml {
 			ml = dp[i]
 			mi = i
@@ -48,6 +51,7 @@ func largestDivisibleSubset2(nums []int) []int {
 
 	var res = make([]int, ml)
 	for i := mi; i >= 0; i-- {
+		// 通过回退的模式, 依次获取这条链路上的值
 		if nums[mi]%nums[i] == 0 && dp[i] == ml {
 			// 这里采用了一种链路追踪的模式进行处理. 必须要实时的更新mi和ml的值
 			// 否则可能会连不上
@@ -64,6 +68,7 @@ func largestDivisibleSubset3(nums []int) []int {
 
 	var n = len(nums)
 	var dp = make([]int, n)
+	// 这里通过chain 记录了每次的位置, 所以可以直接找到前一步的值
 	var chain = make([]int, n)
 	for i := 0; i < n; i++ {
 		dp[i] = 1
