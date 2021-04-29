@@ -50,5 +50,6 @@ func singleNumber2(nums []int) int {
 }
 
 func main() {
+	// 123
 	fmt.Println(singleNumber([]int{-1, 3, 3, 3}))
 }
