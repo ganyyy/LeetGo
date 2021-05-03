@@ -38,6 +38,7 @@ func rangeSumBST2(root *TreeNode, low int, high int) int {
 		return 0
 	}
 
+	// 没啥好说的, 就是简简单单开个盒
 	if v := root.Val; v > high {
 		return rangeSumBST(root.Left, low, high)
 	} else if v < low {

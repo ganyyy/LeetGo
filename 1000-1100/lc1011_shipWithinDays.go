@@ -53,7 +53,7 @@ func shipWithinDaysTimeout(weights []int, D int) int {
 func shipWithinDays(weights []int, D int) int {
 	// 我日, 竟然要用二分...
 
-	// 修改原始数组, 计算前缀和
+	// 修改原始数组, 计算前缀和 和最大值
 	var sum, max int
 	for i, v := range weights {
 		sum += v
@@ -68,10 +68,13 @@ func shipWithinDays(weights []int, D int) int {
 		var day int
 		var cur int
 		var idx int
+
+		// 根据指定的载重计算是否可以运输过去
 		for idx = 0; idx < len(weights); {
 			if weights[idx]-cur > load {
 				cur = weights[idx-1]
 				day++
+				// 如果超过了指定的天数, 就直接跳出即可
 				if day == D {
 					break
 				}
@@ -84,11 +87,11 @@ func shipWithinDays(weights []int, D int) int {
 	}
 
 	// 起点为 最多的运载天数
-	// 终点为 一天运过去, 即存放所有的货物
+	// 终点为 一天运过去, 即存放所有的货物所需要的载重
 	for max < sum {
 		var load = max + (sum-max)/2
 		if checkDay(load) {
-			// 如果能运过去, 就尝试缩小 有边界
+			// 如果能运过去, 就尝试缩小 右边界
 			sum = load
 		} else {
 			max = load + 1

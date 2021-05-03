@@ -17,6 +17,7 @@ func judgeSquareSum(c int) bool {
 	var left, right = 0, sqrt(c)
 
 	for left <= right {
+		// 两头向中间缩呗...
 		if t := left*left + right*right; t > c {
 			right--
 		} else if t < c {
