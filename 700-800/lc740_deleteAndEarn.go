@@ -157,9 +157,10 @@ func deleteAndEarnZip(nums []int) int {
 
 	for i := 1; i < len(count); i++ {
 		if count[i-1][0] == count[i][0]-1 {
-			// dp[i-1] 表示删除前一个数, dp[i]表示删除当前数
+			// b 表示删除前一个数, a+getVal(count[i])表示删除当前数
 			a = max(a+getVal(count[i]), b)
 		} else {
+			// 这里直接加上就好了. 因为不需要删除
 			a = b + getVal(count[i])
 		}
 		a, b = b, a

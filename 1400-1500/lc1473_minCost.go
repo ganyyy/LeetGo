@@ -164,7 +164,9 @@ func minCostDaLao(houses []int, cost [][]int, m int, n int, target int) int {
 					mj = minV2
 				}
 				dp1[i][j] = min(dp1[i-1][j], mj)
+				// 如果获取的的是最大值, 没必要加了, 当前颜色在上一个街区不存在可使用的情况
 				if dp1[i][j] < maxVal {
+					// 增加该涂装颜色对应的开销
 					dp1[i][j] += cost[i-1][j-1]
 				}
 			}
