@@ -37,6 +37,30 @@ func intToRoman(num int) string {
 	return res.String()
 }
 
+var m = [...]string{"I", "IV", "V", "IX", "X", "XL", "L", "XC", "C", "CD", "D", "CM", "M"}
+
+var s = [...]int{1, 4, 5, 9, 10, 40, 50, 90, 100, 400, 500, 900, 1000}
+
+func intToRoman2(num int) string {
+	var sb strings.Builder
+	for i := len(s) - 1; i >= 0; i-- {
+		if num >= s[i] {
+			n := num / s[i]
+			var str = m[i]
+			// fmt.Println(num, n, s[i], str)
+			for i := 0; i < n; i++ {
+				sb.WriteString(str)
+			}
+			num -= n * s[i]
+			if num == 0 {
+				break
+			}
+		}
+	}
+
+	return sb.String()
+}
+
 func main() {
 	fmt.Println(intToRoman(1994))
 }

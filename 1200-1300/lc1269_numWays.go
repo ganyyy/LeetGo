@@ -23,9 +23,11 @@ func numWays(steps int, arrLen int) int {
 		tmp = 0
 		// 必须保证剩余的步数可以回去
 		for j := 0; j < min(min(arrLen, i+1), steps-i+1); j++ {
-			// tmp代表的是
+			// tmp代表的是+1步
 			// dp[j]代表的是+0步
 			// dp[j+1]代表的是-1步
+
+			// 这里替换之后, tmp指向了当前, 同时下一步进行更新
 			dp[j], tmp = tmp, dp[j]
 			dp[j] = mod(tmp + dp[j] + dp[j+1])
 		}
