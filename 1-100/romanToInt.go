@@ -31,6 +31,34 @@ func romanToInt(s string) int {
 	return res
 }
 
+var m3 = map[byte]int{
+	'I': 1,
+	'V': 5,
+	'X': 10,
+	'L': 50,
+	'C': 100,
+	'D': 500,
+	'M': 1000,
+}
+
+func romanToInt2(s string) int {
+	// 想啥来啥
+
+	// 如果倒序看, 大的直接加, 小的直接减去
+	var ret = m3[s[len(s)-1]]
+	var before = ret
+	for i := len(s) - 2; i >= 0; i-- {
+		var v = m3[s[i]]
+		if v >= before {
+			ret += v
+		} else {
+			ret -= v
+		}
+		before = v
+	}
+	return ret
+}
+
 func main() {
-	fmt.Println(romanToInt("MCMXCIV"))
+	fmt.Println(romanToInt2("MCMXCIV"))
 }
