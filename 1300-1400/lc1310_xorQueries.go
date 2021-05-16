@@ -12,6 +12,7 @@ func xorQueries(arr []int, queries [][]int) []int {
 		if q[0] == 0 {
 			ret[i] = arr[q[1]]
 		} else {
+			// 利用了异或的基本原理, 即a^b^c ^ a^b = c
 			ret[i] = arr[q[1]] ^ arr[q[0]-1]
 		}
 	}

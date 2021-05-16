@@ -22,12 +22,13 @@ func numWays(steps int, arrLen int) int {
 		// 内围是长度
 		tmp = 0
 		// 必须保证剩余的步数可以回去
+		//
 		for j := 0; j < min(min(arrLen, i+1), steps-i+1); j++ {
-			// tmp代表的是+1步
-			// dp[j]代表的是+0步
-			// dp[j+1]代表的是-1步
+			// tmp代表的是由后向前+1步
+			// dp[j]代表的是原地不同+0步
+			// dp[j+1]代表的是由前向后-1步
 
-			// 这里替换之后, tmp指向了当前, 同时下一步进行更新
+			// 这里替换之后, tmp指向了当前, 可以理解为对应j+1而言, tmp就相当于j
 			dp[j], tmp = tmp, dp[j]
 			dp[j] = mod(tmp + dp[j] + dp[j+1])
 		}

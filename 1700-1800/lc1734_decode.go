@@ -14,6 +14,7 @@ func decode(encoded []int) []int {
 	}
 
 	// 从后向前消除, 只剩下最终剩下开头的唯一一个数字
+	// 将两两异或的结果和最终异或的结果进行异或, 剩下的开头的数字, 这个结果一定是唯一的
 	for i := len(encoded) - 1; i >= 0; i -= 2 {
 		p ^= encoded[i]
 	}
