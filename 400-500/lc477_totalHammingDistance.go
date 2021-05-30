@@ -34,7 +34,9 @@ func totalHammingDistance(nums []int) int {
 func totalHammingDistance2(nums []int) (ret int) {
 	var cnt int
 	var ln = len(nums)
+	// 不同的枚举对象往往有不同的性能表现
 	for i := 0; i <= 30; i++ {
+		// 针对每一位, 统计所有数字在该位上出现的次数
 		cnt = 0
 		for _, v := range nums {
 			cnt += (v >> i) & 1

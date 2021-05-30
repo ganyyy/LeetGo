@@ -49,6 +49,7 @@ func maximizeXor(nums []int, queries [][]int) []int {
 	// 数字排序
 	sort.Ints(nums)
 	for i := range queries {
+		// 这里需要保存每个查询的原始位置, 用于构建答案数组
 		queries[i] = append(queries[i], i)
 	}
 	// 查询排序
@@ -94,6 +95,7 @@ func (t *trie) insert(val int) {
 		}
 		node = node.children[bit]
 		if val < node.min {
+			// 通过保留最小值的方法, 实现分支的枝减
 			node.min = val
 		}
 	}

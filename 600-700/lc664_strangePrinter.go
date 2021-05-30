@@ -3,6 +3,8 @@ package main
 import "math"
 
 func strangePrinter(s string) int {
+	// DP啊, 想不出来状态转移方程都白搭
+
 	// 0 <= i, j <= len(s)-1
 	// DP[i][j]表示打印s[i:j+1]所需要的最小次数
 	n := len(s)

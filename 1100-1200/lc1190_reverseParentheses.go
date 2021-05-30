@@ -12,11 +12,13 @@ func reverseParentheses(s string) string {
 		case '(':
 			stack1 = append(stack1, bs[i+1:i+1])
 		case ')':
+			// 合适的抽象可以去掉许多不必要的判断
 			var top = stack1[len(stack1)-1]
 			stack1 = stack1[:len(stack1)-1]
 			reverse(top)
 			stack1[len(stack1)-1] = append(stack1[len(stack1)-1], top...)
 		default:
+			// 退一步海阔天空啊
 			stack1[len(stack1)-1] = append(stack1[len(stack1)-1], bs[i])
 		}
 	}

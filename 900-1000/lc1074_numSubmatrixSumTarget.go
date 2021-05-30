@@ -14,6 +14,7 @@ func numSubmatrixSumTarget(matrix [][]int, target int) int {
 		}
 	}
 	count := 0
+	// 两个维度的双指针, 就需要4重循环
 	for i := 1; i <= m; i++ {
 		for j := 1; j <= n; j++ {
 			for x := 1; x <= i; x++ {
@@ -83,16 +84,23 @@ func numSubmatrixSumTarget2(matrix [][]int, target int) int {
 	return cnt
 }
 
+var subMap = map[int]int{}
+
 // 将二维问题转换为一维问题
 func subarraySum(nums []int, k int) (ans int) {
-	mp := map[int]int{0: 1}
-	// 这里面相当于计算的左右边界的差值
+	// 编译器会进行优化, 这里相当于全局复用一个计数Map
+	for key := range subMap {
+		delete(subMap, key)
+	}
+	subMap[0] = 1
+
 	for i, pre := 0, 0; i < len(nums); i++ {
+		// pre表示前缀和, 如果存在一个前缀和[:j]值 val = pre-k, 说明从[j+1:i]满足其前缀和为 k
 		pre += nums[i]
-		if v, ok := mp[pre-k]; ok {
+		if v, ok := subMap[pre-k]; ok {
 			ans += v
 		}
-		mp[pre]++
+		subMap[pre]++
 	}
 	return
 }
@@ -102,7 +110,7 @@ func numSubmatrixSumTarget3(matrix [][]int, target int) (ans int) {
 	for i := range matrix { // 枚举上边界
 		for _, row := range matrix[i:] { // 枚举下边界
 			for c, v := range row {
-				sum[c] += v // 更新每列的元素和
+				sum[c] += v // 更新[i:]列的和
 			}
 			ans += subarraySum(sum, target)
 		}

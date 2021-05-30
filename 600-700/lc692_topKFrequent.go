@@ -65,22 +65,22 @@ func topKFrequent(words []string, k int) []string {
 		if st >= ed {
 			return
 		}
-		var l, r = st + 1, ed
-		for l <= r {
-			for l <= r && !n.Less(st, l) {
-				l++
-			}
-			for l <= r && n.Less(st, r) {
+		var l, r = st, ed
+		for l < r {
+			for l < r && n.Less(st, r) {
 				r--
 			}
-			if l <= r {
+			for l < r && !n.Less(st, l) {
+				l++
+			}
+			if l < r {
 				n.Swap(l, r)
 			}
 		}
-		n.Swap(l-1, st)
-		quickSort(st, l-2)
-		if l-2 < k {
-			quickSort(l, ed)
+		n.Swap(l, st)
+		quickSort(st, l-1)
+		if l < k {
+			quickSort(l+1, ed)
 		}
 	}
 
@@ -93,6 +93,78 @@ func topKFrequent(words []string, k int) []string {
 	return ret
 }
 
+func quickSort(nums []int) {
+	var sub func(st, ed int)
+
+	sub = func(st, ed int) {
+		if st >= ed {
+			return
+		}
+		var l, r = st, ed
+		for l < r {
+			for l < r && nums[r] > nums[st] {
+				r--
+			}
+			for l < r && nums[l] < nums[st] {
+				l++
+			}
+			if l < r {
+				nums[l], nums[r] = nums[r], nums[l]
+			}
+		}
+		//if l < r {
+		nums[l], nums[st] = nums[st], nums[l]
+		//}
+		sub(st, l-1)
+		sub(l+1, ed)
+	}
+	sub(0, len(nums)-1)
+}
+
+func quickSort2(nums []int) {
+	var sub func(i, j int)
+
+	sub = func(st, ed int) {
+		if st >= ed {
+			return
+		}
+		var index = st + 1
+		for i := index; i <= ed; i++ {
+			if nums[i] <= nums[st] {
+				// index 左边的小于当前值, index右边的大于当前值
+				nums[index], nums[i] = nums[i], nums[index]
+				index++
+			}
+		}
+		nums[st], nums[index-1] = nums[index-1], nums[st]
+		sub(st, index-2)
+		sub(index, ed)
+	}
+
+	sub(0, len(nums)-1)
+}
+
 func main() {
-	fmt.Println(topKFrequent([]string{"i", "love", "leetcode", "i", "love", "coding"}, 2))
+	//fmt.Println(topKFrequent([]string{"i", "love", "leetcode", "i", "love", "coding"}, 2))
+
+	//var nums = make([]int, 100)
+	//for i := range nums {
+	//	nums[i] = i
+	//}
+	//rand.Shuffle(len(nums), func(i, j int) {
+	//	nums[i], nums[j] = nums[j], nums[i]
+	//})
+	//quickSort(nums)
+	//
+	//fmt.Println(nums)
+	//
+	//nums = []int{1, 2}
+	//quickSort(nums)
+	//
+	//fmt.Println(nums)
+
+	//sort.Sort()
+	var nums = []int{7, 3, 2, 1}
+	quickSort2(nums)
+	fmt.Println(nums)
 }
