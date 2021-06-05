@@ -22,5 +22,6 @@ func removeElements(head *ListNode, val int) *ListNode {
 			cur = cur.Next
 		}
 	}
+
 	return head.Next
 }
