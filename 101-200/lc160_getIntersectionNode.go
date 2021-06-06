@@ -61,8 +61,8 @@ func getIntersectionNode(headA, headB *ListNode) *ListNode {
 		return nil
 	}
 
-	// 两个连边的总长度是相同的
-	//
+	// 最多执行 len(head1)+len(head2)+1
+	// 学会从条件中找到恒定的数据, 往往这就是答案的解
 
 	var ca, cb = headA, headB
 	for ca != cb {

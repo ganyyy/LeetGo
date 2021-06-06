@@ -45,6 +45,8 @@ func findMaxLength(nums []int) int {
 		}
 	}
 
+	// 同余定义2(前缀和相同)
+
 	var m = make(map[int]int)
 	var sum int
 	for i, v := range nums {

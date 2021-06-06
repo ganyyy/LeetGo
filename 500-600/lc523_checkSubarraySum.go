@@ -65,14 +65,17 @@ func checkSubarraySum(nums []int, k int) bool {
 	// 同余关系:
 	// sum[:x] % k == sum[:y] % k
 	// 说明 [x:y] 是一个满足条件的子数组.
+	// 同余定理1
 
 	var sum int
 	for i, v := range nums {
+		// 出现了连续两个0, 这就是符合条件的子数组
 		if i > 0 && v == 0 && nums[i-1] == 0 {
 			return true
 		}
 		sum += v
 		t := sum % k
+		// 如果前边出现过该数字, 说明区间和k取余的结果为0
 		if idx, ok := m[t]; ok {
 			// 存在并且相差超过1, 返回true
 			if i-idx > 1 {

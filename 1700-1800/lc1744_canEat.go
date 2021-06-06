@@ -8,6 +8,7 @@ func canEat(candiesCount []int, queries [][]int) []bool {
 	}
 
 	// 要么往大了的算, 要么往小了的算
+	// 加1是为了保证在第n天可以吃到指定类型的糖果
 
 	var ret = make([]bool, len(queries))
 
