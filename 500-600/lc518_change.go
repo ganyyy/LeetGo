@@ -19,3 +19,18 @@ func change(amount int, coins []int) int {
 	}
 	return dp[amount]
 }
+
+func change2(amount int, coins []int) int {
+	// 无限背包
+
+	// dp[i] 表示到 i有几种换法. 0代表只有一种换法, 即什么都不换
+	var dp = make([]int, amount+1)
+
+	dp[0] = 1
+	for _, c := range coins {
+		for i := c; i <= amount; i++ {
+			dp[i] += dp[i-c]
+		}
+	}
+	return dp[amount]
+}
