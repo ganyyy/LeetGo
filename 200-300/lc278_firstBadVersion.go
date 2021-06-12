@@ -1,5 +1,7 @@
 package main
 
+import "sort"
+
 /**
  * Forward declaration of isBadVersion API.
  * @param   version   your guess about first bad version
@@ -25,6 +27,14 @@ func firstBadVersion(n int) int {
 		}
 	}
 	return left
+}
+
+func firstBadVersion2(n int) int {
+	// 简简单单的二分走起
+
+	return sort.Search(n, func(i int) bool {
+		return isBadVersion(i)
+	})
 }
 
 func main() {
