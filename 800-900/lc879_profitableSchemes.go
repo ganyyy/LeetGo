@@ -116,8 +116,7 @@ func profitableSchemes(n int, minProfit int, group []int, profit []int) int {
 		money := profit[i]
 		for j := n; j >= manual; j-- {
 			for k := minProfit; k >= 0; k-- {
-				// 如果 k-money < 0, 说明自身就可以作为1种方案
-				// 否则就加前置的方案数
+				// k-money < 0 说明选择当前任务时, 所获取的利润一定大于minProfit
 				dp[j][k] += dp[j-manual][max(0, k-money)]
 				dp[j][k] %= 1e9 + 7
 			}

@@ -45,6 +45,9 @@ func findTargetSumWays(nums []int, target int) int {
 	dp[0] = 1
 	// 本质上还是一个0/1背包问题
 	// 如果选项是固定的, 那么就需要选项在外边
+
+	// 背包问题啊, 怎么搞呢?
+
 	for _, n := range nums {
 		// 外围是选择数字, 因为这是一个组合问题.
 		for i := s; i >= n; i-- {

@@ -28,6 +28,7 @@ func change2(amount int, coins []int) int {
 
 	dp[0] = 1
 	for _, c := range coins {
+		// 这里执行前序遍历, 是因为当前值需要通过前边的值来确定
 		for i := c; i <= amount; i++ {
 			dp[i] += dp[i-c]
 		}

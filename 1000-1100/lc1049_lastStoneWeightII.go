@@ -34,16 +34,17 @@ func lastStoneWeightII(stones []int) int {
 	// sum(P) + sum(N) = total
 	// min(total - 2*sum(P))
 
+	// 想要保证 sum(P) + sum(N) == total, 同时还要保证 (sum(P)-sum(N))最小
+	// 那么很冥想, sum(P)的最大值不会超过total/2. 因为 N和P之间本身是互补的关系!
 	// 背包最大值是 total / 2(?) --划重点, 要考的--
 
 	var capacity = total >> 1
 	// dp[i]是背包容量为i时, 可以放入的石头的最大价值???
 	var dp = make([]int, capacity+1)
 	for _, v := range stones {
-		// 这里是为啥?
+		// 就是一个0/1背包. 选或者不选而已
 		for j := capacity; j >= v; j-- {
 			//  v<=j<=capacity, 0<=j-v <= capacity
-			//
 			dp[j] = max(dp[j], dp[j-v]+v)
 		}
 	}

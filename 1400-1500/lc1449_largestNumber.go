@@ -1,7 +1,6 @@
 package main
 
 import (
-	"fmt"
 	"math"
 	"strconv"
 )
@@ -51,36 +50,41 @@ func largestNumber(cost []int, target int) string {
 }
 
 func largestNumber2(cost []int, target int) string {
+	// dp[i] 表示恰好消耗成本 == i时可以保留的最大位数
 
-	var max = func(a, b int) int {
-		if a > b {
-			return a
-		}
-		return b
-	}
+	var dp = make([]int, target+1)
 
-	dp := make([]int, target+1)
 	for i := range dp {
 		dp[i] = math.MinInt32
 	}
+	// 消耗为0没有任何位数, 因为 0<cost[i]
 	dp[0] = 0
-	for _, c := range cost {
-		for j := c; j <= target; j++ {
-			dp[j] = max(dp[j], dp[j-c]+1)
+
+	for _, v := range cost {
+		// 后态依赖于前态, 所以前序遍历
+		for j := v; j <= target; j++ {
+			dp[j] = max(dp[j], dp[j-v]+1)
 		}
 	}
+
+	// 没有正好为 target 的解决方案
 	if dp[target] < 0 {
 		return "0"
 	}
 
-	fmt.Println(dp)
-	ans := make([]byte, 0, dp[target])
+	var ans = make([]byte, 0, dp[target])
+
 	// 路径回溯
+
+	// i 表示当前遍历到哪一位上了(一共9位)
+	// j 当前剩余的可以资源数
 	for i, j := 8, target; i >= 0; i-- {
+		// c 表示i对应的消耗, 如果剩余的资源够用并且满足其前置条件相等, 就可以取该值
 		for c := cost[i]; j >= c && dp[j] == dp[j-c]+1; j -= c {
-			ans = append(ans, byte('1'+i))
+			ans = append(ans, byte(i)+'1')
 		}
 	}
+
 	return string(ans)
 }
 
