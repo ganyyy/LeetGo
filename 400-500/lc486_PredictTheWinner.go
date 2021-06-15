@@ -55,3 +55,45 @@ func max(a, b int) int {
 	}
 	return a
 }
+
+func PredictTheWinnerWWW(nums []int) bool {
+	if len(nums)&1 == 0 {
+		// 偶数数组的情况下, 可以控制拿奇数还是偶数. 两部分的和一定存在 >= 的关系
+		// 所以可以直接返回true
+		return true
+	}
+
+	// dp[i][j] 表示在 nums[i:j+1]中, 玩家1的最优解(即1比2多获得的值的大小)
+	// 有三种情况:
+	//  i == j, 此时只有一种取法 所以 dp[i][j] = nums[i]
+	//  j - i == 1, 此时有两种取法, 取最大值即可 dp[i][j] = abs(nums[i] - nums[j])
+	//  j - i > 1, 此时需要根据前态进行判断.
+	//       如果获取i, 那么对手能获得的最大收益为dp[i+1][j]
+	//       如果获取j, 那么对手能获得的最大收益为dp[i][j-1]
+	//       所以dp[i][j] = max(nums[i]-dp[i+1][j], nums[j]-dp[i][j-1])
+	// 最终返回的结果就是 dp[0][n-1] >= 0
+
+	var dp = make([][]int, len(nums))
+	for i := range dp {
+		dp[i] = make([]int, len(nums))
+	}
+
+	// 填充i==j的情况
+	for i := range nums {
+		dp[i][i] = nums[i]
+	}
+	// 填充j-i==1的情况
+	// for i := 0; i < len(nums)-1; i++ {
+	//     dp[i][i+1] = abs(nums[i]-nums[i+1])
+	// }
+
+	// 定义边界组的形式, 指定每一次DP的步长
+	for k := 1; k < len(nums); k++ {
+		// 计算区间的最优解
+		for i, j := 0, k; j < len(nums); i, j = i+1, j+1 {
+			dp[i][j] = max(nums[i]-dp[i+1][j], nums[j]-dp[i][j-1])
+		}
+	}
+
+	return dp[0][len(nums)-1] >= 0
+}
