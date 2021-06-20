@@ -63,6 +63,9 @@ func PredictTheWinnerWWW(nums []int) bool {
 		return true
 	}
 
+	// dp多种方法, 关键是找准变量
+	// 可以是数量, DP顺序, DP数量, DP的屁啊
+
 	// dp[i][j] 表示在 nums[i:j+1]中, 玩家1的最优解(即1比2多获得的值的大小)
 	// 有三种情况:
 	//  i == j, 此时只有一种取法 所以 dp[i][j] = nums[i]

@@ -34,13 +34,14 @@ func smallestGoodBase(n string) string {
 	// n = k^(m-1) + k^(m-2) + ... k^1 + k^0
 	// n = (k^m - 1)/(k-1)
 	// 要求k尽量小, 那么m就要尽量的大
-	// 当k为2的时候, m最大. 此时 m的值为 log2(n)+1
+	// 当k为2的时候, m最大. 此时 m的值为 log2(n+1)
 	// m最小为2位数, 即 1,1
 
-	// 外围是m的数量
+	// 外围确定M的值
 	for m := int(math.Log2(float64(i + 1))); m >= 2; m-- {
-		// 二分法查询k
-		var l, r int64 = 2, int64(math.Pow(float64(i), 1.0/float64(m-1))) + 1
+		// 内部确认K的值
+		// 这里的上限是通过
+		var l, r int64 = 2, int64(math.Pow(float64(i), 1/float64(m-1))) + 1
 
 		for l < r {
 			var mid = l + (r-l)>>1
