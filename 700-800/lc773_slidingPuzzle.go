@@ -1,10 +1,6 @@
 package main
 
-const (
-	result = ((((1<<3+2)<<3+3)<<3+4)<<3+5)<<3 + 0
-)
-
-func slidingPuzzle(board [][]int) int {
+func slidingPuzzle2(board [][]int) int {
 	// BFS
 
 	// 一种枝减方式:
@@ -129,7 +125,11 @@ func slidingPuzzle(board [][]int) int {
 	return -1
 }
 
-// 指定可选的位置数组
+const (
+	result = ((((1<<3+2)<<3+3)<<3+4)<<3+5)<<3 + 0
+)
+
+// 每个位置上可以转移的选项
 var nei = [][]int{
 	{1, 3},
 	{0, 2, 4},
@@ -139,45 +139,33 @@ var nei = [][]int{
 	{2, 4},
 }
 
-func slidingPuzzle2(board [][]int) int {
-	// BFS
-
-	// 一种枝减方式:
-
-	// 根据0所处的位置找到所有可以移动的地方
-
-	// 直接改成整数进行运算
-
-	var tmp = []int{1, 2, 3, 4, 5, 0}
+func slidingPuzzle(board [][]int) int {
+	var tmp = make([]int, 6)
+	// 计算初始状态对应的值
+	for i, row := range board {
+		for j, v := range row {
+			tmp[i*3+j] = v
+		}
+	}
+	// 将tmp转换为具体的数值
 	var getVal = func() int {
 		return ((((tmp[0]<<3+tmp[1])<<3+tmp[2])<<3+tmp[3])<<3+tmp[4])<<3 + tmp[5]
 	}
-
-	var result = getVal()
-	var cur int
-	for _, row := range board {
-		for _, v := range row {
-			cur = cur<<3 + v
-		}
-	}
-
+	// 计算初始值
+	var cur = getVal()
 	if cur == result {
 		return 0
 	}
 
-	var parseTmp = func(cur int) {
+	// 获取可以转移的目标
+	var getNext = func(cur int) []int {
+		// 将cur转换一下
 		tmp[0] = (cur & (7 << 15)) >> 15
 		tmp[1] = (cur & (7 << 12)) >> 12
 		tmp[2] = (cur & (7 << 9)) >> 9
 		tmp[3] = (cur & (7 << 6)) >> 6
 		tmp[4] = (cur & (7 << 3)) >> 3
 		tmp[5] = (cur & (7 << 0)) >> 0
-	}
-
-	var getNext = func(cur int) []int {
-		parseTmp(cur)
-		//fmt.Println(tmp)
-
 		// 找到0, 并获取所有可以转换的数字, 返回
 		var ret []int
 		for i, v := range tmp {
@@ -195,12 +183,11 @@ func slidingPuzzle2(board [][]int) int {
 	}
 
 	var visited = make(map[int]bool)
-
 	var queue1, queue2 []int
-
 	queue1 = []int{cur}
 
 	var step int
+	//BFS
 	for len(queue1) != 0 {
 		for _, c := range queue1 {
 			if c == result {
