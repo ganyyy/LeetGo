@@ -1,5 +1,14 @@
 package main
 
+func init() {
+	/*
+		写点啥呢
+		也就这么着吧, 认了吧.
+		只会越来越差, 到最后就是一个废物罢了
+		怎么混的?
+	*/
+}
+
 func snakesAndLadders(board [][]int) int {
 	// 也是队列吧
 
