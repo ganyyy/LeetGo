@@ -7,15 +7,15 @@ import (
 	. "leetgo/data"
 )
 
-type Codec struct {
+type Codec2 struct {
 }
 
-func Constructor() Codec {
-	return Codec{}
+func Constructor2() Codec2 {
+	return Codec2{}
 }
 
 // Serializes a tree to a single string.
-func (this *Codec) serialize(root *TreeNode) string {
+func (c *Codec2) serialize(root *TreeNode) string {
 	var res strings.Builder
 	var queue = []*TreeNode{root}
 	for ln := len(queue); 0 != ln; ln = len(queue) {
@@ -36,7 +36,7 @@ func (this *Codec) serialize(root *TreeNode) string {
 }
 
 // Deserializes your encoded data to tree.
-func (this *Codec) deserialize(data string) *TreeNode {
+func (c *Codec2) deserialize(data string) *TreeNode {
 	// 先分割字符串
 	values := strings.Split(data, ",")
 	// 去掉末尾的 ""
@@ -71,3 +71,88 @@ func NewTreeNode(val string) *TreeNode {
 	}
 	return &TreeNode{Val: v}
 }
+
+/**
+ * Definition for a binary tree node.
+ * type TreeNode struct {
+ *     Val int
+ *     Left *TreeNode
+ *     Right *TreeNode
+ * }
+ */
+
+type Codec struct{}
+
+func Constructor() Codec {
+	return Codec{}
+}
+
+func (this *Codec) serialize(root *TreeNode) string {
+	if root == nil {
+		return ""
+	}
+	var sb []string
+	var queue = []*TreeNode{root}
+
+	for len(queue) != 0 {
+		var cur = queue[0]
+		queue = queue[1:]
+		if cur == nil {
+			sb = append(sb, "#")
+		} else {
+			sb = append(sb, strconv.Itoa(cur.Val))
+			queue = append(queue, cur.Left)
+			queue = append(queue, cur.Right)
+		}
+	}
+	return strings.Join(sb, ",")
+}
+
+func (this *Codec) deserialize(data string) *TreeNode {
+	if len(data) == 0 {
+		return nil
+	}
+	var sb = strings.Split(data, ",")
+
+	// 辅助函数, 将字符串转换为一个节点
+	var getNode = func(s string) *TreeNode {
+		if s == "#" {
+			return nil
+		}
+		v, err := strconv.Atoi(s)
+		if err != nil {
+			return nil
+		}
+		return &TreeNode{Val: v}
+	}
+
+	var root = getNode(sb[0])
+	if root == nil {
+		return nil
+	}
+	var queue = []*TreeNode{root}
+	var setLeft uint8
+	for _, v := range sb[1:] {
+		var head = queue[0]
+		var node = getNode(v)
+		if node != nil {
+			queue = append(queue, node)
+		}
+		if setLeft == 0 {
+			head.Left = node
+		} else {
+			head.Right = node
+			queue = queue[1:]
+		}
+		setLeft ^= 1
+	}
+	return root
+}
+
+/**
+ * Your Codec object will be instantiated and called as such:
+ * ser := Constructor();
+ * deser := Constructor();
+ * data := ser.serialize(root);
+ * ans := deser.deserialize(data);
+ */
