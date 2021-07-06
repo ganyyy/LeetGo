@@ -1,0 +1,82 @@
+package main
+
+import (
+	"fmt"
+	"math/bits"
+	"sort"
+)
+
+const (
+	BIT = 22
+	MOD = 1e9 + 7
+)
+
+func countPairs(deliciousness []int) int {
+	// 统计每个数字的数量, 进行一次压缩
+
+	var m = make(map[int]int)
+
+	for _, v := range deliciousness {
+		m[v]++
+	}
+
+	var visited = make(map[int]map[int]bool)
+	for v := range m {
+		visited[v] = map[int]bool{}
+	}
+
+	// 两两相加, 那么最大值就是 2^40 = 1 << 41
+	var cnt int
+
+	for v, n := range m {
+		for i := 0; i < BIT; i++ {
+			var cur = 1 << i
+			if v > cur {
+				continue
+			}
+			var sub = cur - v
+			if visited[v][sub] {
+				continue
+			}
+			if n2 := m[sub]; n2 != 0 {
+				if sub == v {
+					n2 = (n * (n - 1)) / 2
+				} else {
+					n2 *= n
+				}
+				cnt = (cnt + n2) % MOD
+				visited[sub][v] = true
+			}
+		}
+	}
+
+	fmt.Println(m, visited)
+
+	return cnt
+}
+
+func countPairs2(deliciousness []int) int {
+	num := len(deliciousness)
+	sort.Ints(deliciousness)
+
+	numMap := map[int]int{}
+	prevCnt := 0
+	numMap[deliciousness[0]] = 1
+	for i := 1; i < num; i++ {
+		n := deliciousness[i]
+		n0 := 1<<(32-bits.LeadingZeros32(uint32(n))) - n
+		cnt := numMap[n0]
+
+		if deliciousness[0] == 0 && (n > 0 && (n&(n-1)) == 0) {
+			cnt += numMap[0]
+		}
+		prevCnt = (prevCnt + cnt) % (1e9 + 7)
+		numMap[n] += 1
+	}
+	//fmt.Printf("maps:%+v\n", numMap)
+	return prevCnt
+}
+
+func main() {
+	println(countPairs([]int{1, 1, 1, 3, 3, 3, 7}))
+}
