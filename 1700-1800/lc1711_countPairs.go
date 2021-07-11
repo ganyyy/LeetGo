@@ -2,6 +2,7 @@ package main
 
 import (
 	"fmt"
+	"math"
 	"math/bits"
 	"sort"
 )
@@ -64,13 +65,21 @@ func countPairs2(deliciousness []int) int {
 	numMap[deliciousness[0]] = 1
 	for i := 1; i < num; i++ {
 		n := deliciousness[i]
+		// 这个函数用来返回首个1所处的索引. 0的话是32
+
+		// n0 表示的是 n <= 最近的二的整数次幂
 		n0 := 1<<(32-bits.LeadingZeros32(uint32(n))) - n
+		// 简单的来说, 1<->1, 3<->1, 7<->1, 5<->3
+		// 肯定能配对上. 只要存在的话. 这样就避免了计算是否标记的问题
 		cnt := numMap[n0]
 
+		// 这里是当n恰好为 二的整数次幂的时候, 就加上0的数量
+		// 前提是本身不能为0
 		if deliciousness[0] == 0 && (n > 0 && (n&(n-1)) == 0) {
 			cnt += numMap[0]
 		}
 		prevCnt = (prevCnt + cnt) % (1e9 + 7)
+		// 当前数字的计数+1
 		numMap[n] += 1
 	}
 	//fmt.Printf("maps:%+v\n", numMap)
@@ -78,5 +87,9 @@ func countPairs2(deliciousness []int) int {
 }
 
 func main() {
-	println(countPairs([]int{1, 1, 1, 3, 3, 3, 7}))
+	fmt.Println(bits.LeadingZeros32(uint32(0)))
+	fmt.Println(bits.LeadingZeros32(uint32(1)))
+	fmt.Println(bits.LeadingZeros32(uint32(3)))
+	fmt.Println(bits.LeadingZeros32(uint32(7)))
+	fmt.Println(bits.LeadingZeros32(uint32(math.MaxUint32)))
 }

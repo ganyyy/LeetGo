@@ -26,6 +26,8 @@ func (t *TimeMap) Get(key string, timestamp int) string {
 	if len(vals) == 0 {
 		return ""
 	}
+	// 这个search接口, 如果函数返回true表示答案在左边; 否则在右边
+	// 如果找不到相等的, 返回的就是应该在的位置(距离最近的 函数返回值为true的索引)
 	var idx = sort.Search(len(vals), func(i int) bool {
 		return vals[i].T > timestamp
 	})

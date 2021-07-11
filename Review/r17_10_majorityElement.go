@@ -19,6 +19,7 @@ func majorityElement(nums []int) int {
 		}
 	}
 	// 这里需要进行第二波验证. 因为可能会出现恰好数量不足的情况
+	// 如果不进行验证, 可能会出现 [1,1,2,2,3,4]算出来的结果为2
 	count = 0
 	for _, num := range nums {
 		if num == candidate {

@@ -28,6 +28,8 @@ func numSubarraysWithSum(nums []int, goal int) int {
 func numSubarraysWithSumYes(nums []int, goal int) int {
 	// 区域前缀和!!!
 	var m = make(map[int]int)
+	// 需要注意一下, 初始条件
+	// 0表示默认不用加
 	m[0] = 1
 	var cur int
 	var ret int
@@ -58,10 +60,10 @@ func numSubarraysWithSum3(nums []int, goal int) int {
 	// 末尾补了一下后缀0的个数, 所以 len(nums0) == count(1)+1
 	nums0 = append(nums0, count)
 	var ans = 0
-	// 当前的i+goal > count(1) (len(nums)-1)就不需要继续执行了
+	// [i:i+goal] 就是统计的一个区间, 这个区间内的1的个数就是goal
 	for i := 0; i+goal < len(nums0); i++ {
 		if goal == 0 {
-			// 0的话, 直接计算 C(n, 2)即可
+			// 0的话, 相当于区间内的0自由组合
 			ans = ans + (nums0[i]+1)*nums0[i]/2
 		} else {
 			// i+goal 说明从[1:goal]之间的子数组的和为 goal
