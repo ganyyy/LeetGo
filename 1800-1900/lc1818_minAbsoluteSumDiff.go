@@ -71,10 +71,13 @@ func minAbsoluteSumDiff(nums1, nums2 []int) int {
 		sum += diff
 
 		// 从 nums1.sort 中查找距离v最近的值
+		// 寻找rec中和v相比较的最小差值
+
 		j := rec.Search(v)
-		// 这个值可能大于等于 v, 也可能小于 v
-		// 需要都检查一下? 这个检查逻辑没看懂啥意思
+		// 如果v存在, 那么rec[j]-v == 0, 此时最大的就是diff
+		// 如果v不存在, 那么 rec[j]表示的是>= v的第一个值、
 		if j < n {
+			// 这个值可能存在, 也可能不存在
 			m = max(m, diff-(rec[j]-v))
 		}
 		if j > 0 {

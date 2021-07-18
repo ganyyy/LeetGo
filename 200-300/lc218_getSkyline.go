@@ -23,23 +23,28 @@ func getSkyline(buildings [][]int) (ans [][]int) {
 	}
 	sort.Ints(boundaries)
 
+	// idx是一个游标. 避免了指针的回退
 	idx := 0
 	h := hp{}
+	// 针对当前边缘
 	for _, boundary := range boundaries {
-		// 找到所有和当前建筑有交集的楼
+		// 找到所有有交集(建筑的左边缘小于该值)的建筑, 压入右边缘和高度
+		// 这是一个大顶堆, 堆顶元素是高度最高的建筑
 		for idx < n && buildings[idx][0] <= boundary {
 			heap.Push(&h, pair{buildings[idx][1], buildings[idx][2]})
 			idx++
 		}
-		//
+		// 如果堆顶的右边缘(最高的那个建筑)小于当前边缘, 出堆
 		for len(h) > 0 && h[0].right <= boundary {
 			heap.Pop(&h)
 		}
 
+		// 记录当前边缘对应的最大高度
 		maxn := 0
 		if len(h) > 0 {
 			maxn = h[0].height
 		}
+		// 如果高度和前一个边界值相等, 那么就能合并成一条边界线. 所以这里要特殊检查一下
 		if len(ans) == 0 || maxn != ans[len(ans)-1][1] {
 			ans = append(ans, []int{boundary, maxn})
 		}
