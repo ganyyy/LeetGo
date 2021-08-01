@@ -20,9 +20,11 @@ func maxFrequency(nums []int, k int) int {
 			right++
 		} else {
 			ret = max(ret, right-left)
+			// 注意这里, 因为不满足将nums[right] = nums[right-1]
+			// 所以需要恢复将nums[right-1]变成nums[right-2]所需要的消耗
 			k += nums[right-1] - nums[left]
 			left++
-			// 注意: 此时不能直接跳过right. 因为可能需要多次回缩才能满足 下一步的
+			// 注意: 此时不能直接跳过right. 因为可能需要多次回缩才能满足 nums[right]==nums[right-1]
 		}
 	}
 	// 末尾再计算一下最大值

@@ -11,9 +11,14 @@ import . "leetgo/data"
  * }
  */
 func findSecondMinimumValue(root *TreeNode) int {
-	var dfs func(root *TreeNode, val int) int
+
+	if root == nil {
+		return -1
+	}
+	var val = root.Val
+	var dfs func(root *TreeNode) int
 	// 根节点一定是最小的!
-	dfs = func(root *TreeNode, val int) int {
+	dfs = func(root *TreeNode) int {
 		if root == nil {
 			return -1
 		}
@@ -22,15 +27,18 @@ func findSecondMinimumValue(root *TreeNode) int {
 			return root.Val
 		}
 
-		var left = dfs(root.Left, val)
-		var right = dfs(root.Right, val)
+		var left = dfs(root.Left)
+		var right = dfs(root.Right)
 
+		// 小于0说明左边/右边到头了
 		if left < 0 {
 			return right
 		}
 		if right < 0 {
 			return left
 		}
+
+		// 否则取两边的最小值
 		if right > left {
 			return left
 		} else {
@@ -38,5 +46,5 @@ func findSecondMinimumValue(root *TreeNode) int {
 		}
 	}
 
-	return dfs(root, root.Val)
+	return dfs(root)
 }

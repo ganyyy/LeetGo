@@ -53,6 +53,8 @@ func distanceK(root *TreeNode, target *TreeNode, k int) []int {
 }
 
 const (
+	// 指定了下一步遍历的方向
+
 	LL  int = 1
 	RR  int = 2
 	ALL int = 0
@@ -79,25 +81,27 @@ func distanceK2(root *TreeNode, target *TreeNode, K int) []int {
 		}
 	}
 
-	var dfs func(root *TreeNode, target *TreeNode) int
-	dfs = func(root *TreeNode, target *TreeNode) int {
+	var dfs func(root *TreeNode) int
+	dfs = func(root *TreeNode) int {
 		if root == nil {
 			return -1
 		}
 
+		// 根节点, 左右一起找
 		if root == target {
 			find(root, K, ALL)
 			return K - 1
 		}
 
-		l := dfs(root.Left, target)
+		// 查询左子树, 从root的右边开始找
+		l := dfs(root.Left)
 		if l >= 0 {
 			find(root, l, RR)
 			return l - 1
 		}
 
-		// 如果是从右边找到的, 就去查找左边
-		r := dfs(root.Right, target)
+		// 查询右子树, 从root的左边开始找
+		r := dfs(root.Right)
 		if r >= 0 {
 			find(root, r, LL)
 			return r - 1
@@ -106,7 +110,7 @@ func distanceK2(root *TreeNode, target *TreeNode, K int) []int {
 		return -1
 	}
 
-	dfs(root, target)
+	dfs(root)
 
 	return res
 }

@@ -51,44 +51,40 @@ func copyRandomList(head *Node) *Node {
 		return nil
 	}
 
-	curr := head
-	for curr != nil {
-		// 复制原始节点, 将新节点插入到原始节点之间
-		next := curr.Next
-		var clone *Node
-		clone = new(Node)
-		clone.Val = curr.Val
-		clone.Next = next
-		curr.Next = clone
-		curr = next
+	// 使用插入的方式, 将复制节点串联到原始节点后面
+	var cur = head
+	for cur != nil {
+		var next = cur.Next
+		var newNode = &Node{Val: cur.Val, Next: next}
+		cur.Next = newNode
+		cur = next
 	}
 
-	curr = head
-	for curr != nil {
-		newCurr := curr.Next
-		if curr.Random != nil {
-			// curr.Random.Next 指向的就是复制后的新节点, 所以可以直接赋值
-			newCurr.Random = curr.Random.Next
-		} else {
-			// 不存在就表示随机节点为空
-			newCurr.Random = nil
+	// 更新Random节点
+	cur = head
+	for cur != nil {
+		var newCurr = cur.Next
+		if cur.Random != nil {
+			// 将Random节点更新成复制的节点
+			newCurr.Random = cur.Random.Next
 		}
-		curr = newCurr.Next
+		// 下一个正常节点
+		cur = newCurr.Next
 	}
 
-	// 将新旧节点组成的链表进行拆分
-	newHead := head.Next
-	curr = head
-	for curr != nil {
-		newCurr := curr.Next
-		next := newCurr.Next
-		curr.Next = next
-		if next != nil {
-			newCurr.Next = next.Next
+	var newHead = head.Next
+	cur = head
+	// 拆分原始节点和复制节点
+	for cur != nil {
+		var newCur = cur.Next
+		var oldNext = newCur.Next
+		cur.Next = oldNext
+		if oldNext != nil {
+			newCur.Next = oldNext.Next
 		} else {
-			newCurr.Next = nil
+			newCur.Next = nil
 		}
-		curr = next
+		cur = cur.Next
 	}
 	return newHead
 }

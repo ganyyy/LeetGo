@@ -7,6 +7,7 @@ func convertToTitle(columnNumber int) string {
 
 	var ret []byte
 	for columnNumber != 0 {
+		// -1是让 1->0
 		columnNumber--
 		ret = append(ret, byte(columnNumber%26)+'A')
 		columnNumber /= 26
