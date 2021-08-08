@@ -4,6 +4,9 @@ import "math"
 
 func findUnsortedSubarray(nums []int) int {
 	n := len(nums)
+
+	// 从左往右找最大
+	// 从右往左找最小
 	minn, maxn := math.MaxInt64, math.MinInt64
 	left, right := -1, -1
 	for i, num := range nums {

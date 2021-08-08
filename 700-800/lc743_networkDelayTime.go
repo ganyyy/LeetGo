@@ -7,6 +7,8 @@ import (
 
 func networkDelayTime(times [][]int, n, k int) (ans int) {
 
+	// n个节点之间的连接耗时为times, 从k出发所需要的最短耗时
+
 	// 迪杰斯特拉算法: 维护一个从起点到其他任意点距离的的数组
 	// 点分为已确定最短距离的点和未确定最短距离的点两部分
 	// 从未确定的点中取一个距离起点最近的点, 以此来更新和该点存在关系的其他点的距离
@@ -17,7 +19,7 @@ func networkDelayTime(times [][]int, n, k int) (ans int) {
 	g := make([][]edge, n)
 	for _, t := range times {
 		x, y := t[0]-1, t[1]-1
-		g[x] = append(g[x], edge{y, t[2]})
+		g[x] = append(g[x], edge{to: y, time: t[2]})
 	}
 
 	// 初始情况下, 每个点都是不可达的
@@ -45,7 +47,9 @@ func networkDelayTime(times [][]int, n, k int) (ans int) {
 			continue
 		}
 		for _, e := range g[x] {
+			// 遍历所有和x相关联的点
 			y := e.to
+			// 如果从x->y的耗时(x为从起点到x的最短距离)小于当前保存的最短距离, 就更新一下
 			if d := dist[x] + e.time; d < dist[y] {
 				dist[y] = d
 				heap.Push(h, pair{y, d})

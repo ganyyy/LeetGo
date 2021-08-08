@@ -33,7 +33,9 @@ func triangleNumber(nums []int) int {
 	for i := len(nums) - 1; i > 1; i-- {
 		// 双指针的正确用法
 		var l, r = 0, i - 1
+		// 从右向左计算, 方便进行夹逼
 		for l < r {
+			// 满足两边之和大于第三边
 			if nums[l]+nums[r] > nums[i] {
 				cnt += r - l
 				r--

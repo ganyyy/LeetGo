@@ -26,8 +26,11 @@ func shortestPathLength(graph [][]int) int {
 			// 标记该点已经过
 			maskV := t.mask | 1<<v
 			// 如果该点已经检查过了, 就不用二次处理?
+			// 理论上, 每条路径最多只能经过两次, 多余的次数不应该算进去
+			// 第一次 标记为 v->u进行标记, 然后 u->v也会进行标记
+			//  v->u 和 v-u 的maskV的值是相同的
 			if !seen[v][maskV] {
-				q = append(q, tuple{v, maskV, t.dist + 1})
+				q = append(q, tuple{u: v, mask: maskV, dist: t.dist + 1})
 				seen[v][maskV] = true
 			}
 		}
