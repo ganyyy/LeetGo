@@ -6,6 +6,8 @@ func nthSuperUglyNumber(n int, primes []int) int {
 	var cnt = make([]int, len(primes))
 	var tmp = make([]int, 0, n)
 
+	// 这是多级指针的一种应用
+
 	tmp = append(tmp, 1)
 
 	for i := 2; i <= n; i++ {

@@ -43,10 +43,16 @@ func longestPalindromeSubseq2(s string) int {
 	// 1) i == j: 1
 	// 2) s[i] != s[j]: max(dp[i+1][j], dp[i][j-1])
 	// 3) s[i] == s[j]: (j-i > 1 ? dp[i+1][j-1] : 0) + 2
+
+	// dp[i][j]表示的是s[i:j+1]中的最大长度(? 个数?)
 	n := len(s)
 	if n <= 1 {
 		return n
 	}
+	// 压缩i对应的维度
+	// 1. 需要注意i== j 的时候应该置为1
+	// 2. 这里用到了 dp[i+1][j-1], 所以需要保留一下前态的原始值用来做后续的计算
+	// 3. 因为dp[i][j]依赖于dp[i+1][j]和dp[i][j-1], 所以需要逆序遍历i, 正序遍历j
 	var dp = make([]int, n)
 	for i := 0; i < n; i++ {
 		dp[i] = 1
