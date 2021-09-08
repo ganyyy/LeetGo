@@ -2,6 +2,8 @@ package main
 
 import "fmt"
 
+// 标记一下, 又臭又长的代码. 比写业务逻辑还烦人
+
 func fullJustify(words []string, maxWidth int) []string {
 	// 最小配置为单词数量n + 单词数量n-1 个空格 = maxWidth
 	// 如果第n+1个单词 + 前边的长度 > maxWidth, 则剩余的空格数量
