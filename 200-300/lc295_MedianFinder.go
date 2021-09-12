@@ -79,8 +79,11 @@ type MedianFinder struct {
 }
 
 func Constructor() MedianFinder {
+	// 通过两个堆快速查找数字的中位数
 	return MedianFinder{
+		// 后半部分为一个小顶堆, 堆顶为最小值
 		min: &MinHeap{},
+		// 前半部分为一个大顶堆, 堆顶为最大值
 		max: &MaxHeap{},
 	}
 }

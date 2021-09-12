@@ -80,3 +80,48 @@ func findCheapestPrice(n int, flights [][]int, src int, dst int, k int) int {
 	}
 	return -1
 }
+
+func findCheapestPriceDP(n int, flights [][]int, src int, dst int, k int) int {
+	// DP 做法来一套
+
+	// 想一下状态转移方程
+
+	// dp[t][i] 表示再t次转机后到达i点的最小消耗
+	// dp[t][i] = min(dp[t-1][j] + cost(j, i)) j∈fights
+
+	// 最终结果就是 min(dp[0][dst], ... dp[t][dst])
+
+	// 显而易见的, dp[t]只和dp[t-1]相关, 所以只需要保留前一状态的dp转移后的结果即可
+
+	// 初始情况下, dp[0][...]中, dp[0][src] = 0, 其余的都应该是一个非法值表示不可达
+
+	const INVALID = math.MaxInt32
+
+	var ret = INVALID
+
+	// f表示前态, g表示现态
+	var f, g = make([]int, n), make([]int, n)
+	for i := 0; i < n; i++ {
+		f[i] = INVALID
+		g[i] = INVALID
+	}
+	f[src] = 0
+
+	for t := 1; t <= k+1; t++ {
+		for _, flight := range flights {
+			j, i, cost := flight[0], flight[1], flight[2]
+			g[i] = min(g[i], f[j]+cost)
+		}
+		ret = min(ret, g[dst])
+		f, g = g, f
+		for i := range g {
+			g[i] = INVALID
+		}
+	}
+
+	if ret == INVALID {
+		return -1
+	}
+
+	return ret
+}
