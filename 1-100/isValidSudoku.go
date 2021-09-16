@@ -51,6 +51,39 @@ func isValidSudoku(board [][]byte) bool {
 	return true
 }
 
+func isValidSudokuNew(board [][]byte) bool {
+	var row, col, cell = make([]int16, 9), make([]int16, 9), make([]int16, 9)
+
+	var check = func(idx int, val byte, box []int16) bool {
+		var v = box[idx]
+		if v&(1<<int16(val-'1')) != 0 {
+			return false
+		}
+		box[idx] |= 1 << int16(val-'1')
+		return true
+	}
+
+	for i := 0; i < 9; i++ {
+		for j := 0; j < 9; j++ {
+			// 行
+			var v = board[i][j]
+			if v == '.' {
+				continue
+			}
+			if !check(j, v, row) {
+				return false
+			}
+			if !check(i, v, col) {
+				return false
+			}
+			if !check(i/3*3+j/3, v, cell) {
+				return false
+			}
+		}
+	}
+	return true
+}
+
 func main() {
 	board := [][]byte{
 		{'5', '3', '.', '.', '7', '.', '.', '.', '.'},
