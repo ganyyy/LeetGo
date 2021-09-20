@@ -1,32 +1,42 @@
 package main
 
+import "fmt"
+
+// 再优化一下
+
 type trie struct {
-	v    byte
-	end  bool
-	next [26]*trie
+	next [26]*trie // 子节点
+	word string    // 以该节点为结尾的字符串
+	cnt  int32     // 该节点被使用了多少次
+	end  bool      // 是不是尾节点
 }
 
 func (t *trie) insert(s string) {
 	if len(s) == 0 {
 		return
 	}
-	t.v = s[0]
 	var cur = t
-	for i := 1; i < len(s); i++ {
+	for i := 0; i < len(s); i++ {
 		if cur.get(s[i]) == nil {
-			cur.next[s[i]-'a'] = &trie{
-				v: s[i],
-			}
+			cur.next[s[i]-'a'] = &trie{}
 		}
 		cur = cur.get(s[i])
+		cur.cnt++ // 每经过一次, 都会增加一下计数
 	}
+	cur.word = s
 	cur.end = true
 }
 
-func (t *trie) get(s byte) *trie {
-	if s == '*' {
-		return nil
+func (t *trie) delete(s string) {
+	var cur = t
+	for i := range s {
+		cur = cur.get(s[i])
+		cur.cnt--
 	}
+	cur.end = false
+}
+
+func (t *trie) get(s byte) *trie {
 	return t.next[s-'a']
 }
 
@@ -34,20 +44,30 @@ type root struct {
 	trie
 }
 
-func (r *root) insert(s string) {
-	var nb = r.next[s[0]-'a']
-	if nb == nil {
-		nb = &trie{}
-		r.next[s[0]-'a'] = nb
-	}
-	nb.insert(s)
-}
-
 var dir = [4][2]int{
 	{0, 1},
 	{0, -1},
 	{-1, 0},
 	{1, 0},
+}
+
+const (
+	POW  = 32
+	MASK = POW - 1
+)
+
+type bitset []uint32
+
+func (b bitset) check(v int) bool {
+	return b[v/POW]&(1<<(v&MASK)) != 0
+}
+
+func (b bitset) set(v int) {
+	b[v/POW] |= 1 << (v & MASK)
+}
+
+func (b bitset) del(v int) {
+	b[v/POW] &= ^(1 << (v & MASK))
 }
 
 func findWords(board [][]byte, words []string) []string {
@@ -59,35 +79,32 @@ func findWords(board [][]byte, words []string) []string {
 
 	var ret []string
 
-	var cur []byte
-
 	var row, col = len(board), len(board[0])
+
+	var use bitset = make([]uint32, (row*col+MASK)/POW)
 
 	var check func(i, j int, t *trie)
 
 	check = func(i, j int, t *trie) {
-		var b = board[i][j]
-		if b == '*' {
+		if t == nil || t.cnt == 0 { // 提前枝减一下, 该路径已经走过了, 不能重复利用第二次
 			return
 		}
-		board[i][j] = '*'
-		cur = append(cur, b)
+		var pos = i*col + j
+		if use.check(pos) {
+			return
+		}
+		use.set(pos)
 		if t.end {
-			ret = append(ret, string(cur))
-			t.end = false
+			ret = append(ret, t.word)
+			r.delete(t.word)
 		}
 		for _, d := range dir {
 			var x, y = i + d[0], j + d[1]
 			if x >= 0 && x < row && y >= 0 && y < col {
-				var nt = t.get(board[x][y])
-				if nt == nil {
-					continue
-				}
-				check(x, y, nt)
+				check(x, y, t.get(board[x][y]))
 			}
 		}
-		cur = cur[:len(cur)-1]
-		board[i][j] = b
+		use.del(pos)
 	}
 
 	for i := 0; i < row; i++ {
@@ -100,9 +117,17 @@ func findWords(board [][]byte, words []string) []string {
 		}
 	}
 
+	//fmt.Println(use)
+
 	return ret
 }
 
+/*
+[["o","a","a","n"],["e","t","a","e"],["i","h","k","r"],["i","f","l","v"]]
+["oath","pea","eat","rain"]
+*/
+
 func main() {
-	findWords(nil, []string{"abcd", "abce", "abcf"})
+	fmt.Println(findWords([][]byte{{'o', 'a', 'a', 'n'}, {'e', 't', 'a', 'e'}, {'i', 'h', 'k', 'r'}, {'i', 'f', 'l', 'v'}},
+		[]string{"oath", "pea", "eat", "rain"}))
 }

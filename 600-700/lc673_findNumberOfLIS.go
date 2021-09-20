@@ -18,7 +18,7 @@ func findNumberOfLIS(nums []int) (ans int) {
 					dp[i] = dp[j] + 1 // 更新dp[i]的值
 					cnt[i] = cnt[j]   // 重置计数
 				} else if dp[j]+1 == dp[i] {
-					cnt[i] += cnt[j] // 此时意味着nusm[:i+1]中存在不同组合的LIS
+					cnt[i] += cnt[j] // 此时意味着nums[:i+1]中存在不同组合的LIS
 				}
 			}
 		}
