@@ -1,3 +1,5 @@
+//go:build ignore
+
 package main
 
 import (
@@ -55,6 +57,45 @@ func divide(dividend int, divisor int) int {
 		}
 		return total
 	}
+}
+
+const (
+	MAX = 0x7FFFFFFF
+	MIN = -0x80000000
+)
+
+func abs(val int) uint {
+	if val < 0 {
+		return -uint(val)
+	}
+	return uint(val)
+}
+
+func divide2(dividend int, divisor int) int {
+	if dividend == 0 {
+		return 0
+	}
+	if dividend == MIN && divisor == -1 {
+		return MAX
+	}
+	// 判断结果的正负
+	neg := (dividend ^ divisor) < 0
+	res := 0
+	// 计算时都转换为争执
+	t := abs(dividend)
+	d := abs(divisor)
+	for i := 31; i >= 0; i-- {
+		// 从高位开始, 依次计算当前值能满足d的最大值
+		p := uint(i)
+		if t>>p >= d {
+			res += 1 << p
+			t -= d << p
+		}
+	}
+	if neg {
+		return -res
+	}
+	return res
 }
 
 func main() {
