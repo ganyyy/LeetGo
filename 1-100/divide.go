@@ -81,7 +81,7 @@ func divide2(dividend int, divisor int) int {
 	// 判断结果的正负
 	neg := (dividend ^ divisor) < 0
 	res := 0
-	// 计算时都转换为争执
+	// 计算时都转换为正值
 	t := abs(dividend)
 	d := abs(divisor)
 	for i := 31; i >= 0; i-- {

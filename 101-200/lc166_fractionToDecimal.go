@@ -17,7 +17,7 @@ func fractionToDecimal(numerator int, denominator int) string {
 
 	var sb strings.Builder
 
-	if a < 0 && b > 0 || a > 0 && b < 0 {
+	if a^b < 0 {
 		sb.WriteString("-")
 	}
 	if a < 0 {
@@ -27,6 +27,7 @@ func fractionToDecimal(numerator int, denominator int) string {
 		b = -b
 	}
 
+	// 整数部分
 	sb.WriteString(strconv.Itoa(a/b) + ".")
 
 	a %= b
@@ -34,13 +35,14 @@ func fractionToDecimal(numerator int, denominator int) string {
 	var m = make(map[int]int)
 	// 长除法就是不停的x10 取余
 	for a != 0 {
+		// 记录a出现的位置, 用来对比和截取
 		m[a] = sb.Len()
 		a *= 10
 		sb.WriteString(strconv.Itoa(a / b))
 
 		// 重新计算a整出后的余数
 		a %= b
-		// 如果出现过, 这就是一个循环节
+		// 如果新的余数出现过, 这就是一个循环节
 		if idx, ok := m[a]; ok {
 			// 出现了循环节
 			return fmt.Sprintf("%s(%s)", sb.String()[:idx], sb.String()[idx:])

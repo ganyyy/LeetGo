@@ -53,5 +53,6 @@ func Constructor3(iter *Iterator) *PeekingIterator2 {
 }
 
 func (it PeekingIterator2) peek() int {
+	// 这个就很秀, 因为发生了一次copy. 所以不会影响下一次的peek或者next
 	return it.next()
 }

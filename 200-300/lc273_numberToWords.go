@@ -8,6 +8,7 @@ var num2 = []string{"Ten", "Eleven", "Twelve", "Thirteen", "Fourteen", "Fifteen"
 var num3 = []string{"", "", "Twenty", "Thirty", "Forty", "Fifty", "Sixty", "Seventy", "Eighty", "Ninety"}
 
 func numberToWords(num int) string {
+	// 标准的递归处理, 每一层只处理自己相关的逻辑
 	if num == 0 {
 		return "Zero"
 	}
@@ -17,6 +18,7 @@ func numberToWords(num int) string {
 		if num < 10 {
 			s = num1[num]
 		} else if num < 20 {
+			// lowB 英语, 11-19的英语不具备规律性
 			s = num2[num-10]
 		} else if num < 100 {
 			s = num3[num/10] + " " + num1[num%10]

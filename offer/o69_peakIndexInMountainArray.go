@@ -26,9 +26,13 @@ func peakIndexInMountainArrayBinarySearch(arr []int) int {
 			r = mid - 1
 		} else if arr[mid] == arr[l] {
 			// 相等的情况.. 如果左边小于右边, 说明峰顶在右边, 否则在左边
+			// 因为这是一个绝对存在峰顶的数组, 所以arr[l] > arr[r], 等同于
+			// [mid:r]是一个降序数组, 那么峰顶就一定在左边
 			if arr[l] > arr[r] {
 				r--
 			} else {
+				// 特殊情况, 如果arr[l] == arr[r], 此时左右两边都可以缩进
+				// 不失一般性, 这里直接l++
 				l++
 			}
 		}
