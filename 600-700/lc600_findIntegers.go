@@ -27,6 +27,8 @@ func findIntegers(n int) (ans int) {
 
 	*/
 
+	// 标记
+
 	dp := [31]int{1, 1}
 	for i := 2; i < 31; i++ {
 		dp[i] = dp[i-1] + dp[i-2]
