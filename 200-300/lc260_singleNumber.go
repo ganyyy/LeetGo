@@ -1,5 +1,10 @@
 package main
 
+import (
+	"fmt"
+	"math/bits"
+)
+
 func singleNumber(nums []int) []int {
 	// 首先全部异或一边, 得到的结果就是两个不同的数的异或的结果
 	var a, b, xor int
@@ -43,6 +48,34 @@ func singleNumbers(nums []int) []int {
 	return []int{res, odd ^ res}
 }
 
-func main() {
+func singleNumber3(nums []int) []int {
+	var num int
 
+	for _, v := range nums {
+		num ^= v
+	}
+
+	fmt.Println(num)
+
+	var index = bits.Len(uint(num)) - 1
+
+	fmt.Println(index)
+
+	var a int
+	for _, v := range nums {
+		if v&(1<<index) != 0 {
+			a ^= v
+		}
+	}
+
+	fmt.Println(a)
+
+	return []int{a, a ^ num}
+
+}
+
+func main() {
+	for i := 0; i < 100; i++ {
+		fmt.Printf("Len:%v, val:%b\n", bits.Len(uint(i)), i)
+	}
 }
