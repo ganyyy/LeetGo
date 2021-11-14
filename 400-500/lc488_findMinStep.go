@@ -37,6 +37,10 @@ func ParseColor(i int) byte {
 func findMinStep(board string, hand string) int {
 	var set [5]int
 
+	// 直接看代码, 也能看的懂.
+	// 但是, 怎么想出来才是个问题
+	// 这题, 我不想再看第二次..
+
 	for i := range hand {
 		set[ParseIndex(hand[i])]++
 	}
@@ -95,6 +99,7 @@ func findMinStep(board string, hand string) int {
 					if c == idx {
 						continue
 					}
+					// 必须是还剩余的球
 					if set[c] <= 0 {
 						continue
 					}
@@ -127,6 +132,7 @@ func Eliminate(src []byte) []byte {
 			j := i + 1
 			for ; j < len(src) && src[j] == src[i]; j++ {
 			}
+			// 类似迭代器的概念, 这也解释了为啥删除时要更新一下迭代器
 			if j-i >= 3 {
 				flag = true
 				src = append(src[:i], src[j:]...)
