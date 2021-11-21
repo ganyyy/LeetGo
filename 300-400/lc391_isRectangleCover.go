@@ -8,19 +8,20 @@ func isRectangleCover(rectangles [][]int) bool {
 	// 计算面积, 对比每个矩形的面积
 	var totalArea int
 
-	// TODO 这个set的元素可以优化成(x + y<<Base)的形式
-	var set = make(map[[2]int]struct{}, 16)
+	var set = make(map[int]struct{}, 16)
 
 	var addToSet = func(v [2]int) {
-		if _, ok := set[v]; ok {
-			delete(set, v)
+		var val = v[0]*1e8 + v[1]
+		if _, ok := set[val]; ok {
+			delete(set, val)
 		} else {
-			set[v] = struct{}{}
+			set[val] = struct{}{}
 		}
 	}
 
 	var checkInSet = func(v [2]int) bool {
-		_, ok := set[v]
+		var val = v[0]*1e8 + v[1]
+		_, ok := set[val]
 		return ok
 	}
 
@@ -47,6 +48,7 @@ func isRectangleCover(rectangles [][]int) bool {
 
 		var a, b, c, d = [2]int{r[0], r[1]}, [2]int{r[2], r[1]}, [2]int{r[2], r[3]}, [2]int{r[0], r[3]}
 
+		// 获取四个顶点, 用于计算总面积
 		mix = Min(mix, r[0])
 		miy = Min(miy, r[1])
 		max = Max(max, r[2])

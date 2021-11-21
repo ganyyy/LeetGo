@@ -52,6 +52,7 @@ func max(a, b int) int {
 }
 
 func findLHSBig(nums []int) (ans int) {
+	// 简单, 优雅, 666
 	cnt := make(map[int]int, len(nums))
 	for _, num := range nums {
 		cnt[num]++
