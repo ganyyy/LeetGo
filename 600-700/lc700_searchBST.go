@@ -1,3 +1,5 @@
+//go:build ignore
+
 package main
 
 import . "leetgo/data"
@@ -30,6 +32,4 @@ func searchBST2(root *TreeNode, val int) *TreeNode {
 	return nil
 }
 
-func main() {
-
-}
+// 还是非递归版好点
