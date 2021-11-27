@@ -60,6 +60,8 @@ func minWindow(s string, t string) string {
 	}
 }
 
+// 明天过一遍窗口问题
+
 func minWindow2(s, t string) string {
 	// 这种解法和上边的主要区别在于: 不需要等待整个t串都被包含在进行左指针处理,
 	// 而是在某一个字符满足条件就开始处理left
