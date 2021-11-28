@@ -20,7 +20,7 @@ func minWindow(s string, t string) string {
 	left, right := 0, 0
 	count := make([]byte, 128)
 	window := make([]byte, 128)
-	var lc int
+	var lc int // lc标识t中出现的不同字符的个数
 	for i := 0; i < lt; i++ {
 		if count[t[i]] == 0 {
 			lc++
@@ -30,15 +30,15 @@ func minWindow(s string, t string) string {
 	var match int
 	for right < ls {
 		c := s[right]
-		if count[c] != 0 {
+		if count[c] != 0 { // 如果是一个存在于t中的字符串
 			window[c]++
-			if window[c] == count[c] {
+			if window[c] == count[c] { // 并且当前c的数量已经满足要求了
 				match++
 			}
 		}
 		right++
-		for match == lc {
-			if minLen > right-left {
+		for match == lc { // 全部字符的数量都满足了, 不断消减到出现第一个不满足的字符
+			if minLen > right-left { // 计算最小的长度
 				minLen = right - left
 				start = left
 			}
@@ -49,7 +49,7 @@ func minWindow(s string, t string) string {
 					match--
 				}
 			}
-			left++
+			left++ // 双指针缩减空间
 		}
 	}
 
@@ -69,7 +69,7 @@ func minWindow2(s, t string) string {
 		return ""
 	}
 	// 针对字符串类的问题, 往往可以通过定长数组来减少map hash计算的时间
-	hash := make([]int, 256)
+	hash := make([]int, 128)
 	// 记录各个值对应的个数
 	for i := 0; i < len(t); i++ {
 		hash[t[i]]++
