@@ -30,3 +30,19 @@ func quickPow(a, b int) int {
 	}
 	return res
 }
+
+func superPowNormal(a int, b []int) int {
+	ans := 1
+	// 降幂
+	// a^1111
+	// -> a^{(111 * 10) + 1}
+	// -> a^{111 * 10} * a^1
+	// -> {a^111}^10 * a
+	for i := len(b) - 1; i >= 0; i-- {
+		// 先乘以尾数
+		ans = ans * quickPow(a, b[i]) % MOD
+		// 再乘以10次幂
+		a = quickPow(a, 10)
+	}
+	return ans
+}

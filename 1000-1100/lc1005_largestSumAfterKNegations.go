@@ -81,10 +81,16 @@ func largestSumAfterKNegationsGood(nums []int, k int) int {
 
 	for _, v := range nums {
 		if v < 0 && k > 0 {
+			// 还有剩余次数时, 直接进行反转
 			k--
+			// 修正负号
 			v = -v
 		}
 		sum += v
+		// 记录最小值
+		// 需要主义的是,
+		// 如果k > 负数的数量, 那么这里的v一定是大于0的
+		// 如果k小于负数的数量, 这里的minVal就没用了
 		minVal = min(minVal, v)
 	}
 

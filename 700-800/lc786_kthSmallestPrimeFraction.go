@@ -36,48 +36,61 @@ func kthSmallestPrimeFraction(arr []int, k int) []int {
 func kthSmallestPrimeFractionBinarySearch(arr []int, k int) []int {
 	// 分数的上下界就是0, 1
 	left, right := 0.0, 1.0
-	p, q := 0, 1
-	// 值二分法, 给定一个实数, 求得所有小于这个实数的分数
+	// 值二分法, 给定一个实数, 求得所有小于这个实数的分数的个数是否恰好等于k
+
+	// 如果数量大于k, 说明猜测的实数大了, 向左偏移
+	// 如果数量小于k, 说明猜测的实数小了, 向右偏移
 	n := len(arr)
 	for {
-		p = 0
-		count := 0
-
-		// 取一个实数
 		mid := (left + right) / 2
-		// 双指针获取小于该实数的分数的个数
+		i, count := -1, 0
+		// 记录最大的分数
+		x, y := 0, 1
 
-		// i为分子, 向右移动
-		// j为分母, 向左移动
-		// TODO 周末好好看看
-		for i, j := 0, n-1; i < n; i++ {
-			// 获取最后一个满足 arr[i]/arr[j] < mid 的j
-			for j >= 0 && float64(arr[i]) > mid*float64(arr[n-1-j]) {
-				j--
+		for j := 1; j < n; j++ {
+			// i为啥不需要回退呢?
+			// 可以这样理解:
+			// i是一定不可能大于j的. 那么相对的, 在小于i的任意值中, arr[n]/arr[j](n <= i) <= arr[i]/arr[j]
+			// 随着j的逐渐变大, arr[i]/arr[j]会变小
+			for float64(arr[i+1])/float64(arr[j]) < mid {
+				i++
+				if arr[i]*y > arr[j]*x {
+					x, y = arr[i], arr[j]
+				}
 			}
-			// count表示满足 小于 mid 的数字的个数(?)
-			count += j + 1
-			if j >= 0 && p*arr[n-1-j] < q*arr[i] {
-				p, q = arr[i], arr[n-1-j]
-			}
+			// 所以直接加上去就行. 这里也可以理解为是一种特殊的归并
+			// 如果 i1/j1 < mid, i2/j1可能大于mid.
+			// 如果 i1/j1 < mid, i1/j2也是一定小于mid的
+			count += i + 1
 		}
 
+		// 统计小于mid的分数的个数, 如果恰好相等, 答案就是这个
+		if count == k {
+			return []int{x, y}
+		}
 		if count < k {
 			left = mid
-		} else if count > k {
-			right = mid
 		} else {
-			return []int{p, q}
+			right = mid
 		}
 	}
-
 }
 
 func kthSmallestPrimeFractionHeap(arr []int, k int) []int {
 	n := len(arr)
 	h := make(fracHeap, n-1)
+
+	// 多路归并: 求多个有序数组的第K大的数
+	// 类似的题目:
+
+	// 将整体划分为 n 个子序列(n = len(arr))
+	// 每个子序列形如 {arr[0], ..., arr[i]}, i∈[1,n)
+	// 对于每个子序列而言, 从头开始依次和末尾元素相除, 整体的结果也是单调递增的
+	// 初始情况下先将每个子序列的头部入队
+
 	// 首先入队相对较小的数, 即使用arr[0]为分子, 一路除过来
 	for j := 1; j < n; j++ {
+		// 很显然, 每个子序列的最小值就是 arr[0]/arr[j]
 		h[j-1] = frac{arr[0], arr[j], 0, j}
 	}
 	heap.Init(&h)

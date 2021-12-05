@@ -1,7 +1,10 @@
 package main
 
-import "fmt"
-import . "leetgo/data"
+import (
+	"container/heap"
+	"fmt"
+	. "leetgo/data"
+)
 
 func mergeKLists(lists []*ListNode) *ListNode {
 	total := len(lists)
@@ -60,6 +63,51 @@ func mergeTwoList(list1, list2 *ListNode) *ListNode {
 	return head
 }
 
+type HeapNode []*ListNode
+
+func (h HeapNode) Len() int {
+	return len(h)
+}
+
+func (h HeapNode) Less(i, j int) bool {
+	return h[i].Val < h[j].Val
+}
+
+func (h HeapNode) Swap(i, j int) {
+	h[i], h[j] = h[j], h[i]
+}
+
+func (h *HeapNode) Push(x interface{}) {
+	*h = append(*h, x.(*ListNode))
+}
+
+func (h *HeapNode) Pop() (ret interface{}) {
+	ret, *h = (*h)[len(*h)-1], (*h)[:len(*h)-1]
+	return
+}
+
+func mergeKListsHeap(lists []*ListNode) *ListNode {
+	var head = &ListNode{}
+	var hp HeapNode = make([]*ListNode, 0, len(lists))
+	for _, node := range lists {
+		hp = append(hp, node)
+	}
+
+	heap.Init(&hp)
+
+	var cur = head
+	for hp.Len() != 0 {
+		var top = heap.Pop(&hp).(*ListNode)
+		cur.Next = top
+		cur = cur.Next
+		if top.Next != nil {
+			heap.Push(&hp, top.Next)
+		}
+	}
+
+	return head.Next
+}
+
 // 想法是两两合并
 
 func main() {
@@ -91,6 +139,6 @@ func main() {
 	l3.Add(12)
 	ShowList(l3)
 	fmt.Println()
-	res := mergeKLists([]*ListNode{l1, l2, l3})
+	res := mergeKListsHeap([]*ListNode{l1, l2, l3})
 	ShowList(res)
 }
