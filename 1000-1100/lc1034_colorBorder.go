@@ -38,19 +38,19 @@ func colorBorder(grid [][]int, row int, col int, color int) [][]int {
 		// 存在一个不相等的颜色, 或者到达边界. 那么该块就需要上色
 		for _, d := range dir {
 			var ii, jj = i + d[0], j + d[1]
-			if ii >= 0 && ii < m && jj >= 0 && jj < n {
-				if abs(grid[ii][jj]) == cur {
-					if !set[parseKey(ii, jj)] {
-						dfs(ii, jj)
-					}
-				} else {
-					board = true
-				}
-			} else {
+			if ii < 0 || ii >= m || jj < 0 || jj >= n {
 				board = true
+				continue
 			}
+			if abs(grid[ii][jj]) != cur {
+				board = true
+				continue
+			}
+			if set[parseKey(ii, jj)] {
+				continue
+			}
+			dfs(ii, jj)
 		}
-
 		if board {
 			grid[i][j] = -cur
 		}

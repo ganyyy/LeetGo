@@ -1,8 +1,8 @@
 package main
 
 func maxSumOfThreeSubarrays(nums []int, k int) (ans []int) {
-	// sum1, sum2, sum3 分别指的是三个窗口的累加和
-	// maxSum1, maxSum12, maxTotal 分别指的是窗口1的最大值, 窗口1+2的最大值, 窗口1+2+3的最大值
+	// sum1, sum2, sum3 分别指的是当前三个窗口的累加和
+	// maxSum1, maxSum12, maxTotal 分别指的是历史窗口1的最大值, 窗口1+2的最大值, 窗口1+2+3的最大值
 	// maxSum1Idx是当窗口1最大时的起始位置
 	// maxSum12Idx1表示的是窗口1+2最大时, 窗口1的起始位置
 	// maxSum12Idx2表示的是窗口1+2最大时, 窗口2的起始位置

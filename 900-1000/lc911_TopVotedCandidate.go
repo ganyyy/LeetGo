@@ -1,11 +1,7 @@
-//go:build ignore
-// +build ignore
-
 package main
 
 import (
 	"math"
-	"sort"
 )
 
 type TopVotedCandidate struct {
@@ -37,21 +33,19 @@ func Constructor(persons []int, times []int) TopVotedCandidate {
 }
 
 func (tv *TopVotedCandidate) Q(t int) int {
-	var idx = sort.Search(len(tv.max), func(i int) bool {
-		return t <= tv.times[i]
-	})
+	// 有时候, API还不如自己写的好用
 
-	if idx >= len(tv.max) {
-		return tv.max[idx-1]
-	}
-	if tv.times[idx] > t {
-		if idx > 0 {
-			return tv.max[idx-1]
+	var left, right = 0, len(tv.times)
+
+	for left < right {
+		var mid = left + (right-left)/2
+		if tv.times[mid] > t {
+			right = mid
 		} else {
-			return tv.max[0]
+			left = mid + 1
 		}
 	}
-	return tv.max[idx]
+	return tv.max[left-1]
 }
 
 /**
