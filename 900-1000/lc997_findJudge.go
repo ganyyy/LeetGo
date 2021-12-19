@@ -3,6 +3,7 @@ package main
 func findJudgeBad(n int, trust [][]int) int {
 
 	// 有向图
+	// 如果和数据的内容无关, 可以直接转换成 计数 来处理
 
 	var relation1 = make([][]int, n+1) // 我信任的人. 不清楚规则是否是自洽的, 或许也可以用set/bitmap?
 	var relation2 = make([][]int, n+1) // 信任我的人

@@ -14,6 +14,8 @@ func visiblePoints(points [][]int, angle int, location []int) int {
 			sameCnt++
 		} else {
 			// 获取每一个点相较于所在位置对应的弧度
+			// 弧度的计算有点意思
+			// 弧度核心就是 360° = 2Π
 			polarDegrees = append(polarDegrees, math.Atan2(float64(p[1]-location[1]), float64(p[0]-location[0])))
 		}
 	}

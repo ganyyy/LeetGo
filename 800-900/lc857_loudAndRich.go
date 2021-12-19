@@ -20,6 +20,7 @@ func loudAndRich(richer [][]int, quiet []int) []int {
 	var findMin func(i int) int
 
 	findMin = func(i int) int {
+		// 搭建缓存可以有效提升性能
 		if ret[i] != -1 {
 			return quiet[ret[i]]
 		}

@@ -6,6 +6,7 @@ import (
 )
 
 func scheduleCourse(courses [][]int) int {
+	// 按照课程截止时间进行排序
 	sort.Slice(courses, func(i, j int) bool {
 		return courses[i][1] < courses[j][1]
 	})
