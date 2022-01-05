@@ -40,6 +40,31 @@ func simplifyPath2(path string) string {
 	return filepath.Clean(path)
 }
 
+func simplifyPathNew(path string) string {
+	var splitPath = strings.Split(path, "/")
+	if len(splitPath) == 0 {
+		return "/"
+	}
+	var stack = []string{""}
+	for _, p := range splitPath {
+		if p == "." || p == "" {
+			continue
+		}
+		if p == ".." {
+			if len(stack) > 1 {
+				stack = stack[:len(stack)-1]
+			}
+			continue
+		}
+		stack = append(stack, p)
+	}
+
+	if len(stack) == 1 {
+		return "/"
+	}
+	return strings.Join(stack, "/")
+}
+
 func main() {
 	fmt.Println(simplifyPath2("/a//b////c/d//././/.."))
 }
