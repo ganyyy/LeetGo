@@ -42,9 +42,14 @@ func lastRemaining(n int) int {
 	var ret = 1
 	var step = 1
 
+	// 这个可以理解为: 从头开始并不停地扣除首个数字
+
+	// 1,2,3,4 -> 2,4 -> 2
+	// 1,2,3,4,5,6 -> 2,4,6 -> 4
+
 	for remain > 1 {
 		if leftToRight || remain&1 == 1 {
-			// 从左到右, 或者从右向左且数组为奇数时, 才会消除数组的第一个数字
+			// 从左到右, 或者从右向左且剩余数量为奇数时, 才会消除第一个数字
 			ret += step
 		}
 		leftToRight = !leftToRight

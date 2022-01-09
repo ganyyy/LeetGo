@@ -37,10 +37,12 @@ func simplifyPath(path string) string {
 }
 
 func simplifyPath2(path string) string {
+	// 库函数怎么这么好用呢?
 	return filepath.Clean(path)
 }
 
 func simplifyPathNew(path string) string {
+	// 会的越多, 人越懒(字面意思)
 	var splitPath = strings.Split(path, "/")
 	if len(splitPath) == 0 {
 		return "/"
