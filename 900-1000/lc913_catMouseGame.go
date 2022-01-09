@@ -70,8 +70,9 @@ func catMouseGame(graph [][]int) int {
 				nextCat = next
 			}
 
-			// 这里主要体现了优先级
+			// 这里依赖于对手的下一步棋的结果决定当前这步棋的结果
 			nextRes := getResult(nextMouse, nextCat, turns+1)
+			// 如果走了当前的点, 对手能必胜, 那么就需要尝试下一个可行走的点
 			if nextRes != defaultRes {
 				res = nextRes
 				// 只要能赢一次, 就不需要再遍历接下来的路径了
