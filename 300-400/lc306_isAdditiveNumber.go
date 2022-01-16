@@ -18,6 +18,7 @@ func stringAdd(x, y string) string {
 		cur %= 10
 		res = append(res, byte(cur)+'0')
 	}
+	// 逆序交换
 	for i, n := 0, len(res); i < n/2; i++ {
 		res[i], res[n-1-i] = res[n-1-i], res[i]
 	}

@@ -97,8 +97,8 @@ func discrete(a []int) (map[int]int, int) {
 
 	// 看末尾的值是否达到了边界.
 	// 如果没到达边界, 那么id需要自增一下(离散后可以达到的最远的位置+1)
-	const boundary int = 1e6
-	if a[len(a)-1] != boundary-1 {
+	const boundary int = 1e6       // 这个是给定的参数
+	if a[len(a)-1] != boundary-1 { // 非边界值, 需要预留空隙
 		id++
 	}
 
@@ -133,7 +133,7 @@ func isEscapePossible2(block [][]int, source, target []int) bool {
 	sx, sy := rMapping[source[0]], cMapping[source[1]]
 	tx, ty := rMapping[target[0]], cMapping[target[1]]
 	grid[sx][sy] = true
-	// 常规的BFS
+	// 常规的BFS, 遍历离散化后的所有坐标点
 	q := []pair{{sx, sy}}
 	for len(q) > 0 {
 		p := q[0]

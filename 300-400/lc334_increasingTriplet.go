@@ -1,9 +1,12 @@
 package main
 
-import "math"
+import (
+	"math"
+)
 
 func increasingTriplet(nums []int) bool {
-	// 三个数,
+	// 三个数, 当长度不确定时, 就需要通过二分查找定长数组来处理了
+	// 经典LIS
 
 	var src = make([]int, 0, 3)
 next:
