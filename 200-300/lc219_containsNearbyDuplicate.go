@@ -9,6 +9,7 @@ func containsNearbyDuplicate(nums []int, k int) bool {
 				return true
 			}
 		}
+		// 更新最近的位置
 		m[v] = i
 	}
 	return false

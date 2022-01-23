@@ -2,6 +2,7 @@ package main
 
 func countVowelPermutation(n int) int {
 	// 印象中, 有个多规则DP来着?
+	// 找准规则并不难!
 	var pa = 1
 	var pe = 1
 	var pi = 1

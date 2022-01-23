@@ -107,6 +107,8 @@ func minJumpsGood(arr []int) int {
 	var m = make(map[int][]int, ln)
 
 	// 按照值进行划分位置
+	// 不按索引来是因为可能存在大量重复的值
+	// 按值进行分割是因为相同的值可以进行跳转
 	for i, v := range arr {
 		var n = m[v]
 		if n == nil {
@@ -117,7 +119,7 @@ func minJumpsGood(arr []int) int {
 
 	// fmt.Println(m)
 
-	// 所有访问过的位置
+	// 所有访问过的位置. 索引作为下标
 	var visited = make([]bool, ln)
 	visited[0] = true
 	// 当前方位的位置和步数

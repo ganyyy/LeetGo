@@ -122,6 +122,7 @@ func (sp *StockPrice) Maximum() int {
 func (sp *StockPrice) Minimum() int {
 	for {
 		// 不停的查找到当前最新的那个价格
+		// 因为同一个时间戳可能会有多个价格, 需要通过迭代的形式获取正确的/符合要求的价格
 		if p := sp.minPrice[0]; p.price == sp.timePriceMap[p.timestamp] {
 			return p.price
 		}
@@ -131,6 +132,8 @@ func (sp *StockPrice) Minimum() int {
 
 type pair struct{ price, timestamp int }
 type hp []pair
+
+// 每次都要手写一个, 就很烦
 
 func (h hp) Len() int            { return len(h) }
 func (h hp) Less(i, j int) bool  { return h[i].price < h[j].price }
