@@ -56,6 +56,7 @@ func highestPeak(isWater [][]int) [][]int {
 				// 不需要重复处理
 				continue
 			}
+			// 这个格子已经被标记了, 直接看下一个
 			if nv >= 0 {
 				continue
 			}
@@ -64,7 +65,7 @@ func highestPeak(isWater [][]int) [][]int {
 			queue = append(queue, Pack(ni, nj))
 
 			// 这里不会存在一个当前格子的高度和相邻格子之间的高度差> 1的情况
-			// 因为每次计算的轮次都是相同的, 由此决定的最大高度也是相同的
+			// 因为每次计算的轮次都是相同的, 由此决定的最大高度也是相同的, 由此扩散的最大值也是相同的
 			// 所以不会出现相邻的两个格子差值超过1的情况
 		}
 	}

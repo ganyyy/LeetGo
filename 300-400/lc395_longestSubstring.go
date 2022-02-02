@@ -1,11 +1,5 @@
 package main
 
-import (
-	"fmt"
-	"math/rand"
-	"time"
-)
-
 func longestSubstring(s string, k int) int {
 
 	var n = len(s)
@@ -22,7 +16,7 @@ func longestSubstring(s string, k int) int {
 	var l, r, res int
 
 	for ; r < n; r++ {
-		// 如果字符 s[r] 出现的次数小于 k, 说明这个字符串一定不会包含在结果种
+		// 如果字符 s[r] 出现的次数小于 k, 说明这个字符串一定不会包含在结果中
 		// 直接进行切割比较即可
 		if cnt[s[r]-'a'] < k {
 			res = max(res, longestSubstring(s[l:r], k))
@@ -46,27 +40,42 @@ func max(a, b int) int {
 	return b
 }
 
-func main() {
-	var sort = func(nums []int) {
-		var cnt int
-		var m = len(nums)
-		for i := 0; i < len(nums); i++ {
-			for nums[i] != m-i {
-				nums[i], nums[m-nums[i]] = nums[m-nums[i]], nums[i]
+func longestSubstringWindow(s string, k int) (ans int) {
+	for t := 1; t <= 26; t++ {
+		// 按照字符的数量进行统计
+		cnt := [26]int{}
+		total := 0 // 当前窗口中, 字符类的个数
+		lessK := 0 // 当前窗口中, 不满足数量>=k的个数
+		l := 0
+		for r, ch := range s {
+			ch -= 'a'
+			if cnt[ch] == 0 {
+				total++ // 首次出现的字符, 需要统一增加计数
+				lessK++
+			}
+			cnt[ch]++
+			if cnt[ch] == k {
+				lessK-- // 满足条件后, 减少目标计数
+			}
+
+			// 缩减左边界, 保证集合内符合要求的字符的数量
+			for total > t {
+				ch := s[l] - 'a'
+				if cnt[ch] == k {
+					lessK++
+				}
+				cnt[ch]--
+				if cnt[ch] == 0 {
+					total--
+					lessK--
+				}
+				l++
+			}
+			if lessK == 0 {
+				// 满足要求的情况下, 更新答案
+				ans = max(ans, r-l+1)
 			}
 		}
-		fmt.Println(cnt)
 	}
-
-	var num = make([]int, 10)
-	for i := 0; i < 10; i++ {
-		num[i] = i + 1
-	}
-	rand.Seed(time.Now().UnixNano())
-	rand.Shuffle(10, func(i, j int) {
-		num[i], num[j] = num[j], num[i]
-	})
-	fmt.Println(num)
-	sort(num)
-	fmt.Println(num)
+	return ans
 }

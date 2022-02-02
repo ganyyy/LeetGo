@@ -55,6 +55,8 @@ func numberOfWeakCharactersSB(properties [][]int) int {
 
 func numberOfWeakCharacters(properties [][]int) int {
 	// 攻击降序, 防御升序. 避免了同攻击时误判的情况
+	// 怎么排序是个门道
+	// 多条件排序的情况下, 要分清主次关系
 	sort.Slice(properties, func(i, j int) bool {
 		var a, b = properties[i], properties[j]
 		if a[0] != b[0] {
@@ -68,6 +70,10 @@ func numberOfWeakCharacters(properties [][]int) int {
 	var top = properties[0]
 	var maxDef = top[1]
 	var cnt int
+	// 攻击降序保证了前者攻击>=后者
+	// 防御降序保证了攻击相同时, 前者防御 <= 后者
+	// 这种情况下, 只需要保留迭代到的最大的防御值.
+	// 后续的防御值小于最大值, 那么就是严格小于的关系!
 	for _, p := range properties[1:] {
 		if p[1] < maxDef {
 			cnt++

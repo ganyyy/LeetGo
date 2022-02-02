@@ -72,11 +72,13 @@ func longestNiceSubstring(s string) (ans string) {
 			if unicode.IsLower(ch) {
 				lowerCnt[idx]++
 				if lowerCnt[idx] == 1 && upperCnt[idx] > 0 {
+					// 首次出现的情况, 增加匹配的字符的对数
 					cnt++
 				}
 			} else {
 				upperCnt[idx]++
 				if upperCnt[idx] == 1 && lowerCnt[idx] > 0 {
+					// 首次出现的情况, 增加匹配的字符的对数
 					cnt++
 				}
 			}
@@ -87,6 +89,7 @@ func longestNiceSubstring(s string) (ans string) {
 			// 收缩左边界
 			for total > typeNum {
 				idx := unicode.ToLower(rune(s[l])) - 'a'
+				// 消减总的计数
 				if lowerCnt[idx]+upperCnt[idx] == 1 {
 					total--
 				}
