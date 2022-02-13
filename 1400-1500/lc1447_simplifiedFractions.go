@@ -6,6 +6,8 @@ func simplifiedFractions(n int) []string {
 
 	var tmp = make([]string, 0, n)
 
+	// 内外层没啥区别, 多试几次...
+
 	for j := 1; j < n; j++ {
 		for i := j + 1; i <= n; i++ {
 			if check(j, i) {

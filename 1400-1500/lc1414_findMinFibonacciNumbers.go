@@ -27,6 +27,7 @@ func findMinFibonacciNumbers(k int) int {
 	var cnt int
 
 	for {
+		// Golang的Sort, 有点怪.
 		i := sort.SearchInts(numArr, k) - 1 // k一定不存在与 numArr中, 否则上一轮迭代就直接返回了
 		cnt++
 		k -= numArr[i]
