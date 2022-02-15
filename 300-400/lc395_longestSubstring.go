@@ -1,36 +1,36 @@
 package main
 
 func longestSubstring(s string, k int) int {
-
+	// 分治法
 	var n = len(s)
-
 	if n < k {
 		return 0
 	}
 
+	// 统计各个字符的数量
 	var cnt [26]int
 	for i := range s {
 		cnt[s[i]-'a']++
 	}
 
-	var l, r, res int
+	var l, res int
 
-	for ; r < n; r++ {
-		// 如果字符 s[r] 出现的次数小于 k, 说明这个字符串一定不会包含在结果中
-		// 直接进行切割比较即可
-		if cnt[s[r]-'a'] < k {
-			res = max(res, longestSubstring(s[l:r], k))
-			l = r + 1
+	for r := 0; r < n; r++ {
+		if cnt[s[r]-'a'] >= k {
+			continue
 		}
+		// 如果该字符不满足条件, 就需要适当的收缩窗口大小
+		res = max(res, longestSubstring(s[l:r], k))
+		l = r + 1
 	}
 
-	// 如果 l == 0, 说明所有的字符都满足大于k, 直接返回即可
 	if l == 0 {
+		// 所有的字符都满足要求, 直接返回即可
 		return n
 	}
-	// 否则就要从 res 和 l:n(r) 中计算一下最大值
-	return max(res, longestSubstring(s[l:n], k))
-
+	// 为啥还要再算一遍呢? 因为后半段可能不符合要求, 但是总体是满足要求的的
+	// 比如 (aabcabb, 3). a,b 是满足需求的, 但是经过c分割后的 abb中的a,b是不满足需求的
+	return max(res, longestSubstring(s[l:], k))
 }
 
 func max(a, b int) int {
