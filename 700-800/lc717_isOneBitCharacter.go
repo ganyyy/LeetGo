@@ -38,6 +38,8 @@ func isOneBitCharacter(bits []int) bool {
 
 	var start int
 
+	// 看懂题目很关键
+
 	for start < len(bits)-1 {
 		start += bits[start] + 1
 	}

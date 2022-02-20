@@ -26,6 +26,7 @@ func knightProbability(N int, K int, r int, c int) float64 {
 				for l := range dx {
 					// 迭代整个棋盘上的坐标, 计算所有可以到达的位置的
 					px, py := i+dx[l], j+dy[l]
+					// 这里计算的其实是 从k-1步到k步, 所需要的点位信息
 					// 如果越界了, 或者前一步对应的左边中没有落脚, 那么就不需要统计对应的概率
 					if px < 0 || px >= N || py < 0 || py >= N || dp[k-1][px][py] == 0 {
 						continue
