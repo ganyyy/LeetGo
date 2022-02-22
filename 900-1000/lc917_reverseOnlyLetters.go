@@ -23,6 +23,24 @@ func reverseOnlyLetters(S string) string {
 	return string(res)
 }
 
+func reverseOnlyLetters2(s string) string {
+	var ret = []byte(s)
+	for l, r := 0, len(s)-1; l < r; {
+		if !check(s[l]) {
+			l++
+			continue
+		}
+		if !check(s[r]) {
+			r--
+			continue
+		}
+		ret[l], ret[r] = ret[r], ret[l]
+		l++
+		r--
+	}
+	return string(ret)
+}
+
 func check(c byte) bool {
 	return (c >= 'A' && c <= 'Z') || (c >= 'a' && c <= 'z')
 }
