@@ -43,6 +43,48 @@ func nearestPalindromic(n string) string {
 	return strconv.Itoa(ans)
 }
 
+func nearestPalindromic3(n string) string {
+	var m = len(n)
+	var candidates = []int{int(math.Pow10(m-1)) - 1, int(math.Pow10(m)) + 1}
+
+	var prefix, _ = strconv.Atoi(n[:(m+1)/2]) // 前缀
+	for _, x := range []int{
+		prefix - 1, prefix, prefix + 1,
+	} {
+		var t = x
+		// 奇数个数字时, 不要中间值
+		if m&1 == 1 {
+			t /= 10
+		}
+
+		// 整合
+		for ; t > 0; t /= 10 {
+			x = x*10 + t%10
+		}
+
+		candidates = append(candidates, x)
+	}
+
+	var ret = -1
+	var self, _ = strconv.Atoi(n)
+
+	for _, v := range candidates {
+		if v == self {
+			continue
+		}
+		if ret == -1 {
+			ret = v
+			continue
+		}
+		var sub = abs(ret-self) - abs(v-self)
+		if sub < 0 || (sub == 0 && ret < v) {
+			continue
+		}
+		ret = v
+	}
+	return strconv.Itoa(ret)
+}
+
 func abs(x int) int {
 	if x < 0 {
 		return -x

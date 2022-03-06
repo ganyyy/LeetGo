@@ -32,6 +32,7 @@ func convert(s string, numRows int) string {
 }
 
 func convert2(s string, numRows int) string {
+	// 还是有点进步的蛤~
 	if numRows == 1 {
 		return s
 	}

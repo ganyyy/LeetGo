@@ -23,10 +23,17 @@ func subArrayRanges(nums []int) int64 {
 
 func subArrayRangesStack(nums []int) int64 {
 	n := len(nums)
+
+	// 核心就是4个栈, 分别表示
+	// 左边最大值对应的索引, 左边最小值对应的索引
+	// 右边最大值对应的索引, 右边最小值对应的索引
+	// 说得好, 我写不出来!
+
 	minLeft := make([]int, n)
 	maxLeft := make([]int, n)
 	var minStk, maxStk []int
 	for i, num := range nums {
+		// minStack: 左边最小值
 		for len(minStk) > 0 && nums[minStk[len(minStk)-1]] > num {
 			minStk = minStk[:len(minStk)-1]
 		}
