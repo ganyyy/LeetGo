@@ -1,8 +1,7 @@
-package main
+//go:build ignore
+// +build ignore
 
-import (
-	. "leetgo/data"
-)
+package main
 
 func postorderTraversal(root *TreeNode) []int {
 	if root == nil {
