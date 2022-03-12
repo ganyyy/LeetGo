@@ -22,6 +22,26 @@ func minArray(numbers []int) int {
 	return numbers[left]
 }
 
+func minArray2(numbers []int) int {
+	var left, right = 0, len(numbers) - 1
+
+	for left < right {
+		var mid = left + (right-left)/2
+		var _, r, m = numbers[left], numbers[right], numbers[mid]
+
+		// 确定递增的区间
+		if r > m {
+			right = mid
+		} else if r < m {
+			left = mid + 1
+		} else {
+			right--
+		}
+	}
+
+	return numbers[left]
+}
+
 func main() {
 
 }
