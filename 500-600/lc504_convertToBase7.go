@@ -2,12 +2,15 @@ package main
 
 import "unsafe"
 
+// 为啥最高是36进制呢? 因为 26个英文字母+10个数字 = 36
+
 func convertToBase7(num int) string {
 	if num == 0 {
 		return "0"
 	}
 	var ret []byte
 
+	// 注意一下负数的情况
 	var neg bool
 	if num < 0 {
 		neg = true
