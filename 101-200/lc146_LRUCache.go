@@ -1,5 +1,11 @@
 package main
 
+import (
+	"container/list"
+	"fmt"
+	"strings"
+)
+
 type node struct {
 	val  int
 	key  int
@@ -7,15 +13,15 @@ type node struct {
 	next *node
 }
 
-type LRUCache struct {
+type LRUCacheOld struct {
 	m    map[int]*node
 	head *node
 	tail *node
 	c    int
 }
 
-func Constructor(capacity int) LRUCache {
-	return LRUCache{
+func ConstructorOld(capacity int) LRUCacheOld {
+	return LRUCacheOld{
 		m:    make(map[int]*node, capacity),
 		head: nil,
 		tail: nil,
@@ -23,70 +29,109 @@ func Constructor(capacity int) LRUCache {
 	}
 }
 
-func (this *LRUCache) get(key int) int {
-	if v, ok := this.m[key]; ok {
-		this.moveToHead(v)
+func (cache *LRUCacheOld) get(key int) int {
+	if v, ok := cache.m[key]; ok {
+		cache.moveToHead(v)
 		return v.val
 	} else {
 		return -1
 	}
 }
 
-func (this *LRUCache) moveToHead(v *node) {
+func (cache *LRUCacheOld) moveToHead(v *node) {
 	if v.prev != nil {
-		if v == this.tail {
-			this.tail = v.prev
+		if v == cache.tail {
+			cache.tail = v.prev
 		}
 		v.prev.next = v.next
 		if nil != v.next {
 			v.next.prev = v.prev
 		}
-		v.next = this.head
+		v.next = cache.head
 		v.prev = nil
-		this.head.prev = v
-		this.head = v
+		cache.head.prev = v
+		cache.head = v
 	}
 }
 
-func (this *LRUCache) put(key int, value int) {
-	if v, ok := this.m[key]; ok {
+func (cache *LRUCacheOld) put(key int, value int) {
+	if v, ok := cache.m[key]; ok {
 		v.val = value
-		this.moveToHead(v)
+		cache.moveToHead(v)
 	} else {
 		n := &node{
 			val:  value,
 			key:  key,
 			prev: nil,
-			next: this.head,
+			next: cache.head,
 		}
-		this.m[key] = n
-		if nil != this.head {
-			this.head.prev = n
+		cache.m[key] = n
+		if nil != cache.head {
+			cache.head.prev = n
 		}
-		this.head = n
-		if this.tail == nil {
-			this.tail = n
+		cache.head = n
+		if cache.tail == nil {
+			cache.tail = n
 		}
 		// 找到尾节点, 删除
-		if len(this.m) > this.c {
-			t := this.tail
-			this.tail = t.prev
-			this.tail.next = nil
-			delete(this.m, t.key)
+		if len(cache.m) > cache.c {
+			t := cache.tail
+			cache.tail = t.prev
+			cache.tail.next = nil
+			delete(cache.m, t.key)
 		}
 	}
 }
 
-func main() {
-	cache := Constructor(3 /* 缓存容量 */)
+type Node struct {
+	Key, Val int
+}
 
-	cache.put(1, 1)
-	cache.put(2, 2)
-	cache.get(1)    // 返回  1
-	cache.put(3, 3) // 该操作会使得关键字 2 作废
-	cache.get(2)    // 返回 -1 (未找到)
-	cache.put(4, 4) // 该操作会使得关键字 1 作废
-	cache.get(1)    // 返回 -1 (未找到)
-	cache.get(3)    // 返回  3
-	cache.get(4)    // 返回  4
+type LRUCache struct {
+	keys     map[int]*list.Element
+	list     *list.List
+	capacity int
+}
+
+func Constructor(capacity int) LRUCache {
+	return LRUCache{
+		keys:     make(map[int]*list.Element, capacity),
+		list:     list.New(),
+		capacity: capacity,
+	}
+}
+
+func (l *LRUCache) Get(key int) int {
+	if ele, ok := l.keys[key]; ok {
+		l.list.MoveToFront(ele)
+		return ele.Value.(Node).Val
+	} else {
+		return -1
+	}
+}
+
+func (l *LRUCache) Put(key int, value int) {
+	if ele, ok := l.keys[key]; ok {
+		ele.Value = Node{
+			Key: key, Val: value,
+		}
+		l.list.MoveToFront(ele)
+	} else {
+		if len(l.keys) >= l.capacity {
+			var val = l.list.Remove(l.list.Back())
+			delete(l.keys, val.(Node).Key)
+		}
+		l.keys[key] = l.list.PushFront(Node{
+			Key: key,
+			Val: value,
+		})
+	}
+}
+
+func (l *LRUCache) Show() {
+	var sb strings.Builder
+	for head := l.list.Front(); head != nil; head = head.Next() {
+		sb.WriteString(fmt.Sprintf("%+v,", head.Value))
+	}
+	fmt.Println(sb.String())
 }
