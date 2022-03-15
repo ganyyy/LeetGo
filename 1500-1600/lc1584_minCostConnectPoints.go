@@ -143,3 +143,74 @@ func dist(a, b []int) int {
 	}
 	return x + y
 }
+
+func minCostConnectPointsPrim(points [][]int) int {
+	var ln = len(points)
+
+	// 计算任意两点之间的距离
+	var distance = make([][]int, ln)
+	for i := range distance {
+		distance[i] = make([]int, ln)
+	}
+	for i := 0; i < ln-1; i++ {
+		for j := i + 1; j < ln; j++ {
+			var a, b = points[i], points[j]
+			var dis = dist(a, b)
+			distance[i][j] = dis
+			distance[j][i] = dis
+		}
+	}
+
+	const (
+		DefaultDistance = math.MaxInt32
+	)
+
+	var lowCost = make([]int, ln)
+	// 访问的路径信息
+	var visited = make([]bool, ln)
+
+	// 0节点为起点
+	visited[0] = true
+	// 更新所有的距离信息
+	for i := 1; i < ln; i++ {
+		lowCost[i] = distance[0][i]
+	}
+
+	var ret int
+	// 将剩余的ln-1个节点加入到新的集合中
+	for i := 1; i < ln; i++ {
+		// 查找最短距离
+		var minIdx = -1
+		var minVal = DefaultDistance
+
+		//TODO 可以使用堆进行优化
+		for j := 0; j < ln; j++ {
+			if visited[j] {
+				continue
+			}
+			if lowCost[j] >= minVal {
+				continue
+			}
+			minIdx = j
+			minVal = lowCost[j]
+		}
+
+		// 更新结果
+		ret += minVal
+
+		// 更新状态信息
+		visited[minIdx] = true
+		for j := 0; j < ln; j++ {
+			if visited[j] {
+				continue
+			}
+			// 如果任意点到达当前选择的点的距离小于记录的点, 就更新一下距离
+			if distance[j][minIdx] >= lowCost[j] {
+				continue
+			}
+			lowCost[j] = distance[j][minIdx]
+		}
+	}
+
+	return ret
+}

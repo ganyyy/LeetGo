@@ -60,6 +60,53 @@ func findOrder(numCourses int, prerequisites [][]int) []int {
 	}
 }
 
+func findOrder2(numCourses int, prerequisites [][]int) []int {
+	var relations = make([][]int, numCourses)
+	var visits = make([]int, numCourses)
+
+	for _, pre := range prerequisites {
+		// 构建 a->b 的映射
+		// 增加 b 的入度
+		var a, b = pre[1], pre[0]
+		relations[a] = append(relations[a], b)
+		visits[b]++
+	}
+
+	var queue []int
+	for i, dep := range visits {
+		if dep != 0 {
+			continue
+		}
+		queue = append(queue, i)
+	}
+
+	// 判断起始的入度为0的点
+	if len(queue) == 0 {
+		return nil
+	}
+
+	var ret = make([]int, 0, numCourses)
+	for len(queue) != 0 {
+		var p = queue[0]
+		queue = queue[1:]
+		ret = append(ret, p)
+		for _, next := range relations[p] {
+			if visits[next] <= 0 {
+				continue
+			}
+			visits[next]--
+			if visits[next] == 0 {
+				queue = append(queue, next)
+			}
+		}
+	}
+
+	if len(ret) == numCourses {
+		return ret
+	}
+	return nil
+}
+
 func main() {
 
 }

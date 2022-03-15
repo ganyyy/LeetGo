@@ -56,7 +56,7 @@ func canFinish2(numCourses int, prerequisites [][]int) bool {
 		// visited有三种状态
 		// 0 未访问
 		// 1 正在访问
-		// 0 访问完成
+		// 2 访问完成
 		visited = make([]int, numCourses)
 		// result []int
 		valid = true
@@ -149,4 +149,55 @@ func canFinish3(numCourses int, prerequisites [][]int) bool {
 
 	// 比较统计的课程数量和总的课程数量
 	return num == numCourses
+}
+
+func canFinish4(numCourses int, prerequisites [][]int) bool {
+	var relations = make([][]int, numCourses)
+	var visits = make([]int, numCourses)
+
+	for _, pre := range prerequisites {
+		// 构建 a->b 的映射
+		// 增加 b 的入度
+		var a, b = pre[1], pre[0]
+		relations[a] = append(relations[a], b)
+		visits[b]++
+	}
+
+	var queue []int
+	for i, dep := range visits {
+		if dep == 0 {
+			queue = append(queue, i)
+		}
+	}
+
+	// 判断起始的入度为0的点
+	if len(queue) == 0 {
+		return false
+	}
+
+	var cnt int // 访问完成的课程的数量
+
+	for len(queue) != 0 {
+		var p = queue[0]
+		queue = queue[1:]
+		cnt++
+		for _, next := range relations[p] {
+			if visits[next] <= 0 {
+				continue
+			}
+			visits[next]--
+			if visits[next] == 0 {
+				queue = append(queue, next)
+			}
+		}
+	}
+
+	// 再次统计所有节点的入度是否变成了0
+	// for _, dep := range visits {
+	//     if dep != 0 {
+	//         return false
+	//     }
+	// }
+	// return true
+	return cnt == numCourses
 }
