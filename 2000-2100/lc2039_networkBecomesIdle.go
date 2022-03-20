@@ -8,6 +8,7 @@ func networkBecomesIdle(edges [][]int, patience []int) int {
 
 	var relations = make([][]int, len(patience))
 	// 统计点之间的关系
+	// 这是一个无向图, 所以要两两关联
 	for _, edge := range edges {
 		var a, b = edge[0], edge[1]
 		relations[a] = append(relations[a], b)

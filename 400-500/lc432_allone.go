@@ -10,6 +10,8 @@ type StrObj struct {
 	Cnt int
 }
 
+// 当成LFU来搞了
+
 type AllOne struct {
 	keys           map[string]*list.Element
 	all            map[int]*list.List
