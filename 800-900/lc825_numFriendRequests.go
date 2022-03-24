@@ -54,6 +54,53 @@ func numFriendRequestsGood(ages []int) int {
 	return res
 }
 
+func numFriendRequestsPrefix(ages []int) int {
+	group := make([]int, 121)
+
+	var check = func(x, y int) bool {
+		if x < y {
+			return false
+		}
+		if y <= x/2+7 {
+			return false
+		}
+		if x < 100 && y > 100 {
+			return false
+		}
+		return true
+	}
+
+	for i := 0; i < len(ages); i++ {
+		group[ages[i]]++
+	}
+	for i := 1; i < 121; i++ {
+		group[i] += group[i-1]
+	}
+
+	// 桶排序, 因为区间固定且较小. 完全可以统计个区间的人数
+	res := 0
+	var i2 int
+	for i := 1; i < 121; i++ {
+		var a = group[i] - group[i-1]
+		if a == 0 {
+			continue
+		}
+		if i2 < i {
+			i2 = i
+		}
+		for i2 < 121 && check(i2, i) {
+			i2++
+		}
+		// 整个符合要求的区间是[i, i2)
+		var b = group[i2-1] - group[i-1] - 1 // 1表示i自己
+		if b <= 0 {
+			continue
+		}
+		res += a * b
+	}
+	return res
+}
+
 func main() {
 	println(numFriendRequests([]int{20, 30, 100, 110, 120}))
 }
