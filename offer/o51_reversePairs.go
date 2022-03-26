@@ -55,6 +55,60 @@ func reverse(nums, tmp []int, left, right int) int {
 	return cnt
 }
 
+func reversePairs2(nums []int) int {
+	var space = make([]int, len(nums))
+
+	var cnt int
+	var merge = func(left, right []int) {
+		var li, ri int
+		var idx int
+		for li < len(left) && ri < len(right) {
+			if left[li] <= right[ri] {
+				space[idx] = left[li]
+				idx++
+				li++
+			} else {
+				// 这一句是关键: 因为从这个数往后的所有数都是大于right[ri]的
+				cnt += len(left) - li
+				space[idx] = right[ri]
+				idx++
+				ri++
+			}
+		}
+
+		for li < len(left) {
+			space[idx] = left[li]
+			idx++
+			li++
+		}
+		for ri < len(right) {
+			space[idx] = right[ri]
+			idx++
+			ri++
+		}
+	}
+
+	var mergeSort func(start, end int)
+
+	mergeSort = func(start, end int) {
+		if end-start <= 1 {
+			return
+		}
+		var mid = start + (end-start)/2
+		mergeSort(start, mid)
+		mergeSort(mid, end)
+		merge(nums[start:mid], nums[mid:end])
+		copy(nums[start:end], space[:end-start])
+	}
+
+	mergeSort(0, len(nums))
+
+	// fmt.Println(nums)
+
+	return cnt
+
+}
+
 func main() {
 
 }
