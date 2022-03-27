@@ -55,9 +55,10 @@ func numFriendRequestsGood(ages []int) int {
 }
 
 func numFriendRequestsPrefix(ages []int) int {
-	group := make([]int, 121)
+	const MAX = 121
+	ageGroup := make([]int, MAX)
 
-	var check = func(x, y int) bool {
+	var checkFriend = func(x, y int) bool {
 		if x < y {
 			return false
 		}
@@ -71,32 +72,36 @@ func numFriendRequestsPrefix(ages []int) int {
 	}
 
 	for i := 0; i < len(ages); i++ {
-		group[ages[i]]++
+		ageGroup[ages[i]]++
 	}
-	for i := 1; i < 121; i++ {
-		group[i] += group[i-1]
+	// 求区间和
+	for i := 1; i < MAX; i++ {
+		ageGroup[i] += ageGroup[i-1]
 	}
 
-	// 桶排序, 因为区间固定且较小. 完全可以统计个区间的人数
+	// 桶排序, 因为区间固定且较小. 完全可以统计每个区间的人数
 	res := 0
-	var i2 int
-	for i := 1; i < 121; i++ {
-		var a = group[i] - group[i-1]
-		if a == 0 {
+	var yAge int
+	for xAge := 1; xAge < MAX; xAge++ {
+		var xAgeCnt = ageGroup[xAge] - ageGroup[xAge-1]
+		if xAgeCnt == 0 {
 			continue
 		}
-		if i2 < i {
-			i2 = i
+		// 保底要求yAge不能小于xAge
+		if yAge < xAge {
+			yAge = xAge
 		}
-		for i2 < 121 && check(i2, i) {
-			i2++
+		// 换个角度, 如果 yAge满足 xAgeMin的条件, 那么也一定满足 xAge的条件.
+		// 这样处理可以避免重复的计算相同的yAge
+		for yAge < MAX && checkFriend(yAge, xAge) {
+			yAge++
 		}
-		// 整个符合要求的区间是[i, i2)
-		var b = group[i2-1] - group[i-1] - 1 // 1表示i自己
-		if b <= 0 {
+		// 整个符合要求的区间是[xAge, yAge)
+		var intervalCnt = ageGroup[yAge-1] - ageGroup[xAge-1] - 1 // 1表示i自己
+		if intervalCnt <= 0 {
 			continue
 		}
-		res += a * b
+		res += xAgeCnt * intervalCnt
 	}
 	return res
 }

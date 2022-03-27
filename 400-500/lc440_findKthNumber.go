@@ -38,3 +38,25 @@ func min(a, b int) int {
 	}
 	return a
 }
+
+func findKthNumber2(n int, k int) int {
+	var cur = 1 // 第一个数
+	k--         // 算上第一个
+
+	for k > 0 {
+		var step = getSteps(cur, n)
+		if step <= k {
+			// fmt.Println("less K:", step, cur, k)
+			k -= step // 第k个数不在当前基数对应的子树中,
+			cur++     // 查找下一个基数
+		} else {
+			// 这种情况啥时候会出现呢?
+			// 因为getSteps获取的到达某一层首个数字经历的步数
+			// 举个栗子: 就是某一层在前n中, 但是k 不属于下一个基数的子树
+			// fmt.Println("big K:", step, cur, k)
+			cur *= 10 // 第k个数在当前基数中的某个子树中,
+			k--       // 取当前层的第0个, 所以减少了一步
+		}
+	}
+	return cur
+}
