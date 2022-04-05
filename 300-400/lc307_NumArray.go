@@ -4,6 +4,7 @@ type NumArray struct {
 	nums, tree []int
 }
 
+// 这是树状数组的解法
 func lowBit(x int) int {
 	return x & (-x)
 }
