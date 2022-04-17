@@ -54,6 +54,7 @@ func deserialize(s string) (nested *NestedInteger) {
 		return
 	}
 
+	// 通过cnt计算匹配的[]的数量, 如果为0则表示这是一个子集
 	var start, cnt = 1, 0
 	for i := 1; i < len(s); i++ {
 		if cnt == 0 && (s[i] == ',' || i == len(s)-1) {

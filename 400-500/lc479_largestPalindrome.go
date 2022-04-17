@@ -13,7 +13,7 @@ func largestPalindrome(n int) int {
 		for x := left; x > 0; x /= 10 {
 			p = p*10 + x%10 // 翻转左半部分到其自身末尾，构造回文数 p
 		}
-		// x属于较大的值
+		// x属于较大的值, 如果x的平方小于镜像后的值, 那么直接看下一个
 		for x := upper; x*x >= p; x-- {
 			if p%x == 0 { // x 是 p 的因子
 				return p % 1337
