@@ -22,6 +22,27 @@ func addVal(pre, next []int, res *[][]int) {
 	}
 }
 
+func permute2(nums []int) [][]int {
+	var ret [][]int
+
+	var dfs func(i int)
+	dfs = func(i int) {
+		if i == len(nums) {
+			var tmp = make([]int, len(nums))
+			copy(tmp, nums)
+			ret = append(ret, tmp)
+			return
+		}
+		for j := i; j < len(nums); j++ {
+			nums[i], nums[j] = nums[j], nums[i]
+			dfs(i + 1)
+			nums[i], nums[j] = nums[j], nums[i]
+		}
+	}
+	dfs(0)
+	return ret
+}
+
 func main() {
 	fmt.Println(permute([]int{1, 2, 1}))
 }

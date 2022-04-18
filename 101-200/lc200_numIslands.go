@@ -34,6 +34,50 @@ func infect(grid [][]byte, x, y int) {
 	infect(grid, x, y-1)
 }
 
+var dir = [4][2]int{
+	{-1, 0},
+	{1, 0},
+	{0, 1},
+	{0, -1},
+}
+
+func numIslands2(grid [][]byte) int {
+	var rowNum = len(grid)
+	if rowNum == 0 {
+		return 0
+	}
+	var colNum = len(grid[0])
+	if colNum == 0 {
+		return 0
+	}
+
+	var dfs func(i, j int)
+	dfs = func(i, j int) {
+		if i < 0 || i >= rowNum || j < 0 || j >= colNum {
+			return
+		}
+		if grid[i][j] != '1' {
+			return
+		}
+		grid[i][j] = '2'
+		for _, next := range dir {
+			dfs(i+next[0], j+next[1])
+		}
+		return
+	}
+	var ret int
+	for i, row := range grid {
+		for j, c := range row {
+			if c == '1' {
+				ret++
+			}
+			dfs(i, j)
+		}
+	}
+
+	return ret
+}
+
 func main() {
 
 }
