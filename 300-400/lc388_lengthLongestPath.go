@@ -46,6 +46,54 @@ func max(a, b int) int {
 	return b
 }
 
+func lengthLongestPath2(input string) int {
+	var stack []int
+
+	stack = append(stack, 0)
+	var i int
+	var maxLen int
+	var max = func(a, b int) int {
+		if a > b {
+			return a
+		} else {
+			return b
+		}
+	}
+	var curDepth int
+	for i < len(input) {
+		if input[i] == '\n' {
+			curDepth = 0
+			for i = i + 1; i < len(input) && input[i] == '\t'; i++ {
+				curDepth++
+			}
+			if curDepth >= len(stack) { // 只能一级一级向下增长
+				stack = append(stack, 0)
+			}
+			if curDepth == 0 {
+				stack[curDepth] = 0
+				continue
+			}
+			stack[curDepth] = stack[curDepth-1] + 1 // 保留父级目录的长度
+		} else {
+			var isFile bool
+			var start = i
+			for ; i < len(input) && input[i] != '\n'; i++ {
+				if input[i] == '.' {
+					isFile = true
+				}
+			}
+			var name = input[start:i]
+			if isFile {
+				maxLen = max(maxLen, len(name)+stack[curDepth])
+			} else {
+				stack[curDepth] += len(name)
+			}
+		}
+	}
+
+	return maxLen
+}
+
 func main() {
 	fmt.Println(lengthLongestPath("dir\n\tsubdir1\n\t\tfile1.ext\n\t\tsubsubdir1\n\tsubdir2\n\t\tsubsubdir2\n\t\t\tfile2.ext"))
 }
