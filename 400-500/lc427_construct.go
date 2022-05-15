@@ -12,6 +12,7 @@ type Node struct {
 }
 
 func construct(grid [][]int) *Node {
+	// 费脑子, 看不懂
 	var dfs func([][]int, int, int) *Node
 	dfs = func(rows [][]int, c0, c1 int) *Node {
 		for _, row := range rows {

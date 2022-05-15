@@ -70,7 +70,7 @@ func lengthLongestPath2(input string) int {
 				stack = append(stack, 0)
 			}
 			if curDepth == 0 {
-				stack[curDepth] = 0
+				stack[curDepth] = 0 // 更换新的根目录, 需要重置
 				continue
 			}
 			stack[curDepth] = stack[curDepth-1] + 1 // 保留父级目录的长度

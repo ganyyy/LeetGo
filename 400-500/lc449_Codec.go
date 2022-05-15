@@ -43,6 +43,9 @@ func (Codec) deserialize(data string) *TreeNode {
 			return nil
 		}
 		arr = arr[:len(arr)-1]
+		// 怎么就行了呢?
+		// 因为整体的 arr是一直被消耗的
+		// 这也是为啥先迭代右边, 再迭代左边的原因
 		return &TreeNode{Val: val, Right: construct(val, upper), Left: construct(lower, val)}
 	}
 	return construct(math.MinInt32, math.MaxInt32)

@@ -16,6 +16,7 @@ var vowel = [128]bool{
 }
 
 func toGoatLatin(sentence string) string {
+	// 看题目的时候, 注意区分是否包含大小写
 	var words = strings.Split(sentence, " ")
 
 	var sb strings.Builder

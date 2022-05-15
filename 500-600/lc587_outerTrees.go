@@ -33,6 +33,7 @@ func outerTrees(trees [][]int) [][]int {
 		used[i] = true
 		hull = append(hull, i)
 	}
+	// 正着一遍, 反着一遍
 	// 求凸包的上半部分
 	m := len(hull)
 	for i := n - 2; i >= 0; i-- {
