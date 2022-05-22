@@ -18,6 +18,7 @@ func getMoneyAmount(n int) int {
 		for j := i + 1; j <= n; j++ {
 			minCost := math.MaxInt32
 			for k := i; k < j; k++ {
+				// 如果 k-1 <= i, 那么肯定是0, 不存在这样的区间
 				cost := k + max(f[i][k-1], f[k+1][j])
 				if cost < minCost {
 					minCost = cost
@@ -34,4 +35,36 @@ func max(a, b int) int {
 		return b
 	}
 	return a
+}
+
+func getMoneyAmount2(n int) int {
+	var cache = make([][]int, n+1)
+	for i := range cache {
+		cache[i] = make([]int, n+1)
+	}
+
+	var dfs func(i, j int) int
+	dfs = func(start, end int) int {
+		if start >= end {
+			return 0
+		}
+		if cache[start][end] != 0 {
+			return cache[start][end]
+		}
+		var ans = math.MaxInt32
+		for k := start; k <= end; k++ {
+			var cur = max(dfs(start, k-1), dfs(k+1, end)) + k
+			if cur < ans {
+				ans = cur
+			}
+		}
+		cache[start][end] = ans
+		return ans
+	}
+
+	return dfs(1, n)
+}
+
+func main() {
+	getMoneyAmount(10)
 }
