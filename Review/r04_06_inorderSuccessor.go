@@ -26,16 +26,17 @@ func inorderSuccessor(root *TreeNode, p *TreeNode) *TreeNode {
 }
 
 func inorderSuccessorGood(root *TreeNode, p *TreeNode) *TreeNode {
+	// 递归的核心是, 我当前要干什么, 我需要上一轮的结果做什么
 	if root == nil {
 		return nil
 	}
 	if p.Val >= root.Val {
-		return inorderSuccessor(root.Right, p)
+		return inorderSuccessorGood(root.Right, p)
 	}
 
 	// 如果找得到, 那么找到的节点就是后继节点
 	// 如果找不到, 那么根节点就是后继
-	var next = inorderSuccessor(root.Left, p)
+	var next = inorderSuccessorGood(root.Left, p)
 	if next == nil {
 		return root
 	}
