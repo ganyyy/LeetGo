@@ -67,6 +67,48 @@ func addTwoNumbers(l1 *ListNode, l2 *ListNode) *ListNode {
 	return l1
 }
 
+func addTwoNumbers2(l1 *ListNode, l2 *ListNode) *ListNode {
+	var odd int
+	var pre *ListNode
+	var ret = l1
+	for l1 != nil && l2 != nil {
+		v := l1.Val + l2.Val + odd
+		if v >= 10 {
+			v -= 10
+			odd = 1
+		} else {
+			odd = 0
+		}
+		l1.Val = v
+		pre = l1
+		l1 = l1.Next
+		l2 = l2.Next
+	}
+
+	if l1 == nil && l2 != nil {
+		pre.Next = l2
+		l1 = l2
+	}
+	for ; l1 != nil && odd != 0; l1 = l1.Next {
+		l1.Val += odd
+		pre = l1
+		if l1.Val >= 10 {
+			l1.Val -= 10
+			odd = 1
+		} else {
+			odd = 0
+		}
+	}
+
+	if odd != 0 {
+		pre.Next = &ListNode{
+			Val: 1,
+		}
+	}
+
+	return ret
+}
+
 func main() {
 
 }
