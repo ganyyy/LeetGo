@@ -5,7 +5,6 @@ package main
 import (
 	"math"
 	"math/rand"
-	"time"
 )
 
 type Solution struct {
@@ -13,7 +12,6 @@ type Solution struct {
 }
 
 func Constructor(radius float64, x_center float64, y_center float64) Solution {
-	rand.Seed(time.Now().UnixNano())
 	return Solution{
 		radius: radius,
 		x:      x_center,
@@ -24,6 +22,7 @@ func Constructor(radius float64, x_center float64, y_center float64) Solution {
 func (s *Solution) RandPoint() []float64 {
 	var ret = make([]float64, 2)
 	// 随机半径
+	// 为啥要开方呢? 因为需要保证面积等概率, 而非半径等概率
 	var d = math.Sqrt(rand.Float64()) * s.radius
 	// 随机弧度对应的正余弦
 	var sin, cos = math.Sincos(rand.Float64() * 2 * math.Pi)

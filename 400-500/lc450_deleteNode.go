@@ -50,6 +50,7 @@ func delMinNode(root *TreeNode) *TreeNode {
 }
 
 func deleteNode2(root *TreeNode, key int) *TreeNode {
+	// 递归的经典应用
 	switch {
 	case root == nil:
 		return nil
@@ -65,11 +66,15 @@ func deleteNode2(root *TreeNode, key int) *TreeNode {
 		return root.Right
 	default:
 		// 左右子节点都不是空的, 这里寻找的是后继节点
+		// 所谓的后继节点, 就是当前节点右子树的最左边的节点
 		successor := root.Right
 		for successor.Left != nil {
 			successor = successor.Left
 		}
+		// 移除root后, 将successor替换到root的位置上
+		// 首先, 因为successor来自于Right, 那么就需要从Right中删除
 		successor.Right = deleteNode(root.Right, successor.Val)
+		// 然后, 继承root.Left
 		successor.Left = root.Left
 		return successor
 	}
