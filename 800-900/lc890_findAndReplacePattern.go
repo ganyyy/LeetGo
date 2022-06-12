@@ -17,6 +17,7 @@ func match(word, pattern string) bool {
 
 func findAndReplacePattern(words []string, pattern string) (ans []string) {
 	for _, word := range words {
+		// 这一步才是重点啊
 		if match(word, pattern) && match(pattern, word) {
 			ans = append(ans, word)
 		}

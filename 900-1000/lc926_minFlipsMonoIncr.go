@@ -9,7 +9,8 @@ func minFlipsMonoIncr(s string) int {
 	}
 	var ret = length
 	for i := 1; i <= length; i++ {
-		var zero = dp[i-1]                            // 从头到尾替换成0的消耗
+		var zero = dp[i-1] // 从头到尾替换成0的消耗
+		// 从当前位置到末尾, 0的个数
 		var one = (length - i) - (dp[length] - dp[i]) // 从尾到头替换成1的消耗
 		if t := zero + one; t < ret {
 			ret = t
