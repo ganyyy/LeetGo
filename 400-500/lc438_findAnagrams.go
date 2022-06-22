@@ -60,7 +60,53 @@ func findAnagrams(s string, p string) []int {
 	return ret
 }
 
+func findAnagrams2(s string, p string) []int {
+	var ret []int
+
+	var cnt [26]int
+	for i := range cnt {
+		cnt[i] = -1
+	}
+	for i := range p {
+		var idx = p[i] - 'a'
+		if cnt[idx] < 0 {
+			cnt[idx] = 0
+		}
+		cnt[idx]++
+	}
+
+	var start int
+	for i := 0; i < len(s); i++ {
+		var idx = s[i] - 'a'
+		if cnt[idx] < 0 {
+			// 不是p中的字符,
+			for start < i {
+				cnt[s[start]-'a']++
+				start++
+			}
+			// 当前元素也要跳过去, 但是因为其本身是不合法的, 所以要在外边跳过
+			start++
+			continue
+		}
+
+		// 如果没有剩余的字符了
+		for start < i && cnt[idx] == 0 {
+			cnt[s[start]-'a']++
+			start++
+		}
+		// 减去计数
+		cnt[idx]--
+		// 满足条件了, 计数, start++看后来的
+		if i-start+1 == len(p) {
+			ret = append(ret, start)
+			cnt[s[start]-'a']++
+			start++
+		}
+	}
+	return ret
+}
+
 func main() {
-	fmt.Println(findAnagrams("cbaebabacd",
-		"abc"))
+	fmt.Println(findAnagrams2("abab",
+		"ab"))
 }
