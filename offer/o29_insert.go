@@ -46,12 +46,9 @@ func insert(aNode *Node, x int) *Node {
 		return aNode
 	}
 	for p, n := aNode, aNode.Next; ; p, n = p.Next, n.Next {
-		// 断崖
-		// 升序中
-		// 链表等高
-		if (p.Val > n.Val && (p.Val <= x || x <= n.Val)) ||
-			(p.Val <= x && x <= n.Val) ||
-			n == aNode {
+		if (p.Val > n.Val && (p.Val <= x || x <= n.Val)) || // 断崖 (3, 4, 2) 2/4
+			(p.Val <= x && x <= n.Val) || // 升序中 (1,3,4) 2
+			n == aNode { // 链表等高 (2,2,2) 2
 			p.Next = &Node{Val: x, Next: p.Next}
 			return aNode
 		}

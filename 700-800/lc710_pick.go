@@ -12,6 +12,7 @@ func Constructor(n int, blacklist []int) Solution {
 	// 不排序/二分, 因为这样反而会更慢? what?
 	bound := n - m
 	black := map[int]bool{}
+	// 难得是思路啊
 	for _, b := range blacklist {
 		if b >= bound {
 			black[b] = true
