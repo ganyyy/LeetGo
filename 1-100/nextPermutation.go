@@ -17,7 +17,7 @@ func nextPermutation1(nums []int) {
 		// 表示nums是最大序列, 那就直接整体逆序
 		reverse(0, nums)
 	} else {
-		// 找到第一个大于 nums[i-1]的值 nums[j]
+		// 找到最后一个大于 nums[i-1]的值 nums[j]
 		// 互换nums[i-1]和nums[j] 并将 nums[i:]逆序一下
 		// 得到的序列就是比当前序列更大的字典序列
 		val, j := nums[i-1], i
