@@ -14,6 +14,7 @@ func isSubseq(s, t string) bool {
 
 func findLUSlength(strs []string) int {
 	ans := -1
+	// 没啥好说的, 纯暴力解法
 next:
 	for i, s := range strs {
 		for j, t := range strs {

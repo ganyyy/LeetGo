@@ -3,6 +3,7 @@ package main
 const mod int = 1e9 + 7
 
 func numPrimeArrangements(n int) int {
+	// 所有质数和非质数的全排列的乘积
 	numPrimes := 0
 	for i := 2; i <= n; i++ {
 		if isPrime(i) {
