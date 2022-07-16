@@ -35,3 +35,47 @@ func construct(grid [][]int) *Node {
 	}
 	return dfs(grid, 0, len(grid))
 }
+
+func construct2(grid [][]int) *Node {
+	// 分两步
+	// 第一步: 二维区域的前缀和
+	var ln = len(grid)
+	var sum = make([][]int, ln+1)
+	sum[0] = make([]int, ln+1)
+	for i, row := range grid {
+		sum[i+1] = make([]int, ln+1)
+		for j, v := range row {
+			sum[i+1][j+1] = sum[i+1][j] + sum[i][j+1] - sum[i][j] + v
+		}
+	}
+
+	// 第二步: 递归求和
+	var dfs func(startX, startY, endX, endY int) *Node
+
+	dfs = func(startX, startY, endX, endY int) *Node {
+		var total = sum[endX][endY] +
+			sum[startX][startY] -
+			sum[startX][endY] -
+			sum[endX][startY]
+
+		if total == 0 {
+			// 区域内全部为0, 这是个叶子节点, 值为false
+			return &Node{Val: false, IsLeaf: true}
+		}
+		if total == (endX-startX)*(endY-startY) {
+			// 区域内全部为1, 这是个叶子节点, 值为true
+			return &Node{Val: true, IsLeaf: true}
+		}
+		var xMid = (endX + startX) / 2
+		var yMid = (endY + startY) / 2
+		return &Node{
+			IsLeaf:      false,
+			TopLeft:     dfs(startX, startY, xMid, yMid),
+			TopRight:    dfs(startX, yMid, xMid, endY),
+			BottomLeft:  dfs(xMid, startY, endX, yMid),
+			BottomRight: dfs(xMid, yMid, endX, endY),
+		}
+	}
+
+	return dfs(0, 0, ln, ln)
+}
