@@ -66,14 +66,21 @@ func construct2(grid [][]int) *Node {
 			// 区域内全部为1, 这是个叶子节点, 值为true
 			return &Node{Val: true, IsLeaf: true}
 		}
-		var xMid = (endX + startX) / 2
-		var yMid = (endY + startY) / 2
+		var midX = (endX + startX) / 2
+		var midY = (endY + startY) / 2
 		return &Node{
-			IsLeaf:      false,
-			TopLeft:     dfs(startX, startY, xMid, yMid),
-			TopRight:    dfs(startX, yMid, xMid, endY),
-			BottomLeft:  dfs(xMid, startY, endX, yMid),
-			BottomRight: dfs(xMid, yMid, endX, endY),
+			IsLeaf: false,
+			/*
+				(startX,startY)...(startX,midY)...(startX,endY)
+				...			   ...             ...
+				(  midX,startY)...( midX ,midY)...(  midX,endY)
+				...			   ...             ...
+				(  endX,startY)...( endX ,midY)...(  endX,endY)
+			*/
+			TopLeft:     dfs(startX, startY, midX, midY),
+			TopRight:    dfs(startX, midY, midX, endY),
+			BottomLeft:  dfs(midX, startY, endX, midY),
+			BottomRight: dfs(midX, midY, endX, endY),
 		}
 	}
 

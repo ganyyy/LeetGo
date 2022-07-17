@@ -1,3 +1,5 @@
+//go:build ignore
+
 package main
 
 type Node struct {
@@ -71,6 +73,7 @@ type WordFilter struct {
 }
 
 func Constructor(words []string) WordFilter {
+	// 我的评价是: 两个TRIE又不是不能用
 	var filter = WordFilter{
 		Pre:  &Node{},
 		Suff: &Node{},

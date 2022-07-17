@@ -1,3 +1,5 @@
+//go:build ignore
+
 package main
 
 type Node struct {
@@ -18,8 +20,10 @@ func intersect(quadTree1, quadTree2 *Node) *Node {
 		return quadTree2
 	}
 	if quadTree2.IsLeaf {
+		// 这一步相当于取巧重复使用上边的判断逻辑
 		return intersect(quadTree2, quadTree1)
 	}
+	// 合并子节点
 	o1 := intersect(quadTree1.TopLeft, quadTree2.TopLeft)
 	o2 := intersect(quadTree1.TopRight, quadTree2.TopRight)
 	o3 := intersect(quadTree1.BottomLeft, quadTree2.BottomLeft)

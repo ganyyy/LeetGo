@@ -22,14 +22,17 @@ func (n *Node) Add(word string) {
 }
 
 func (n *Node) Search(word string, modify bool) bool {
+	// 通过Modify锁定最多只能改一次字符
 	if n == nil {
 		return false
 	}
+	// 如果到了结尾, 必须要保证不相等(修改过字符)
 	if len(word) == 0 {
 		return modify && n.Finish
 	}
 	var c = int(word[0] - 'a')
 
+	// 修改后边的和修改当前的
 	if n.Child[c].Search(word[1:], modify) {
 		return true
 	}
