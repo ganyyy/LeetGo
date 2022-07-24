@@ -33,6 +33,7 @@ func maxSlidingWindow2(nums []int, k int) []int {
 	var push = func(i int) {
 		// 位置
 		// 修改成 >= 就变成了滑动窗口的最小值了...
+		// 这里构建一个递减的单调栈
 		for len(queue) > 0 && nums[queue[len(queue)-1]] <= nums[i] {
 			queue = queue[:len(queue)-1]
 		}
