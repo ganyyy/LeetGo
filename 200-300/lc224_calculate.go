@@ -106,6 +106,7 @@ func calculate2(s string) int {
 				c = s[i]
 				cur = cur*10 + int(c-'0')
 			}
+			// 即时计算结果
 			res += sign * cur
 			continue
 		}
@@ -116,12 +117,15 @@ func calculate2(s string) int {
 			sign = -1
 		case ' ':
 		case '(':
+			// 出现括号了, 就将之前计算的值/符号入栈, 重新计算结果
 			ss = append(ss, res)
 			ss = append(ss, sign)
 			res = 0
 			sign = 1
 		case ')':
 			if len(ss) >= 2 {
+				// 当前值*对应的符号+前一个值对应的符号
+				// 相当于最多只会出依次栈
 				res = ss[len(ss)-1]*res + ss[len(ss)-2]
 				ss = ss[:len(ss)-2]
 			}
