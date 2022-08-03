@@ -48,6 +48,44 @@ func candy(ratings []int) int {
 	return res
 }
 
+func candy3(ratings []int) int {
+	n := len(ratings)
+	// inc: 递增序列的长度
+	// dec: 递减序列的长度
+	// pre: 前一个节点所得的糖果值
+	ans, inc, dec, pre := 1, 1, 0, 1
+	for i := 1; i < n; i++ {
+		if ratings[i] >= ratings[i-1] {
+			// 当前处于一个递增序列, 递减序列的长度清0
+			dec = 0
+			if ratings[i] == ratings[i-1] {
+				// 如果相等, 那么可以从1开始分配
+				pre = 1
+			} else {
+				// 否则就必须要大于前一个节点的值
+				pre++
+			}
+			ans += pre
+			inc = pre
+		} else {
+			// 当前递减
+			dec++
+			if dec == inc {
+				// 特殊情况1: 递减序列的长度等同于上一次递增序列, 那么峰值需要并过来
+				dec++
+			}
+			// 这个怎么理解呢?
+			// 1 => +1
+			// 2, 1 => +1,+2
+			// 3, 2, 1 => +1,+2,+3
+			// 2,3,4,3,2,1 => (inc == dec) => +1,+2,+3(+4),+3,+2,+1. 所以需要补1
+			ans += dec
+			pre = 1
+		}
+	}
+	return ans
+}
+
 func candy2(ratings []int) int {
 	var ln = len(ratings)
 	if ln == 0 {
