@@ -40,10 +40,13 @@ func leastInterval(tasks []byte, n int) int {
 	// 按照原来的计算方式可得
 	// (2-1)*(1+1)+2 = 4 < len(tasks)
 	// 可以通过适当的内嵌找到一个合理的方法进行分配, 此时恰好需要 len(tasks) 个操作时间
+
+	// max决定了下限, 最少需要A...A...A...A...段, 每段中间填充的个数为n个
+	// 去掉最后一个A, 那么前边的数字个数为(max-1)*(n+1),
+	// 此时还剩余若干个长度为max的任务, 需要统一加上
 	if t := (max-1)*(n+1) + i; t > len(tasks) {
 		return t
 	} else {
 		return len(tasks)
 	}
-
 }
