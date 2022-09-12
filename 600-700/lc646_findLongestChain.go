@@ -18,6 +18,7 @@ func findLongestChain(pairs [][]int) int {
 		if pairs[i][0] <= pre[1] {
 			continue
 		}
+		// 现在的数对满足 pre[1] < pairs[i][0], 可以组成完美的数对链
 		ret++
 		pre = pairs[i]
 	}
