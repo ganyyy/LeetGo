@@ -8,6 +8,9 @@ var DIR = [4][2]int{
 }
 
 func largestIsland(grid [][]int) int {
+	// 回调不见得性能好, 但是看起来爽啊
+	// 真的不如rust的0成本抽象
+
 	row := len(grid)
 	if row == 0 {
 		return 0

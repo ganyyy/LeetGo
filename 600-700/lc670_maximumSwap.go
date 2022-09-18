@@ -7,6 +7,7 @@ func maximumSwap(num int) int {
 	s := []byte(strconv.Itoa(num))
 	n := len(s)
 	maxIdx, idx1, idx2 := n-1, -1, -1
+	// 从后向前, 找到最大位置和小于最大位置的最高位
 	for i := n - 1; i >= 0; i-- {
 		if s[i] > s[maxIdx] {
 			maxIdx = i
