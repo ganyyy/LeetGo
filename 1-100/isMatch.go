@@ -67,7 +67,7 @@ func isMatch3(s string, p string) bool {
 	}
 }
 
-func isMatch2(s, p string) bool {
+func isMatch2_(s, p string) bool {
 	pArr := make([]uint8, 0, len(p))
 	pStat := make([]uint8, 0, len(p))
 	index := 0
@@ -143,7 +143,7 @@ const (
 // dp[i][j] == true 表示 s [:i+1] 和 p[:j+1] 是匹配的
 var res [][]int
 
-func isMatch(s, p string) bool {
+func isMatch_(s, p string) bool {
 	// 初始化, len(s)行 len(p)列
 	res = make([][]int, len(s)+1, len(s)+1)
 	for i := range res {
@@ -249,6 +249,46 @@ func isMatch6(s string, p string) bool {
 	}
 	// 从头开始匹配
 	return dfs(0, 0)
+}
+
+func isMatch7(s string, p string) bool {
+	m, n := len(s), len(p)
+	matches := func(i, j int) bool {
+		if i == 0 {
+			return false
+		}
+		if p[j-1] == '.' {
+			return true
+		}
+		return s[i-1] == p[j-1]
+	}
+	// f[i][j]: s[:i]和p[:j]是否匹配
+	f := make([][]bool, m+1)
+	for i := 0; i < len(f); i++ {
+		f[i] = make([]bool, n+1)
+	}
+	// 两个空串肯定是匹配成功的
+	f[0][0] = true
+	for i := 0; i <= m; i++ {
+		for j := 1; j <= n; j++ {
+			if p[j-1] == '*' {
+				f[i][j] = f[i][j] || f[i][j-2]
+				// 不使用*, ab -> aa*b
+				if matches(i, j-1) {
+					// 使用*, aa -> a*
+					// 为啥是 f[i-1][j]呢? 可以理解为,
+					// 当 i2=i-1
+					// 如果s[:i2]可以和p[j]匹配成功(s[i2-1] == p[j-1] || s[i2-1] != p[j-1] 均无影响)
+					// 那么此时s[i2] == p[j-1], 就可以消掉 x和x*
+					f[i][j] = f[i][j] || f[i-1][j]
+				}
+			} else if matches(i, j) {
+				// s[i-1] == p[j-1] || p[j-1] == '.'
+				f[i][j] = f[i][j] || f[i-1][j-1]
+			}
+		}
+	}
+	return f[m][n]
 }
 
 func main() {
