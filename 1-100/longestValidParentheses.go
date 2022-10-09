@@ -82,6 +82,47 @@ func longestValidParentheses2(s string) int {
 	return res
 }
 
+func longestValidParentheses3(s string) int {
+	// 整理所有匹配的括号, 返回连续最长的有效数组长
+
+	var mark = make([]bool, len(s))
+	var stack []int
+
+	for i := range s {
+		if s[i] == '(' {
+			// ( 入栈
+			stack = append(stack, i)
+			continue
+		}
+		if len(stack) == 0 {
+			// 没有匹配的 ) 直接截断
+			mark[i] = true
+			continue
+		}
+		// ) 出栈
+		stack = stack[:len(stack)-1]
+	}
+
+	for _, i := range stack {
+		// 所有未出栈的 ( 都标记为截断
+		mark[i] = true
+	}
+
+	var cnt int
+	var ret int
+	for _, v := range mark {
+		if v {
+			cnt = 0
+			continue
+		}
+		cnt++
+		if cnt > ret {
+			ret = cnt
+		}
+	}
+	return ret
+}
+
 func main() {
 	fmt.Println(longestValidParentheses2("()(()"))
 }
