@@ -3,6 +3,7 @@ package main
 func distinctSubseqII(s string) (total int) {
 
 	// 对于位置i而言, 相当于求和f[0..i]并加上1
+	// abcdec => [ab]c , [ab]...c, f[3]计算了两次
 	// 但是如果存在f[j] == f[k], 那么就会出现重复计算的情况(s[0:j]+s[k] == s[:j+1], 此时f[j]就会被重复计算)
 	// 所以需要计算到每个字符上一次出现的位置即可
 
