@@ -15,6 +15,8 @@ func (h *hp) Push(v interface{}) { *h = append(*h, v.(pair)) }
 func (h *hp) Pop() interface{}   { a := *h; v := a[len(a)-1]; *h = a[:len(a)-1]; return v }
 
 func getSkyline(buildings [][]int) (ans [][]int) {
+	// building的左边缘本身就是有序的..!
+
 	n := len(buildings)
 	boundaries := make([]int, 0, n*2)
 	for _, building := range buildings {
@@ -29,12 +31,15 @@ func getSkyline(buildings [][]int) (ans [][]int) {
 	// 针对当前边缘
 	for _, boundary := range boundaries {
 		// 找到所有有交集(建筑的左边缘小于该值)的建筑, 压入右边缘和高度
+		// 这里边缘看的是左边界值
 		// 这是一个大顶堆, 堆顶元素是高度最高的建筑
 		for idx < n && buildings[idx][0] <= boundary {
 			heap.Push(&h, pair{buildings[idx][1], buildings[idx][2]})
 			idx++
 		}
 		// 如果堆顶的右边缘(最高的那个建筑)小于当前边缘, 出堆
+		// 很抽象..
+		// 简单而言, 就是不停的出堆, 直到最高的的建筑的右边界大于当前的边界
 		for len(h) > 0 && h[0].right <= boundary {
 			heap.Pop(&h)
 		}
