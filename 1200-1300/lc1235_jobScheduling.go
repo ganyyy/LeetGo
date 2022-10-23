@@ -1,3 +1,5 @@
+//go:build ignore
+
 package main
 
 import (
@@ -17,7 +19,8 @@ func jobScheduling(startTime, endTime, profit []int) int {
 	dp := make([]int, n+1)
 	for i := 1; i <= n; i++ {
 		// dp[:i]中, 第一个结束时间大于jobs[i]开始时间的位置
-		// 所以, k之前的所有位置的结束时间都小于jobs[i]的开始时间
+		// 所以, k之前的所有位置的结束时间都小于等于jobs[i]的开始时间
+		// k是最大的
 		k := sort.Search(i, func(j int) bool { return jobs[j][1] > jobs[i-1][0] })
 		fmt.Println(jobs[i-1], jobs[k], k)
 		// dp[k] 等同于选取 jobs[k-1]时, 产生的利益

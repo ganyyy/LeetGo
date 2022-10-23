@@ -40,6 +40,7 @@ func getSkyline(buildings [][]int) (ans [][]int) {
 		// 如果堆顶的右边缘(最高的那个建筑)小于当前边缘, 出堆
 		// 很抽象..
 		// 简单而言, 就是不停的出堆, 直到最高的的建筑的右边界大于当前的边界
+		// 作为下一个天际线的起始端点
 		for len(h) > 0 && h[0].right <= boundary {
 			heap.Pop(&h)
 		}

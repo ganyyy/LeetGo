@@ -29,7 +29,7 @@ func atMostNGivenDigitSet(digits []string, n int) int {
 
 	// idx: 当前DP的位置
 	// isLimit: 当前位置是否存在上限
-	// isNum: 是否是一个合法的数字(?)
+	// isNum: 是否选取了数字(空串不算数字)
 	var dfs func(idx int, isLimit, isNum bool) int
 
 	dfs = func(idx int, isLimit, isNum bool) int {
@@ -47,6 +47,7 @@ func atMostNGivenDigitSet(digits []string, n int) int {
 		}
 		if !isLimit && isNum && dp[idx] >= 0 {
 			// 2. 存在DP的结果, 直接返回
+			// 只能是没有限制, 并且已经选取了数字, 和已经DP过的情况
 			return dp[idx]
 		}
 		var res int
@@ -72,6 +73,7 @@ func atMostNGivenDigitSet(digits []string, n int) int {
 		}
 		if !isLimit && isNum {
 			// 保留每一位上的最大值
+			// 为啥呢? 因为每一位只会被DP一次
 			fmt.Println(string(layer), "set dp", idx, res)
 			dp[idx] = res
 		}
