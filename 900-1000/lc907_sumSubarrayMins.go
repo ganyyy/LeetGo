@@ -52,20 +52,28 @@ func sumSubarrayMins2(arr []int) (ans int) {
 	const mod int = 1e9 + 7
 	n := len(arr)
 	// 单调栈, 👉
-	monoStack := []int{}
-	// DP[i]: 当前位置上,
+	var monoStack []int
+	// [1,7,5,2,4,3] 从右向左看, 每当最小值发生变化时, 对应的区间 [1,2,2,2,3,3]
+	// [1,7,5,2,4,3] -> [1]
+	// [7,5,2,4,3] 	 -> [2]
+	// [5,2,4,3]	 -> [2]
+	// [2,4,3]	 	 -> [2]
+	// [4,3]	 	 -> [3]
+	// [3]	 	 	 -> [3]
 	dp := make([]int, n)
 	for i, x := range arr {
 		for len(monoStack) > 0 && arr[monoStack[len(monoStack)-1]] > x {
 			monoStack = monoStack[:len(monoStack)-1]
 		}
+		// k表示出现的次数
 		k := i + 1
 		if len(monoStack) > 0 {
+			// 如果存在前置元素, 那么出现的次数就会相应的减少
 			k = i - monoStack[len(monoStack)-1]
 		}
 		dp[i] = k * x
 		if len(monoStack) > 0 {
-			// dp[i] = sum(nums[:i-k]) + sum(nums[i-k+1:i])
+			// dp[i] = sum(min(nums[:i-k])) + sum(min(nums[i-k+1:i]))
 			dp[i] += dp[i-k]
 		}
 		ans = (ans + dp[i]) % mod

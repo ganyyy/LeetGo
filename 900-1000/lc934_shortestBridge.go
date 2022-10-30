@@ -1,17 +1,18 @@
 package main
 
 func shortestBridge(grid [][]int) (step int) {
-	// BFS确定第一座岛
+	// 第一次BFS确定第一座岛
 	// 再次BFS确定距离第二座岛的距离
 	type pair struct{ x, y int }
 	dirs := []pair{{-1, 0}, {1, 0}, {0, -1}, {0, 1}}
 	n := len(grid)
+	// 理是这个理, 写起来真麻烦
 	for i, row := range grid {
 		for j, v := range row {
 			if v != 1 {
 				continue
 			}
-			island := []pair{}
+			var island []pair
 			grid[i][j] = -1
 			q := []pair{{i, j}}
 			for len(q) > 0 {

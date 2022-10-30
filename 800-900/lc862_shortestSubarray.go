@@ -21,7 +21,7 @@ func shortestSubarray(nums []int, k int) int {
 		// 如果队尾和当前位置之间存在负数?
 		// 如果都是正数, 那么一定满足 curSum > preSumArr[q[len(q)-1]]
 		// 所以, 只能是 从 q[len(q)-1] - i 之间存在负数
-		// 无需计算 [q[len(q)-1], i]之间的值, 因为中间存在的负数一定会导致队列变长
+		// 无需计算 [q[len(q)-1], i]之间的值, 因为中间存在的负数一定会导致列变长
 		for len(q) > 0 && preSumArr[q[len(q)-1]] >= curSum {
 			q = q[:len(q)-1]
 		}
