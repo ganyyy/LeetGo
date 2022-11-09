@@ -33,6 +33,28 @@ func maxScoreSightseeingPair(A []int) int {
 	return res
 }
 
+func maxScoreSightseeingPair2(values []int) int {
+
+	if len(values) < 1 {
+		return 0
+	}
+
+	// max(values[i]+i+values[j]-j)
+
+	left := values[0] + 0
+	res := math.MinInt32
+
+	for i, v := range values[1:] {
+		i++
+
+		// 更新最大值
+		res = max(res, left+v-i)
+		// 最新最大的left
+		left = max(left, v+i)
+	}
+	return res
+}
+
 func main() {
 	fmt.Println(maxScoreSightseeingPair([]int{1, 3, 5}))
 }
