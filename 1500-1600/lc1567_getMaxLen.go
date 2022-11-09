@@ -1,0 +1,37 @@
+package main
+
+func getMaxLen(nums []int) int {
+	var mi, ma int
+	var ret int
+	for _, v := range nums {
+		if v == 0 {
+			mi, ma = 0, 0
+		} else if v > 0 {
+			ma++
+			if mi > 0 {
+				mi++
+			}
+		} else {
+			mi, ma = ma, mi
+			mi++
+			if ma > 0 {
+				ma++
+			}
+		}
+		ret = max(ret, ma)
+	}
+	return ret
+}
+
+func max(a, b int) int {
+	if a > b {
+		return a
+	}
+	return b
+}
+func min(a, b int) int {
+	if a < b {
+		return a
+	}
+	return b
+}
