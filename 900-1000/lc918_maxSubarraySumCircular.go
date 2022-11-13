@@ -12,6 +12,8 @@ func maxSubarraySumCircular(nums []int) int {
 		minSum = min(minSum, currMin)
 	}
 
+	// 要么最大和子数组成环, 要么最小和子数组成环
+
 	if total == minSum {
 		// 相当于全部小于0的情况(!)
 		// 此时的maxSum等同于数组中的最大值

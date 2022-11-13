@@ -5,6 +5,8 @@ import "unicode"
 var dirs = []struct{ x, y int }{{-1, 0}, {1, 0}, {0, -1}, {0, 1}}
 
 func shortestPathAllKeys(grid []string) int {
+	// 直接跳过.
+	// 浪费时间
 	m, n := len(grid), len(grid[0])
 	sx, sy := 0, 0
 	// 记录起点, 终点,

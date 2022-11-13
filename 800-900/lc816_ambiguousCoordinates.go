@@ -1,6 +1,9 @@
 package main
 
 func getPos(s string) (pos []string) {
+	if len(s) == 0 {
+		return
+	}
 	if s[0] != '0' || s == "0" {
 		pos = append(pos, s)
 	}
@@ -21,6 +24,9 @@ func getPos(s string) (pos []string) {
 }
 
 func ambiguousCoordinates(s string) (res []string) {
+	if len(s) <= 2 {
+		return nil
+	}
 	n := len(s) - 2
 	s = s[1 : len(s)-1]
 	for l := 1; l < n; l++ {

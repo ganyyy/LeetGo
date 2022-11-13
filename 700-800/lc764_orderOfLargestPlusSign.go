@@ -14,49 +14,40 @@ func orderOfLargestPlusSign(n int, mines [][]int) (ans int) {
 	for _, p := range mines {
 		banned[p[0]*n+p[1]] = true
 	}
+	var count int
+	check := func(i, j int) int {
+		if banned[i*n+j] {
+			count = 0
+		} else {
+			count++
+		}
+		dp[i][j] = min(dp[i][j], count)
+		return dp[i][j]
+	}
+
+	// 记录四个维度的最长连续空间
 	for i := 0; i < n; i++ {
-		count := 0
+		count = 0
 		/* left */
 		for j := 0; j < n; j++ {
-			if banned[i*n+j] {
-				count = 0
-			} else {
-				count++
-			}
-			dp[i][j] = min(dp[i][j], count)
+			check(i, j)
 		}
 		count = 0
 		/* right */
 		for j := n - 1; j >= 0; j-- {
-			if banned[i*n+j] {
-				count = 0
-			} else {
-				count++
-			}
-			dp[i][j] = min(dp[i][j], count)
+			check(i, j)
 		}
 	}
 	for i := 0; i < n; i++ {
-		count := 0
+		count = 0
 		/* up */
 		for j := 0; j < n; j++ {
-			if banned[j*n+i] {
-				count = 0
-			} else {
-				count++
-			}
-			dp[j][i] = min(dp[j][i], count)
+			check(j, i)
 		}
 		count = 0
 		/* down */
 		for j := n - 1; j >= 0; j-- {
-			if banned[j*n+i] {
-				count = 0
-			} else {
-				count++
-			}
-			dp[j][i] = min(dp[j][i], count)
-			ans = max(ans, dp[j][i])
+			ans = max(ans, check(j, i))
 		}
 	}
 	return ans
