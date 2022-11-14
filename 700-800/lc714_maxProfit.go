@@ -1,6 +1,7 @@
 package main
 
 func maxProfit(prices []int, fee int) int {
+	// 标记
 	if len(prices) == 0 {
 		return 0
 	}
@@ -23,7 +24,7 @@ func maxProfit(prices []int, fee int) int {
 	for i := 1; i < len(prices); i++ {
 		// 因为可以无限次的交易, 所以当天先卖或者先买都行
 		hold = max(hold, cash-prices[i])
-		cash = max(cash, prices[i]+hold-fee)
+		cash = max(cash, prices[i]+hold-fee) // 卖出的时候扣手续费
 	}
 	// return dp[len(prices)-1][1]
 	return cash

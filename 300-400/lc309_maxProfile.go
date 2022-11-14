@@ -1,6 +1,7 @@
 package main
 
 func maxProfit(prices []int) int {
+	// 标记
 	ln := len(prices)
 	if ln == 0 {
 		return 0
