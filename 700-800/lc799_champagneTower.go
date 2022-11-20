@@ -8,8 +8,8 @@ func champagneTower(poured, queryRow, queryGlass int) float64 {
 	nextRow := make([]float64, 0, queryRow+1)
 	for i := 1; i <= queryRow; i++ {
 		nextRow = nextRow[:i+1]
-		for i := range nextRow {
-			nextRow[i] = 0
+		for idx := range nextRow {
+			nextRow[idx] = 0
 		}
 		// 逐层计算, 逢1减半
 		// 越靠近中间的杯子, 来源的水的数量就越多

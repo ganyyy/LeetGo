@@ -1,56 +1,60 @@
 package main
 
+func sum(nums []int) int {
+	var ret int
+	for _, v := range nums {
+		ret += v
+	}
+	return ret
+}
+
+func filterSum(nums []int, bit int) int {
+	var ret int
+	for i, v := range nums {
+		if bit>>i&1 != 0 {
+			ret += v
+		}
+	}
+	return ret
+}
+
 func splitArraySameAverage(nums []int) bool {
 	n := len(nums)
-	if n == 1 {
+	if n <= 1 {
 		return false
 	}
-
-	sum := 0
-	for _, x := range nums {
-		sum += x
-	}
+	allSum := sum(nums)
 	for i := range nums {
-		// 消除浮点数带来的影响
-		nums[i] = nums[i]*n - sum
+		nums[i] = nums[i]*n - allSum
 	}
 
-	// 折半查找
+	var leftSet = make(map[int]struct{})
+
+	// 折半
 	m := n / 2
-	left := map[int]bool{}
 	for i := 1; i < 1<<m; i++ {
-		// i代表各种选取的可能
-		// m个数一共有 2^m中选取方法
-		tot := 0
-		for j, x := range nums[:m] {
-			// 选取当前i对应的值
-			if i>>j&1 > 0 {
-				tot += x
-			}
-		}
-		// 如果为0, 那么就表示存在相关的差集也是0
+		tot := filterSum(nums[:m], i)
 		if tot == 0 {
+			// fmt.Println("reture left")
 			return true
 		}
-		left[tot] = true
+		leftSet[tot] = struct{}{}
 	}
 
-	// 右边的总和
-	// 能走到这一步, 说明前半部分肯定找不到和为0的组合
-	rsum := 0
-	for _, x := range nums[m:] {
-		rsum += x
-	}
+	// 右半部分
+	rightSum := sum(nums[m:])
 	for i := 1; i <= (1<<(n-m))-1; i++ {
-		tot := 0
-		for j, x := range nums[m:] {
-			if i>>j&1 > 0 {
-				tot += x
-			}
+		tot := filterSum(nums[m:], i)
+		if tot == 0 {
+			// fmt.Println("reture right zero")
+			return true
 		}
-		// 这个 != 几个意思?
-		// 必须要保证没有全部选取才可.
-		if tot == 0 || rsum != tot && left[-tot] {
+		// 单调递增的数据, 如果相同了, 就意味着right是一个空的集合
+		if tot == rightSum {
+			continue
+		}
+		if _, ok := leftSet[-tot]; ok {
+			// fmt.Println("reture right equal")
 			return true
 		}
 	}

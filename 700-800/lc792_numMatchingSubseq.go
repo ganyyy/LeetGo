@@ -18,6 +18,7 @@ func numMatchingSubseq(s string, words []string) int {
 		for _, c := range w {
 			// 二分查找字母的位置
 			ps := pos[c-'a']
+			// p+1所处的位置/插入的位置
 			j := sort.SearchInts(ps, p+1)
 			if j == len(ps) {
 				ans--
