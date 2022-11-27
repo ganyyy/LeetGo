@@ -6,6 +6,7 @@ func numSubarrayBoundedMax(nums []int, left int, right int) int {
 
 	for r, v := range nums {
 		if v > right {
+			// 开启一个新的区间
 			l = r
 		}
 		// 这一步就很精髓
@@ -15,6 +16,7 @@ func numSubarrayBoundedMax(nums []int, left int, right int) int {
 		// [1]不满足, 但是 [2,1]满足, 所以此时应该再+1
 		//
 		if v >= left {
+			// 新区间, 这个tmp是0
 			tmp = r - l
 		}
 		ret += tmp

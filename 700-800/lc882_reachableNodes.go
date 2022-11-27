@@ -37,21 +37,35 @@ func reachableNodes(edges [][]int, maxMoves, n int) (ans int) {
 // 以下为 Dijkstra 算法模板
 type neighbor struct{ to, weight int }
 
+// g: [0...n-1] 每个节点到起点的联通边
+// start: 起点
+// 返回值: 从start到[0...n-1]的最短路径
 func dijkstra(g [][]neighbor, start int) []int {
 	dist := make([]int, len(g))
+	// 初始化各个点位距离起点的起始距离
 	for i := range dist {
 		dist[i] = math.MaxInt32 / 2
 	}
+	// 起点到起点的最短距离肯定是0
 	dist[start] = 0
+	// 起点入队
 	h := hp{{start, 0}}
 	for len(h) > 0 {
+		// 获取一个距离起点最近的点
 		p := heap.Pop(&h).(pair)
 		x := p.x
+		// 如果 start->x < start-> x (?)
+		// 只有初始化时会这样(!)
+		// 相当于同时承担了记录距离和是迭代标记
 		if dist[x] < p.dist {
 			continue
 		}
+		// 根据x点到其他点的距离, 更新其他点到起点的最短距离
 		for _, e := range g[x] {
 			y := e.to
+			// start->x + x->y  < start->y
+			// 更新 start->y 的距离
+			// 将 {y, start->y}入队
 			if d := dist[x] + e.weight; d < dist[y] {
 				dist[y] = d
 				heap.Push(&h, pair{y, d})

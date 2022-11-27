@@ -5,7 +5,7 @@ const mod int = 1e9 + 7
 func nthMagicalNumber(n, a, b int) int {
 	// 涉及到大数运算, 首先想一下可不可以二分
 	l := min(a, b)
-	r := n * min(a, b)
+	r := n * l
 	// c是a/b的最小公倍数
 	c := a / gcd(a, b) * b
 	// 左右边界, 标准二分
