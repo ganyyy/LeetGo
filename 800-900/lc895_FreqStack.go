@@ -14,22 +14,22 @@ func Constructor() FreqStack {
 	}
 }
 
-func (this *FreqStack) Push(val int) {
-	nf := this.freq[val] + 1
-	this.freq[val] = nf
-	this.stack[nf] = append(this.stack[nf], val)
-	if nf > this.top {
-		this.top = nf
+func (s *FreqStack) Push(val int) {
+	nf := s.freq[val] + 1
+	s.freq[val] = nf
+	s.stack[nf] = append(s.stack[nf], val)
+	if nf > s.top {
+		s.top = nf
 	}
-	// fmt.Println("Push",this)
+	// fmt.Println("Push",s)
 }
 
-func (this *FreqStack) Pop() int {
-	if this.top == 0 {
+func (s *FreqStack) Pop() int {
+	if s.top == 0 {
 		// ? 栈空了
 		return 0
 	}
-	queue := this.stack[this.top]
+	queue := s.stack[s.top]
 	if len(queue) == 0 {
 		return 0 // 栈空了...
 	}
@@ -39,21 +39,21 @@ func (this *FreqStack) Pop() int {
 	// 判断队列是否为空
 	if len(queue) > 0 {
 		// 如果这一层还有元素, 就更新一下
-		this.stack[this.top] = queue
+		s.stack[s.top] = queue
 	} else {
-		delete(this.stack, this.top)
+		delete(s.stack, s.top)
 		// 如果这一层没元素了, 就低一层
-		this.top--
+		s.top--
 	}
 	// 更新一下val对应的频率
-	old := this.freq[val]
+	old := s.freq[val]
 	if old > 1 {
-		this.freq[val] = old - 1
+		s.freq[val] = old - 1
 	} else {
-		delete(this.freq, val)
+		delete(s.freq, val)
 	}
 
-	// fmt.Println("Pop",this)
+	// fmt.Println("Pop",s)
 
 	return val
 }
