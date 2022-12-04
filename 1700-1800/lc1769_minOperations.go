@@ -18,17 +18,19 @@ func minOperations(boxes string) []int {
 		return int(boxes[i] - '0')
 	}
 
+	// 从左到右的前缀和和累加和
+	var sum int
 	for l := 1; l < ln; l++ {
-		left[l] += v(l-1) + left[l-1]
+		sum += v(l - 1)
+		left[l] += sum + left[l-1]
 	}
+
+	// 从右到左的前缀和和累加和
+	sum = 0
 	for r := ln - 2; r >= 0; r-- {
-		right[r] += v(r+1) + right[r+1]
-	}
-	for l := 1; l < ln; l++ {
-		left[l] += left[l-1]
-	}
-	for r := ln - 2; r >= 0; r-- {
-		right[r] += right[r+1]
+		sum += v(r + 1)
+		right[r] += sum + right[r+1]
+		// 同时更新结果
 		left[r] += right[r]
 	}
 
