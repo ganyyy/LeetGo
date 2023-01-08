@@ -30,6 +30,7 @@ func (n *Node) Add(num int) {
 }
 
 func (n *Node) Get(num, x int) (sum int) {
+	// 从字典树中, 找到存在多少个数字, 满足 ai⊕num < x
 	cur := n
 	for i := BitCount; i >= 0; i-- {
 		if cur == nil {
@@ -43,13 +44,15 @@ func (n *Node) Get(num, x int) (sum int) {
 
 			// num[i] == 1, 二者在这一位上是相等的
 			// num[i] == 0, num < x
+			// 综上所述, 需要满足 num <= x就可以计算相关的位置
+			// ?
 			next := cur.Next[bit]
 			if next != nil {
 				sum += next.Sum
 			}
 			cur = cur.Next[bit^1]
 		} else {
-			// x[i] == 0
+			// x[i] == 0, 则不会存在任何一个 ai⊕num < x
 			cur = cur.Next[bit]
 		}
 	}

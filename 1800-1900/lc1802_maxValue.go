@@ -37,32 +37,32 @@ long cal(int big, int length) {
 */
 
 func maxValue(n int, index int, maxSum int) int {
-
-	sum := func(v, n int) int {
+	sum := func(v, n int) (ret int) {
+		defer func() {
+			fmt.Println("ret", v, n, ret)
+		}()
 		if n+1 < v {
-			// sum(v-n...v-1)
 			small := v - n
 			return (v - 1 + small) * n / 2
 		}
-		// n>v
 		ones := n - v + 1
-		// sum(1...1...v-1)
 		return v*(v-1)/2 + ones
 	}
-
 	left := index
 	right := n - index - 1
-
 	calc := func(target int) int {
 		// nums[index] = target
 		// 0.....1...target...1...0
 		// 求和
-		return sum(target, left) + sum(target, right) + target
+		l := sum(target, left)
+		r := sum(target, right)
+		fmt.Println("search", target, l, r)
+		return l + r + target
 	}
-
 	var l = 1
 	var r = maxSum
 	for l < r {
+		// 核心是向上取整?
 		var mid = (l + r + 1) / 2
 		if calc(mid) <= maxSum {
 			l = mid
@@ -75,7 +75,7 @@ func maxValue(n int, index int, maxSum int) int {
 
 func f(big, length int) (ret int) {
 	defer func() {
-		fmt.Println(big, length, ret)
+		fmt.Println("ret", big, length, ret)
 	}()
 	if length == 0 {
 		return 0
@@ -83,17 +83,20 @@ func f(big, length int) (ret int) {
 	if length <= big {
 		return (2*big + 1 - length) * length / 2
 	}
-	// 1...........1.............big
-	// |  big-len  |  sum(1..big) |
 	return (big+1)*big/2 + length - big
 }
 
 func maxValue2(n, index, maxSum int) int {
+	// [0...index...n]
+	// left  [0, index]
+	// right [index+1, n]
 	left := index
 	right := n - index - 1
+	// golang 的 search 是向下取整
 	return sort.Search(maxSum, func(mid int) bool {
-		v := mid + f(mid, left) + f(mid, right)
-		fmt.Println("sum:", v)
-		return v >= maxSum
+		l := f(mid, left)
+		r := f(mid, right)
+		fmt.Println("search", mid, l, r)
+		return mid+l+r >= maxSum
 	})
 }
