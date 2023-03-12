@@ -29,6 +29,7 @@ func braceExpansionII(expression string) []string {
 				end = i
 				break
 			}
+			// 起点需要不停的更新, 这样才可以拆出最内部的括号
 			if c == '{' {
 				start = i
 			}
@@ -37,7 +38,7 @@ func braceExpansionII(expression string) []string {
 		before := exp[:start]
 		after := exp[end+1:]
 
-		// 这一对括号中的所有字母 {a,b,c} -> [a, b, c]
+		// 这一对括号中的所有字母 {a,b,c} -> [a, b, c], 展开并添加到队列中
 		for _, sub := range strings.Split(exp[start+1:end], ",") {
 			sb.Reset()
 			sb.WriteString(before)
