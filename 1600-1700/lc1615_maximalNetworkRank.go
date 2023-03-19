@@ -18,6 +18,7 @@ func maximalNetworkRank(n int, roads [][]int) int {
 	}
 
 	maxRank := 0
+	// 两点不能重复
 	// 枚举所有可能的(i, j)组合
 	for i := 0; i < n; i++ {
 		for j := i + 1; j < n; j++ {

@@ -3,6 +3,7 @@
 package main
 
 func restoreMatrix(rowSum []int, colSum []int) [][]int {
+	// 无脑贪心(?)
 	n, m := len(rowSum), len(colSum)
 	matrix := make([][]int, n)
 	for i := range matrix {
