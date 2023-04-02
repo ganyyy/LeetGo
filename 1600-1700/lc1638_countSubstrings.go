@@ -40,6 +40,7 @@ func countSubstrings(s, t string) int {
 	for i := 0; i < m; i++ {
 		for j := 0; j < n; j++ {
 			// 左边连续相同 * 右边连续相同
+			// 恰好有一个位置不同, 那么就对应着其余位置都相同的连续子串(左边+右边)
 			if s[i] != t[j] {
 				ans += (dpl[i][j] + 1) * (dpr[i+1][j+1] + 1)
 			}
