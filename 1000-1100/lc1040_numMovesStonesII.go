@@ -13,6 +13,7 @@ func numMovesStonesII(s []int) []int {
 		return []int{min(2, maxMove), maxMove}
 	}
 	// 最小的移动次数
+	// 长度为n的窗口内, 最多的石子个数
 	maxCnt, left := 0, 0
 	for right, x := range s { // 滑动窗口：枚举右端点
 		for s[left] <= x-n { // 窗口大小大于 n
