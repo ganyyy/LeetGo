@@ -72,7 +72,8 @@ func (mc *MajorityChecker) buildSegmentTree(treeIndex, left, right int) {
 		return
 	}
 	// 获取左右孩子节点
-	leftTreeIndex, rightTreeIndex := mc.leftChild(treeIndex), mc.rightChild(treeIndex)
+	leftTreeIndex := mc.leftChild(treeIndex)
+	rightTreeIndex := mc.rightChild(treeIndex)
 	// 获取分界点
 	midTreeIndex := left + (right-left)>>1
 	mc.buildSegmentTree(leftTreeIndex, left, midTreeIndex)
@@ -93,31 +94,43 @@ func (mc *MajorityChecker) query(left, right int) segmentItem {
 }
 
 func (mc *MajorityChecker) queryInTree(treeIndex, left, right, queryLeft, queryRight int) segmentItem {
-	midTreeIndex, leftTreeIndex, rightTreeIndex := left+(right-left)>>1, mc.leftChild(treeIndex), mc.rightChild(treeIndex)
+	// treeIndex 会一直增加
+	// [left, right] 会逐渐缩小
+	// [queryLeft, queryRight] 会在跨区间时逐渐时逐渐缩小
+
+	// 查询的中点
+	mid := left + (right-left)>>1
+	// 数据区间的 左右子节点
+	leftTreeIndex := mc.leftChild(treeIndex)
+	rightTreeIndex := mc.rightChild(treeIndex)
+
 	if queryLeft <= left && queryRight >= right { // segment completely inside range
 		// 这个可以加速查询, 底层是两两合并的, 如果某个查询区间涵盖了一个较大的 区间, 可以直接返回
 		return mc.segmentTree[treeIndex]
 	}
-	if queryLeft > midTreeIndex {
+	if queryLeft > mid {
 		// 查询区间在右子节点
-		return mc.queryInTree(rightTreeIndex, midTreeIndex+1, right, queryLeft, queryRight)
-	} else if queryRight <= midTreeIndex {
+		return mc.queryInTree(rightTreeIndex, mid+1, right, queryLeft, queryRight)
+	} else if queryRight <= mid {
 		// 查询区间在左字节带你
-		return mc.queryInTree(leftTreeIndex, left, midTreeIndex, queryLeft, queryRight)
+		return mc.queryInTree(leftTreeIndex, left, mid, queryLeft, queryRight)
 	}
 	// 查询区间在左子节点和右子节点的中间
-	return mc.merge(mc.queryInTree(leftTreeIndex, left, midTreeIndex, queryLeft, midTreeIndex),
-		mc.queryInTree(rightTreeIndex, midTreeIndex+1, right, midTreeIndex+1, queryRight))
+	return mc.merge(mc.queryInTree(leftTreeIndex, left, mid, queryLeft, mid),
+		mc.queryInTree(rightTreeIndex, mid+1, right, mid+1, queryRight))
 }
 
 // Query define
 func (mc *MajorityChecker) Query(left int, right int, threshold int) int {
 	res := mc.query(left, right)
-	if _, ok := mc.count[res.candidate]; !ok {
+	// res可能是-1
+	candidateIdx, ok := mc.count[res.candidate]
+	if !ok {
 		return -1
 	}
-	start := sort.Search(len(mc.count[res.candidate]), func(i int) bool { return left <= mc.count[res.candidate][i] })
-	end := sort.Search(len(mc.count[res.candidate]), func(i int) bool { return right < mc.count[res.candidate][i] }) - 1
+	// 本身筛选出来的就是众数, 只需要判定一下是否满足threshold即可
+	start := sort.Search(len(candidateIdx), func(i int) bool { return left <= candidateIdx[i] })
+	end := sort.Search(len(candidateIdx), func(i int) bool { return right < candidateIdx[i] }) - 1
 	if (end - start + 1) >= threshold {
 		return res.candidate
 	}
