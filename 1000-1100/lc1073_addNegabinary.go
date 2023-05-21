@@ -3,6 +3,10 @@ package main
 func addNegabinary(arr1 []int, arr2 []int) (ans []int) {
 	i := len(arr1) - 1
 	j := len(arr2) - 1
+	// 从低位开始加, 有多种可能
+	// 0: 低位相加没有产生进位
+	// 1: 低位carry=-1, 并且本位都是0, 所以需要本位变成1, 高位进1
+	// -1: 低位相加产生了进位, 注意: 这里是-2进制, 所以进位是-1
 	carry := 0
 	for i >= 0 || j >= 0 || carry != 0 {
 		x := carry
@@ -38,11 +42,13 @@ func addNegabinary(arr1 []int, arr2 []int) (ans []int) {
 		i--
 		j--
 	}
+	// 去除前导0
 	for len(ans) > 1 && ans[len(ans)-1] == 0 {
 		ans = ans[:len(ans)-1]
 	}
-	for i, n := 0, len(ans); i < n/2; i++ {
-		ans[i], ans[n-1-i] = ans[n-1-i], ans[i]
+	// 反转
+	for left, n := 0, len(ans); left < n/2; left++ {
+		ans[left], ans[n-1-left] = ans[n-1-left], ans[left]
 	}
 	return ans
 }

@@ -11,13 +11,13 @@ func minDifficulty(jobDifficulty []int, d int) int {
 		return -1
 	}
 	// dp[i][j]
-	// i: d, 要求再第i+1天完成任务
+	// i: d, 要求在第i+1天完成任务
 	// j: 在给定的期限内完成多少个任务
 	dp := make([][]int, d)
 	for i := range dp {
 		ndp := make([]int, n)
-		for i := range ndp {
-			ndp[i] = math.MaxInt32
+		for ni := range ndp {
+			ndp[ni] = math.MaxInt32
 		}
 		dp[i] = ndp
 	}
@@ -32,14 +32,15 @@ func minDifficulty(jobDifficulty []int, d int) int {
 	for i := 1; i < d; i++ {
 		// 先迭代天数, 前置的天数作为后置的前提条件
 		// [i,n)表示的是这一天可选的任务
+		// 起点为什么是i呢? 因为前i天至少要完成i个任务
 		for j := i; j < n; j++ {
-			// 这里真么理解呢?
+			// 这里怎么理解呢?
 			// j代表的是可选的任务, 从第(i+1)天开始, 前边至少已经选择了
 			// i个任务, 所以下界是i, 上界是任务的数量n
 			ma = 0
 			// 为什么要这样迭代k呢?
 			// 可以理解为: 前N天完成[0,j]的最小值已经计算出来了
-			// 此时要从[i,j]这段区间内再找到一个分割点, 使得
+			// 此时要从[i,j]这段区间内再找到一个分割点,
 			// 使得 今天 + 前N天 的累计 工作难度最低
 			// 这个分割点就是k, 前面i-1天负责[0,k-1], 今天负责[k,j]
 			// 为啥要从后向前迭代呢?  这里有一个很有意思的点
@@ -48,6 +49,7 @@ func minDifficulty(jobDifficulty []int, d int) int {
 			// 如果第一种情况从前往后迭代, 那么很明显这段区间的最大值从一开始就确定了
 			// 如果是从后往前迭代, 就会优先选取相对较小的值作为分割点
 			// 对比情况2也是一样的
+			// 为啥需要后续迭代呢? 因为如果大的在前边, 就会将后边小的聚合到一天, 但是那些小的如果单独聚合的话, 会更小
 			for k := j; k >= i; k-- {
 				ma = max(ma, jobDifficulty[k])
 				dp[i][j] = min(dp[i][j], ma+dp[i-1][k-1])

@@ -22,7 +22,7 @@ func maxSumBST(root *TreeNode) (ans int) {
 		// 左右都是合法的二叉搜索树, 直接累加和
 		s := lSum + rSum + x
 		ans = max(ans, s)
-
+		// 这里为啥不能直接使用lMin和rMax呢? 因为 可能返回的结果是 math.Max/MinInt
 		return min(lMin, x), max(rMax, x), s
 	}
 	dfs(root)

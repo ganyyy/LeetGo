@@ -107,7 +107,7 @@ func rearrangeBarcodes2(barcodes []int) []int {
 			count--
 			oddIndex += 2
 		}
-		// 如果某个元素数量超过了数组的一半, 或者奇数下标跑慢了数组, 就从偶数位开始递增
+		// 如果某个元素数量超过了数组的一半, 或者奇数下标跑满了数组, 就从偶数位开始递增
 		for count > 0 {
 			res[evenIndex] = x
 			count--
