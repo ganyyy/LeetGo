@@ -16,6 +16,7 @@ func pathSum(root *TreeNode, targetSum int) int {
 	count[0] = 1
 
 	var helper func(root *TreeNode, pre int) int
+	// 避免了回溯过多的问题
 	helper = func(root *TreeNode, pre int) int {
 		if root == nil {
 			return 0
