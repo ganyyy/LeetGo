@@ -5,6 +5,7 @@ import . "leetgo/data"
 // 解法1
 func lowestCommonAncestor(root, p, q *TreeNode) *TreeNode {
 	// 叶节点
+
 	if nil == root {
 		return root
 	}
