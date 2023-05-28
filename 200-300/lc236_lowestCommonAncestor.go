@@ -1,16 +1,13 @@
+//go:build ignore
+
 package main
 
 import . "leetgo/data"
 
 // 解法1
 func lowestCommonAncestor(root, p, q *TreeNode) *TreeNode {
-	// 叶节点
-
-	if nil == root {
-		return root
-	}
-	// 找到了其中一个节点, 直接返回即可
-	if p == root || q == root {
+	// nil节点或者找到了其中一个节点, 直接返回即可
+	if nil == root || root == p || root == q {
 		return root
 	}
 
