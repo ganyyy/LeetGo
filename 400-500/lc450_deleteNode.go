@@ -81,6 +81,65 @@ func deleteNode2(root *TreeNode, key int) *TreeNode {
 	return root
 }
 
+func deleteNode3(root *TreeNode, key int) *TreeNode {
+	// cur: 当前节点(Val == key)
+	// curParent: 父节点(Left/Right = cur)
+	var cur, curParent *TreeNode = root, nil
+	for cur != nil && cur.Val != key {
+		curParent = cur
+		if cur.Val > key {
+			cur = cur.Left
+		} else {
+			cur = cur.Right
+		}
+	}
+	if cur == nil {
+		// 找不到
+		return root
+	}
+	if cur.Left == nil && cur.Right == nil {
+		// 这是个叶子节点
+		cur = nil
+	} else if cur.Right == nil {
+		// 右子树为空
+		cur = cur.Left
+	} else if cur.Left == nil {
+		// 左子树为空
+		cur = cur.Right
+	} else {
+		// 找到后继节点, 替换当前节点的位置
+		successor, successorParent := cur.Right, cur
+		for successor.Left != nil {
+			// 后继节点就是右子树的最小值, 一直向左找到头即可
+			successorParent = successor
+			successor = successor.Left
+		}
+		if successorParent.Val == cur.Val {
+			// 特殊情况: cur.Right 就是一个叶子节点
+			successorParent.Right = successor.Right
+		} else {
+			// 将后继节点右子树接到前驱节点的左子树上
+			// 后继节点是肯定不会存在左子树的, 因为这已经左到头了
+			successorParent.Left = successor.Right
+		}
+		// 将后继节点替换到当前节点
+		successor.Right = cur.Right
+		successor.Left = cur.Left
+		cur = successor
+	}
+	if curParent == nil {
+		// 如果要删除的就是根节点呢?
+		return cur
+	}
+	// 替换被删除节点的父节点的指向节点
+	if curParent.Left != nil && curParent.Left.Val == key {
+		curParent.Left = cur
+	} else {
+		curParent.Right = cur
+	}
+	return root
+}
+
 func main() {
 	t := &TreeNode{}
 	t.Val = 1
