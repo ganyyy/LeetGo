@@ -2,7 +2,8 @@ package main
 
 func mctFromLeafValues(arr []int) int {
 	// stk: 单调递减栈
-	res, stk := 0, []int{}
+	var stk []int
+	res := 0
 	for _, x := range arr {
 		// 合并的要点: 大的放到最后合并, 这样才能保证合并过程中间节点的和最小
 		/*

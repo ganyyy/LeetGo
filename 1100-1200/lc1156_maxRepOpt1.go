@@ -29,8 +29,10 @@ func maxRepOpt1(text string) int {
 		oj := j
 		// 前后都可以填充欸(!)
 		if (j < ln || i > 0) && j-i < total {
-			j++ // 如果填充了后边, 相当于跳过一个.
-			// 二次获取 [i:j_old] + [j_old] + [j_old:j_new]
+			// 如果后续还有相同的字符, 那么就可以填充后边, 如果后续没有相同的字符, 那么就只能填充前边,
+			j++
+			// 这段逻辑是只有填充后边才会执行的
+			//  二次获取 [i:j_old] + [j_old] + [j_old:j_new]
 			for ; j < ln && text[j] == text[i] && j-i < total; j++ {
 			}
 		}

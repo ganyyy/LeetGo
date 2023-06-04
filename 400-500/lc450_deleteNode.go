@@ -115,7 +115,7 @@ func deleteNode3(root *TreeNode, key int) *TreeNode {
 			successor = successor.Left
 		}
 		if successorParent.Val == cur.Val {
-			// 特殊情况: cur.Right 就是一个叶子节点
+			// 特殊情况: cur.Right 就是一个叶子节点, 或者不包含左子节点
 			successorParent.Right = successor.Right
 		} else {
 			// 将后继节点右子树接到前驱节点的左子树上
@@ -131,11 +131,67 @@ func deleteNode3(root *TreeNode, key int) *TreeNode {
 		// 如果要删除的就是根节点呢?
 		return cur
 	}
-	// 替换被删除节点的父节点的指向节点
+	// 替换被删除节点的父节点的指向节点. 要么是左子树, 要么是右子树
 	if curParent.Left != nil && curParent.Left.Val == key {
 		curParent.Left = cur
 	} else {
 		curParent.Right = cur
+	}
+	return root
+}
+
+func deleteNode4(root *TreeNode, key int) *TreeNode {
+	// 找到要被删除的节点, 以及其父节点
+	var currentParent, current *TreeNode = nil, root
+	for current != nil && current.Val != key {
+		currentParent = current
+		if current.Val > key {
+			current = current.Left
+		} else {
+			current = current.Right
+		}
+	}
+	// 如果找不到要删除的节点
+	if current == nil {
+		return root
+	}
+
+	// 应该如何替换呢?
+	if current.Left == nil {
+		// 左子树为空
+		current = current.Right
+	} else if current.Right == nil {
+		// 右子树为空
+		current = current.Left
+	} else {
+		// 都不为空, 找到后继/前驱节点. 这里找后继节点, 就是右子树的最小值, 也就是最左边
+		successorParent, successor := current, current.Right
+		for successor.Left != nil {
+			successorParent = successor
+			successor = successor.Left
+		}
+
+		if successorParent.Val == current.Val {
+			// 总感觉有点像是废话, 这种情况, 只需要让  successor.Left = current.Left 就行了吧..?
+			// 这里其实啥都不用做, 只相当于是整体上拉了一次
+		} else {
+			successorParent.Left = successor.Right
+			successor.Right = current.Right
+		}
+		successor.Left = current.Left
+
+		current = successor
+	}
+
+	if currentParent == nil {
+		// 如果要删除的就是根节点呢?
+		return current
+	}
+	// 替换被删除节点的父节点的指向节点. 要么是左子树, 要么是右子树
+	if currentParent.Left != nil && currentParent.Left.Val == key {
+		currentParent.Left = current
+	} else {
+		currentParent.Right = current
 	}
 	return root
 }

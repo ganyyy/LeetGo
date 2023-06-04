@@ -22,6 +22,8 @@ func maximumTastiness(price []int, k int) int {
 		如果甜蜜度超过了 (ak - a1) / (k - 1)，那么我们就无法找到 k 个不同的糖果，使得它们之间的最小绝对差不小于甜蜜度。
 	*/
 
+	// 叹为观止
+
 	// 针对甜蜜度进行值域二分, 下界是1, 上界是 (price[len(price)-1]-price[0])/(k-1)
 	return sort.Search((price[len(price)-1]-price[0])/(k-1), func(d int) bool {
 		d++ // 二分最小的 f(d+1) < k，从而知道最大的 f(d) >= k
