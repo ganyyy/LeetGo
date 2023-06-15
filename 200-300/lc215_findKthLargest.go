@@ -3,6 +3,8 @@ package main
 import (
 	"container/heap"
 	"fmt"
+	"math/rand"
+	"time"
 )
 
 type array []int
@@ -79,6 +81,49 @@ func findKthLargest2(nums []int, k int) int {
 	}
 
 	return arr[0]
+}
+
+func findKthLargest3(nums []int, k int) int {
+	rand.Seed(time.Now().UnixNano())
+
+	var quick func(l, r int) int
+	var partition = func(l, r int) int {
+		// nums[r]是random选取的随机节点
+		var pivot = nums[r]
+		var idx = l - 1
+		// idx左边的均<= pivot
+		// idx右边的均 > pivot
+		for l < r {
+			if nums[l] <= pivot {
+				idx++
+				nums[idx], nums[l] = nums[l], nums[idx]
+			}
+			l++
+		}
+		// 此时idx对应的位置是 > pivot的
+		nums[idx+1], nums[r] = nums[r], nums[idx+1]
+		return idx + 1
+	}
+	var random = func(l, r int) int {
+		pos := rand.Int()%(r-l+1) + l
+		// pos就是要定位的点
+		nums[pos], nums[r] = nums[r], nums[pos]
+		return partition(l, r)
+	}
+
+	index := len(nums) - k
+
+	quick = func(l, r int) int {
+		var pos = random(l, r)
+		if pos == index {
+			return nums[pos]
+		} else if pos < index {
+			return quick(pos+1, r)
+		}
+		return quick(l, pos-1)
+	}
+
+	return quick(0, len(nums)-1)
 }
 
 func main() {
