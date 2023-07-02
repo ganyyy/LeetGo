@@ -51,6 +51,7 @@ func tilingRectangle(n int, m int) int {
 	var dfs func(int, int, int)
 	dfs = func(x, y, cnt int) {
 		if cnt >= ans {
+			// 这是个核心啊
 			// 枝减, 因为最多也就cnt个, 不能比这多了
 			return
 		}
@@ -61,7 +62,7 @@ func tilingRectangle(n int, m int) int {
 		}
 		// 检测下一行
 		if y >= m {
-			// m是行的上限, 这一行填满了就看下一行(或者, x,y反过来也不是不行?)
+			// m是列的上限, 这一行到头了就看下一行(或者, x,y反过来也不是不行?)
 			dfs(x+1, 0, cnt)
 			return
 		}

@@ -11,11 +11,12 @@ func removeZeroSumSublists(head *ListNode) *ListNode {
 	prefix := 0
 	for node := dummy; node != nil; node = node.Next {
 		prefix += node.Val
+		// 滚动更新前缀和, 保留最后一个节点
 		seen[prefix] = node
 	}
 	// [1,2,3,-3,1]
 	// [1,3,6, 3,4]
-	// [1,2,1], [6,3]被跳过
+	// [1,2,1], [3, -3]被跳过
 	prefix = 0
 	for node := dummy; node != nil; node = node.Next {
 		// 前缀和相同, 就意味着中间存在一段区间相加为0

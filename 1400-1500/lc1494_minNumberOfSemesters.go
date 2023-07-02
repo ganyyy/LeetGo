@@ -14,10 +14,13 @@ func minNumberOfSemesters(n int, relations [][]int, k int) int {
 	}
 	need := make([]int, 1<<n)
 	for _, edge := range relations {
+		// 所有的前置课程对应的位都置为1
 		need[1<<(edge[1]-1)] |= 1 << (edge[0] - 1)
 	}
 	dp[0] = 0
 	for i := 1; i < (1 << n); i++ {
+		// i&(i-1)
+		// i&-i 代表?
 		need[i] = need[i&(i-1)] | need[i&-i]
 		if (need[i] | i) != i { // i 中有任意一门课程的前置课程没有完成学习
 			continue

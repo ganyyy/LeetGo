@@ -17,6 +17,7 @@ func numSmallerByFrequency(queries []string, words []string) []int {
 	// fmt.Println(qb)
 	for i, v := range qb {
 		// 二分查找大于 v的值的个数?
+		// sort.Search 这个函数的作用是找到第一个大于等于 v+1 的值的索引
 		idx := sort.SearchInts(wb, v+1)
 		qb[i] = ln - idx
 	}

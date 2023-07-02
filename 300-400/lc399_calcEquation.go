@@ -49,6 +49,7 @@ func calcEquationErr(equations [][]string, values []float64, queries [][]string)
 // 使用并查集进行处理
 func calcEquation(equations [][]string, values []float64, queries [][]string) []float64 {
 	// 给每一个字母进行编号
+	// 并查集
 	var id = make(map[string]int, len(equations)*2)
 	for _, equation := range equations {
 		var a, b = equation[0], equation[1]
@@ -67,7 +68,7 @@ func calcEquation(equations [][]string, values []float64, queries [][]string) []
 	// 初始化关系
 	for i := 0; i < len(id); i++ {
 		fa[i] = i
-		w[i] = 1
+		w[i] = 1 // 自己到自己的权重为1
 	}
 
 	var find func(x int) int
@@ -75,7 +76,7 @@ func calcEquation(equations [][]string, values []float64, queries [][]string) []
 		if fa[x] != x {
 			// 寻找父节点, 直到找到根节点为止
 			var f = find(fa[x])
-			// 更新权重
+			// 通过父节点的权重更新当前节点的权重
 			w[x] *= w[fa[x]]
 			fa[x] = f
 		}
@@ -85,6 +86,7 @@ func calcEquation(equations [][]string, values []float64, queries [][]string) []
 	var merge = func(from, to int, val float64) {
 		// 找到from和to的根节点
 		fFrom, fTo := find(from), find(to)
+		// 合并两个根节点时, 更新权重
 		w[fFrom] = val * w[to] / w[from]
 		// 合并
 		fa[fFrom] = fTo
