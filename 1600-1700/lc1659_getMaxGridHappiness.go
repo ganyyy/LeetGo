@@ -39,13 +39,14 @@ var innerScore [T]int
 // 针对每两行而言, 前置行和当前行每个mask加一块的分值
 var interScore [T][T]int
 
-// D 第N-1行的状态为T, 剩下的[N,M-1]行还可以放置IV个内向和EV个外向
+// D 第N-1行的状态为T, 剩下的行还可以放置IV个内向和EV个外向的最大得分
 // N的上限是5, T的上限是pow(3, 5) = 243
 // IV/EV的上限是6, 所以总和就是[0, 6]一共7个状态
 var D [N][T][M + 1][M + 1]int
 
 func getMaxGridHappiness(m int, n int, introvertsCount int, extrovertsCount int) int {
 	// 每个位置有三种状态, 每一行有n列, 将其状态进行编码, 则tot = pow(3, n)
+	// 我滴个乖乖, 这个状态压缩的方法太妙了
 	var tot = int(math.Pow(3, float64(n)))
 
 	initData := func() {
@@ -101,6 +102,7 @@ func getMaxGridHappiness(m int, n int, introvertsCount int, extrovertsCount int)
 				for k := 0; k < n; k++ {
 					// i代表的是上一行的某个mask, j代表的是当前行的某个mask
 					// (其实反过来也没啥问题, 毕竟俩长度是一样的)
+					// 行间分数相当于竖向相邻的两个格子, 额外的分数
 					interScore[i][j] += Score[maskBits[i][k]][maskBits[j][k]]
 				}
 			}

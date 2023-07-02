@@ -69,6 +69,8 @@ func minimumIncompatibility(nums []int, k int) int {
 		for _, v := range seen {
 			sub |= (1 << v)
 		}
+		// sub是所有未分配的数字的组合, 所以是可能大于group的
+		// nxt是sub的子集, 且nxt的1的个数和group相同才会被考虑
 		nxt := sub
 		for nxt > 0 {
 			// mask保留的是当前已选的数字的集合
@@ -80,6 +82,7 @@ func minimumIncompatibility(nums []int, k int) int {
 				// 核心就是找到完美组合的最小值...
 				dp[mask|nxt] = min(dp[mask|nxt], dp[mask]+val)
 			}
+			// 从大到小枚举子集
 			nxt = (nxt - 1) & sub
 		}
 	}
