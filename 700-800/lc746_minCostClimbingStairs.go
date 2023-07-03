@@ -12,6 +12,8 @@ func minCostClimbingStairs(cost []int) int {
 		a, b = b, min(a, b)+cost[i]
 	}
 
+	// mark
+
 	return min(a, b)
 }
 
