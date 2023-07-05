@@ -12,3 +12,15 @@ func numTilings(n int) int {
 	}
 	return f[n]
 }
+
+func numTilings2(n int) int {
+	// https://leetcode.cn/problems/domino-and-tromino-tiling/solutions/1968516/by-endlesscheng-umpp/
+	if n == 1 {
+		return 1
+	}
+	a, b, c := 1, 1, 2
+	for i := 3; i <= n; i++ {
+		a, b, c = b, c, (c*2+a)%(1e9+7)
+	}
+	return c
+}
