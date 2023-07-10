@@ -46,6 +46,46 @@ func min(a, b int) int {
 	return b
 }
 
+func minDistance2(word1 string, word2 string) int {
+	// 经典DP - 二位压缩版本
+
+	var m, n = len(word1), len(word2)
+	var cost = make([]int, n+1)
+	// cost[i][j], word1[:i] -> word2[:j] 所需要的最小的消耗、
+	// cost[0][X]和cost[X][0]的开销, 就是两个字符串对应的长度: 只能删除
+
+	var min = func(a, b int) int {
+		if a > b {
+			return b
+		}
+		return a
+	}
+	for i := 1; i <= n; i++ {
+		// 初始化第一行, 代表着在word1 == ""时, 需要添加多少
+		cost[i] = i
+	}
+
+	for i := 1; i <= m; i++ {
+		cost[0] = i // 每次循环开始, cost[0]都是i, 这代表着word1[:i] -> word2[:0]需要删除多少
+		// pre代表左上角的值, cur代表上, cost[j-1]代表左
+		var pre = i - 1
+		for j := 1; j <= n; j++ {
+			cur := cost[j]
+			if word1[i-1] == word2[j-1] {
+				// 相等直接继承
+				cost[j] = pre
+			} else {
+				// 删除, 增加, 替换的三者成本的最小值
+				// 感觉可以压缩啊..?
+				// 上, 左, 左上
+				cost[j] = min(min(cur, cost[j-1]), pre) + 1
+			}
+			pre = cur
+		}
+	}
+	return cost[n]
+}
+
 func main() {
 	fmt.Println(minDistance("ab", "a"))
 }
