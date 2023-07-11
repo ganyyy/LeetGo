@@ -34,7 +34,7 @@ func singleNumbers(nums []int) []int {
 		odd ^= i
 	}
 
-	// 取最后一位1
+	// 取最后一位1: 不行, 因为可能会发生溢出(?)
 	flag := odd & (-odd)
 
 	// 记录两个值其中的一个
@@ -49,6 +49,7 @@ func singleNumbers(nums []int) []int {
 }
 
 func singleNumber3(nums []int) []int {
+	// 还是得3
 	var num int
 
 	for _, v := range nums {

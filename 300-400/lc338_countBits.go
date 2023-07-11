@@ -28,3 +28,17 @@ func countBits(num int) []int {
 
 	return res
 }
+
+func countBits2(num int) []int {
+
+	var res = make([]int, num+1)
+
+	// 先来几个初始值
+	res[0] = 0
+	// 好一个dp, 学到了
+	for i := 1; i <= num; i++ {
+		res[i] = res[i>>1] + (i & 1)
+	}
+
+	return res
+}
