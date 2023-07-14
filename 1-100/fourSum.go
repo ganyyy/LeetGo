@@ -90,6 +90,45 @@ func fourSum2(nums []int, target int) [][]int {
 	return res
 }
 
+func fourSum3(nums []int, target int) (quadruplets [][]int) {
+	sort.Ints(nums)
+	n := len(nums)
+	// 枝减最重要!
+
+	// 1. 最小值小于等于target
+	for i := 0; i < n-3 && nums[i]+nums[i+1]+nums[i+2]+nums[i+3] <= target; i++ {
+		iv := nums[i]
+		// 跳过相同的值, 或者最大值小于target的情况
+		if i > 0 && iv == nums[i-1] || iv+nums[n-3]+nums[n-2]+nums[n-1] < target {
+			continue
+		}
+		// 2. 最小值小于等于target
+		for j := i + 1; j < n-2 && iv+nums[j]+nums[j+1]+nums[j+2] <= target; j++ {
+			jv := nums[j]
+			// 跳过相同的值, 或者最大值小于target的情况
+			if j > i+1 && jv == nums[j-1] || iv+jv+nums[n-2]+nums[n-1] < target {
+				continue
+			}
+			// 两边夹逼
+			for left, right := j+1, n-1; left < right; {
+				lv, rv := nums[left], nums[right]
+				if sum := iv + jv + lv + rv; sum == target {
+					quadruplets = append(quadruplets, []int{iv, jv, lv, nums[right]})
+					for left++; left < right && nums[left] == nums[left-1]; left++ {
+					}
+					for right--; left < right && nums[right] == nums[right+1]; right-- {
+					}
+				} else if sum < target {
+					left++
+				} else {
+					right--
+				}
+			}
+		}
+	}
+	return
+}
+
 /**
 [-3,-2,-1,0,0,1,2,3]
 0
