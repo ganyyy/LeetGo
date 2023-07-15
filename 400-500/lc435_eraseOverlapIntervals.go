@@ -18,6 +18,7 @@ func eraseOverlapIntervals(intervals [][]int) int {
 	for i := 1; i < len(intervals); i++ {
 		if end > intervals[i][0] {
 			// 需要合并, 保留最小的结尾
+
 			if end > intervals[i][1] {
 				end = intervals[i][1]
 			}
