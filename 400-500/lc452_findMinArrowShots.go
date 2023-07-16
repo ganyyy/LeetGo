@@ -54,3 +54,44 @@ func findMinArrowShots(points [][]int) int {
 	}
 	return res
 }
+
+func findMinArrowShots3(points [][]int) int {
+
+	var min = func(a, b int) int {
+		if a < b {
+			return a
+		}
+		return b
+	}
+
+	var max = func(a, b int) int {
+		if a > b {
+			return a
+		}
+		return b
+	}
+
+	if len(points) == 0 {
+		return 0
+	}
+	sort.Slice(points, func(i, j int) bool {
+		a, b := points[i], points[j]
+		return a[0] < b[0]
+	})
+
+	var cnt int
+	var last = points[0]
+	for _, point := range points[1:] {
+		// 求相交区间
+		if last[1] >= point[0] && point[0] >= last[0] {
+			last[0], last[1] = max(last[0], point[0]), min(last[1], point[1])
+			continue
+		}
+		cnt++
+		last = point
+	}
+
+	// 末尾? 无脑加加?
+	cnt++
+	return cnt
+}
