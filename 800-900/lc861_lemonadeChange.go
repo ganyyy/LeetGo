@@ -40,3 +40,38 @@ func lemonadeChange(bills []int) bool {
 	// 能正确遍历到结尾, 返回false
 	return true
 }
+
+func lemonadeChange2(bills []int) bool {
+	var c5, c10, c20 int
+	if len(bills) == 0 || bills[0] != 5 {
+		return false
+	}
+	c5++
+	for _, bill := range bills[1:] {
+		switch bill {
+		case 5:
+			c5++
+		case 10:
+			if c5 < 1 {
+				return false
+			}
+			c10++
+			c5--
+		case 20:
+			need := 15
+			if c10 > 0 {
+				c10--
+				need -= 10
+			}
+			cnt := need / 5
+			if c5 < cnt {
+				return false
+			}
+			c5 -= cnt
+			c20++
+		default:
+			return false
+		}
+	}
+	return true
+}
