@@ -42,7 +42,7 @@ func findAnagrams(s string, p string) []int {
 				// 这个元素满足条件, 数量不够了,
 				for pre < i {
 					updateSet(s[pre], 1)
-					//就从pre开始, 查找到第一个有该元素的位置停止
+					// 就从pre开始, 查找到第一个有该元素的位置停止
 					pre++
 					if s[pre-1] == s[i] {
 						break
@@ -101,6 +101,43 @@ func findAnagrams2(s string, p string) []int {
 			ret = append(ret, start)
 			cnt[s[start]-'a']++
 			start++
+		}
+	}
+	return ret
+}
+
+func findAnagrams3(s string, p string) []int {
+	var lp = len(p)
+	var mp, cur [26]int
+	for _, pc := range p {
+		mp[pc-'a']++
+	}
+	cur = mp
+	var ret []int
+	var left int
+
+	add := func() {
+		cur[s[left]-'a']++
+		left++
+	}
+
+	for i, sc := range s {
+		idx := int(sc) - 'a'
+		if mp[idx] == 0 {
+			// 不存在的字母
+			cur = mp
+			left = i + 1
+			continue
+		}
+		cur[idx]--
+		for cur[idx] < 0 {
+			// 存在且超标的字母?
+			// 此时cur中存储的绝对不可能是不在字典中的字符
+			add()
+		}
+		if i-left+1 == lp {
+			ret = append(ret, left)
+			add()
 		}
 	}
 	return ret
