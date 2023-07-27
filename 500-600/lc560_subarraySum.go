@@ -16,6 +16,7 @@ func subarraySum(nums []int, k int) int {
 		// 当前位置的个数+1
 		m[sum] += 1
 	}
+	// Mark
 	return ret
 }
 
