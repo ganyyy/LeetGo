@@ -60,12 +60,14 @@ func sumSubarrayMins2(arr []int) (ans int) {
 	// [2,4,3]	 	 -> [2]
 	// [4,3]	 	 -> [3]
 	// [3]	 	 	 -> [3]
+
+	// dp[i] arr[:i+1]的子数组的最小值之和
 	dp := make([]int, n)
 	for i, x := range arr {
 		for len(monoStack) > 0 && arr[monoStack[len(monoStack)-1]] > x {
 			monoStack = monoStack[:len(monoStack)-1]
 		}
-		// k表示出现的次数
+		// k代表着以x为最小值的子数组所能延伸的最远区间
 		k := i + 1
 		if len(monoStack) > 0 {
 			// 如果存在前置元素, 那么出现的次数就会相应的减少
@@ -73,7 +75,6 @@ func sumSubarrayMins2(arr []int) (ans int) {
 		}
 		dp[i] = k * x
 		if len(monoStack) > 0 {
-			// dp[i] = sum(min(nums[:i-k])) + sum(min(nums[i-k+1:i]))
 			dp[i] += dp[i-k]
 		}
 		ans = (ans + dp[i]) % mod
