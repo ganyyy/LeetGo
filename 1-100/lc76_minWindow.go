@@ -105,6 +105,65 @@ func minWindow2(s, t string) string {
 	return results
 }
 
+func minWindow3(s string, t string) string {
+	var cnt, cur [64]int
+	var num, lt int
+	lt = len(t)
+	if lt == 0 || lt > len(s) {
+		return ""
+	}
+	var getIndex = func(b byte) int { return int(b) & 63 }
+	for i := range t {
+		cnt[getIndex(t[i])]++
+	}
+
+	var ret string
+
+	var left int // 起始位置
+	for i := range s {
+		idx := getIndex(s[i])
+		if cnt[idx] == 0 {
+			if num == 0 {
+				// 重置起点位置
+				left = idx + 1
+			}
+			continue
+		}
+		if num == 0 {
+			// 记录起点位置
+			left = i
+		}
+		// 增加当前计数
+		cur[idx]++
+		if cur[idx] <= cnt[idx] {
+			// 增加有效计数
+			num++
+		}
+
+		// 移动左指针
+		for num == lt {
+			idx = getIndex(s[left])
+			valid := s[left : i+1]
+			if ret == "" || len(valid) < len(ret) {
+				ret = valid
+			}
+			left++
+			if cnt[idx] == 0 {
+				continue
+			}
+			cur[idx]--
+			if cur[idx] < cnt[idx] {
+				num--
+			}
+		}
+		for left < len(s) && cnt[getIndex(s[left])] == 0 {
+			left++
+		}
+	}
+
+	return ret
+}
+
 func findAnagrams(s string, p string) []int {
 	ls, lp := len(s), len(p)
 	var res []int
