@@ -1,3 +1,5 @@
+//go:build ignore
+
 package main
 
 func rotate2(nums []int, k int) {
