@@ -51,6 +51,8 @@ func copyRandomList(head *Node) *Node {
 		return nil
 	}
 
+	// mark
+
 	// 使用插入的方式, 将复制节点串联到原始节点后面
 	var cur = head
 	for cur != nil {

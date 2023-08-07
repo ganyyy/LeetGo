@@ -1,3 +1,5 @@
+//go:build ignore
+
 package main
 
 import . "leetgo/data"
@@ -16,6 +18,8 @@ func sortList(head *ListNode) *ListNode {
 
 // merge sort
 func mergeSort(head *ListNode) *ListNode {
+	// mark
+
 	if head == nil || head.Next == nil {
 		return head
 	}
