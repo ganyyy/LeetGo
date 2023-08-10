@@ -40,16 +40,3 @@ func numMovesStonesII(s []int) []int {
 	}
 	return []int{n - maxCnt, maxMove}
 }
-
-func min(a, b int) int {
-	if b < a {
-		return b
-	}
-	return a
-}
-func max(a, b int) int {
-	if b > a {
-		return b
-	}
-	return a
-}

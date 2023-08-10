@@ -1,8 +1,12 @@
+//go:build ignore
+
 package main
 
-import "math"
+import (
+	"math"
 
-import . "leetgo/data"
+	. "leetgo/data"
+)
 
 /**
  * Definition for a binary tree node.
@@ -46,13 +50,6 @@ func getMinimumDifference(root *TreeNode) int {
 	}
 	dfs(root)
 	return res
-}
-
-func min(a, b int) int {
-	if a < b {
-		return a
-	}
-	return b
 }
 
 func abs(a, b int) int {

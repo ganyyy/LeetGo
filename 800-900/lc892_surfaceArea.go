@@ -28,13 +28,6 @@ func surfaceArea(grid [][]int) int {
 	return cubes*6 - faces*2
 }
 
-func min(a, b int) int {
-	if a < b {
-		return a
-	}
-	return b
-}
-
 func main() {
 
 }

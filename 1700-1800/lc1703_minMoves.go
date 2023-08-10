@@ -34,13 +34,6 @@ func minMoves(nums []int, k int) int {
 	return minCost
 }
 
-func min(a, b int) int {
-	if a < b {
-		return a
-	}
-	return b
-}
-
 func countZero(nums []int) []int {
 	// 去掉首尾后, 连续0的个数
 	ln := len(nums)

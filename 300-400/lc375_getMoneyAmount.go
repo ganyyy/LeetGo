@@ -30,13 +30,6 @@ func getMoneyAmount(n int) int {
 	return f[1][n]
 }
 
-func max(a, b int) int {
-	if b > a {
-		return b
-	}
-	return a
-}
-
 func getMoneyAmount2(n int) int {
 	var cache = make([][]int, n+1)
 	for i := range cache {

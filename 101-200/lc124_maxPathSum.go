@@ -38,13 +38,6 @@ func r(root *TreeNode, m *int) int {
 	return t
 }
 
-func max(a, b int) int {
-	if a > b {
-		return a
-	}
-	return b
-}
-
 func maxPathSumNew(root *TreeNode) int {
 	var max = func(a, b int) int {
 		if a > b {

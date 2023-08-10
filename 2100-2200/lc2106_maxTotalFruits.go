@@ -25,10 +25,3 @@ func maxTotalFruits(fruits [][]int, startPos, k int) int {
 	}
 	return ans
 }
-
-func max(a, b int) int {
-	if a < b {
-		return b
-	}
-	return a
-}

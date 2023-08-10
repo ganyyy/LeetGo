@@ -1,17 +1,17 @@
-package main
+//go:build ignore
 
-import "fmt"
+package main
 
 func findMaxLength(nums []int) int {
 	// 451/564
-	//var ret int
+	// var ret int
 	//
-	//// dp[i] 表示 到i点 最长的连续子数组长度
-	//var dp = make([]int, len(nums))
+	// // dp[i] 表示 到i点 最长的连续子数组长度
+	// var dp = make([]int, len(nums))
 	//
-	//var check int
-	//var sub int
-	//for i := 1; i < len(nums); i++ {
+	// var check int
+	// var sub int
+	// for i := 1; i < len(nums); i++ {
 	//	if nums[i] == 0 {
 	//		check = 1
 	//	} else {
@@ -24,16 +24,16 @@ func findMaxLength(nums []int) int {
 	//		sub = 1
 	//		dp[i] = 2
 	//	}
-	//}
-	//for i, v := range dp {
+	// }
+	// for i, v := range dp {
 	//	if pre := i - v; pre >= 0 && pre < len(dp)-1 && dp[i-v+1] == 0 {
 	//		// 如果能接上的话, 就更新一下最大的长度
 	//		dp[i] += dp[i-v]
 	//	}
 	//	ret = max(ret, dp[i])
-	//}
-	//fmt.Println(dp)
-	//return ret
+	// }
+	// fmt.Println(dp)
+	// return ret
 
 	// 差分数组
 	// 本质还是前缀和.
@@ -63,20 +63,6 @@ func findMaxLength(nums []int) int {
 		}
 	}
 	return ret
-}
-
-func min(a, b int) int {
-	if a < b {
-		return a
-	}
-	return b
-}
-
-func max(a, b int) int {
-	if a > b {
-		return a
-	}
-	return b
 }
 
 func main() {

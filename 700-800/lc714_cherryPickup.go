@@ -53,17 +53,3 @@ func cherryPickup(grid [][]int) int {
 	}
 	return max(f[n-1][n-1], 0)
 }
-
-func min(a, b int) int {
-	if a > b {
-		return b
-	}
-	return a
-}
-
-func max(a, b int) int {
-	if b > a {
-		return b
-	}
-	return a
-}

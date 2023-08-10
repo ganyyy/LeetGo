@@ -1,3 +1,5 @@
+//go:build ignore
+
 package main
 
 import (
@@ -29,14 +31,14 @@ func findRotateStepsFail(ring string, key string) int {
 
 	for c := 0; c < ln; c++ {
 		var cur = int(ring[c] - 'a')
-		//fmt.Printf("cur:%c\t", cur+'a')
+		// fmt.Printf("cur:%c\t", cur+'a')
 		for i := 1; i <= left; i++ {
 			var pos = (i + c + ln) % ln
 			// 自己到自己永远是0
 			if ring[pos] == ring[c] {
 				continue
 			}
-			//fmt.Printf("%c\t", ring[pos])
+			// fmt.Printf("%c\t", ring[pos])
 			m[cur][ring[pos]-'a'] = min(m[cur][ring[pos]-'a'], i)
 		}
 		for i := 0; i < right; i++ {
@@ -45,22 +47,22 @@ func findRotateStepsFail(ring string, key string) int {
 			if ring[pos] == ring[c] {
 				continue
 			}
-			//fmt.Printf("%c\t", ring[pos])
+			// fmt.Printf("%c\t", ring[pos])
 			m[cur][ring[pos]-'a'] = min(m[cur][ring[pos]-'a'], i+1)
 		}
-		//fmt.Printf("\t\t")
-		//for j, jj := range m[cur] {
+		// fmt.Printf("\t\t")
+		// for j, jj := range m[cur] {
 		//	if jj == 0 {
 		//		continue
 		//	}
 		//	fmt.Printf("%c-%d \t", j+'a', jj)
-		//}
+		// }
 		//
-		//fmt.Println()
+		// fmt.Println()
 
 	}
 
-	//for i, v := range m {
+	// for i, v := range m {
 	//	fmt.Printf("cur:%c \t", i+'a')
 	//	for j, c := range v {
 	//		if c == 0 {
@@ -69,7 +71,7 @@ func findRotateStepsFail(ring string, key string) int {
 	//		fmt.Printf("%c-%d \t", j+'a', c)
 	//	}
 	//	fmt.Printf("\n")
-	//}
+	// }
 	var res int
 	var cur = ring[0]
 	for _, c := range key {
@@ -78,13 +80,6 @@ func findRotateStepsFail(ring string, key string) int {
 	}
 
 	return res
-}
-
-func min(a, b int) int {
-	if a < b {
-		return a
-	}
-	return b
 }
 
 func findRotateSteps(ring, key string) int {

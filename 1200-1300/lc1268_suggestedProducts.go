@@ -43,13 +43,6 @@ func suggestedProducts(products []string, searchWord string) [][]string {
 	return ans
 }
 
-func min(a, b int) int {
-	if a <= b {
-		return a
-	}
-	return b
-}
-
 type Trie struct {
 	Node
 }

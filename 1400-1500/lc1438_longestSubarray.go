@@ -1,3 +1,5 @@
+//go:build ignore
+
 package main
 
 import (
@@ -83,13 +85,6 @@ func abs(a int) int {
 		return -a
 	}
 	return a
-}
-
-func max(a, b int) int {
-	if a > b {
-		return a
-	}
-	return b
 }
 
 func longestSubarray2(nums []int, limit int) int {

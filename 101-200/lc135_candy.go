@@ -119,10 +119,3 @@ func candy2(ratings []int) int {
 
 	return res
 }
-
-func max(a, b int) int {
-	if a < b {
-		return b
-	}
-	return a
-}

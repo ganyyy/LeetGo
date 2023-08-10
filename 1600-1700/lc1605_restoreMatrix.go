@@ -26,10 +26,3 @@ func restoreMatrix(rowSum []int, colSum []int) [][]int {
 	}
 	return matrix
 }
-
-func min(a, b int) int {
-	if a > b {
-		return b
-	}
-	return a
-}

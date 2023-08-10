@@ -77,13 +77,6 @@ func compare(a, b []int) bool {
 	}
 }
 
-func min(a, b int) int {
-	if a < b {
-		return a
-	}
-	return b
-}
-
 func main() {
 	fmt.Println(maxNumber([]int{6, 7, 5}, []int{4, 8, 1}, 3))
 }

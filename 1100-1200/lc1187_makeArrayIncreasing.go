@@ -61,13 +61,6 @@ func makeArrayIncreasing(a, b []int) int {
 	return n - f[n-1]
 }
 
-func max(a, b int) int {
-	if a < b {
-		return b
-	}
-	return a
-}
-
 func main() {
 	println(makeArrayIncreasing([]int{1, 5, 3, 6, 7}, []int{1, 3, 2, 4}))
 }

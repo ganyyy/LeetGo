@@ -1,7 +1,9 @@
 package main
 
-import "math"
-import . "leetgo/data"
+import (
+	. "leetgo/data"
+	"math"
+)
 
 /**
  * Definition for a binary tree node.
@@ -56,11 +58,4 @@ func minDiffInBSTLoop(root *TreeNode) int {
 		}
 	}
 	return res
-}
-
-func min(a, b int) int {
-	if a < b {
-		return a
-	}
-	return b
 }

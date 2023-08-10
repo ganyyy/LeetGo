@@ -1,3 +1,5 @@
+//go:build ignore
+
 package main
 
 import (
@@ -33,13 +35,6 @@ func maxProfit2(prices []int) int {
 		sell = max(sell, v+buy)
 	}
 	return sell
-}
-
-func max(a, b int) int {
-	if a > b {
-		return a
-	}
-	return b
 }
 
 func main() {

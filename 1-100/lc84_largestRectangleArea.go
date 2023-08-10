@@ -27,13 +27,6 @@ func largestRectangleArea(heights []int) int {
 	return search(0, len(heights)-1)
 }
 
-func max(a, b int) int {
-	if a < b {
-		return b
-	}
-	return a
-}
-
 // 堆栈法
 func largestRectangleArea2(heights []int) int {
 	// 栈中存放的是比当前索引高度要小的 索引, 如果比当前高度高, 那就选择出栈

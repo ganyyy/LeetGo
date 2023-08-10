@@ -49,17 +49,3 @@ func isCoveredOld(ranges [][]int, left int, right int) bool {
 
 	return true
 }
-
-func max(a, b int) int {
-	if a > b {
-		return a
-	}
-	return b
-}
-
-func min(a, b int) int {
-	if a < b {
-		return a
-	}
-	return b
-}

@@ -23,10 +23,3 @@ func minDistance(word1 string, word2 string) int {
 	// 只要保证最终结果保留的是最长的, 那么用总的长度减去这个值就是删除字符最少的结果
 	return int(int16(l1+l2) - dp[l1][l2]*2)
 }
-
-func max(a, b int16) int16 {
-	if a > b {
-		return a
-	}
-	return b
-}

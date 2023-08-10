@@ -15,13 +15,6 @@ func canJump(nums []int) bool {
 	return true
 }
 
-func max(a, b int) int {
-	if a > b {
-		return a
-	}
-	return b
-}
-
 func main() {
 	fmt.Println(canJump([]int{3, 2, 1, 0, 4}))
 }

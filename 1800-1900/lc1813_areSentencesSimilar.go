@@ -20,10 +20,3 @@ func areSentencesSimilar(sentence1, sentence2 string) bool {
 	// 最长相似的字符串长度加一块等同于最短的那个句子
 	return i+j == min(n, m)
 }
-
-func min(a, b int) int {
-	if a > b {
-		return b
-	}
-	return a
-}

@@ -32,13 +32,6 @@ func lenLongestFibSubseq(arr []int) int {
 	return ret
 }
 
-func max(a, b int) int {
-	if a > b {
-		return a
-	}
-	return b
-}
-
 func main() {
 	lenLongestFibSubseq([]int{2, 4, 5, 6, 7, 8, 11, 13, 14, 15, 21, 22, 34})
 }

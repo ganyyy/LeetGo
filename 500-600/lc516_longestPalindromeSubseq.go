@@ -78,10 +78,3 @@ func longestPalindromeSubseq2(s string) int {
 	}
 	return dp[n-1]
 }
-
-func max(i, j int) int {
-	if i > j {
-		return i
-	}
-	return j
-}

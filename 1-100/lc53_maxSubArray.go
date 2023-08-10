@@ -50,13 +50,6 @@ func maxSubArray2(nums []int) int {
 	return max
 }
 
-func max(a, b int) int {
-	if a > b {
-		return a
-	}
-	return b
-}
-
 func main() {
 	fmt.Println(maxSubArray2([]int{-2, 1, -3, 4, -1, 2, 1, -5, 4}))
 }

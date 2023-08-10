@@ -27,13 +27,6 @@ func maxHeight(cuboids [][]int) (ret int) {
 	return
 }
 
-func max(a, b int) int {
-	if a > b {
-		return a
-	}
-	return b
-}
-
 func sum(nums []int) (ret int) {
 	for _, v := range nums {
 		ret += v

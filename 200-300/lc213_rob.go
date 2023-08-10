@@ -71,13 +71,6 @@ func rob2(nums []int) int {
 	return max(res, max(a, b))
 }
 
-func max(a, b int) int {
-	if a > b {
-		return a
-	}
-	return b
-}
-
 func main() {
 
 }

@@ -51,10 +51,3 @@ func lastStoneWeightII(stones []int) int {
 
 	return total - 2*dp[capacity]
 }
-
-func max(a, b int) int {
-	if a > b {
-		return a
-	}
-	return b
-}

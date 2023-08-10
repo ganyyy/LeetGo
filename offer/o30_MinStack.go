@@ -44,10 +44,3 @@ func (s *MinStack) Min() int {
 	var last = s.stack[len(s.stack)-1]
 	return last[1]
 }
-
-func min(a, b int) int {
-	if a < b {
-		return a
-	}
-	return b
-}

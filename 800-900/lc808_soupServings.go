@@ -36,10 +36,3 @@ func soupServings(n int) float64 {
 	}
 	return dfs(n, n)
 }
-
-func max(a, b int) int {
-	if b > a {
-		return b
-	}
-	return a
-}

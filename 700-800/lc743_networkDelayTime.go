@@ -1,3 +1,5 @@
+//go:build ignore
+
 package main
 
 import (
@@ -25,7 +27,7 @@ func networkDelayTime(times [][]int, n, k int) (ans int) {
 	// 初始情况下, 每个点都是不可达的
 	const inf int = math.MaxInt64 / 2
 
-	//dist[i]表示的是从起点到i+1点的最短距离
+	// dist[i]表示的是从起点到i+1点的最短距离
 	dist := make([]int, n)
 	for i := range dist {
 		dist[i] = inf
@@ -76,10 +78,3 @@ func (h hp) Less(i, j int) bool    { return h[i].d < h[j].d }
 func (h hp) Swap(i, j int)         { h[i], h[j] = h[j], h[i] }
 func (h *hp) Push(v interface{})   { *h = append(*h, v.(pair)) }
 func (h *hp) Pop() (v interface{}) { a := *h; *h, v = a[:len(a)-1], a[len(a)-1]; return }
-
-func max(a, b int) int {
-	if a > b {
-		return a
-	}
-	return b
-}

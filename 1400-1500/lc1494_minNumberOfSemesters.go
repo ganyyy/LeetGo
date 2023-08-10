@@ -38,10 +38,3 @@ func minNumberOfSemesters(n int, relations [][]int, k int) int {
 	}
 	return dp[(1<<n)-1]
 }
-
-func min(a, b int) int {
-	if a < b {
-		return a
-	}
-	return b
-}

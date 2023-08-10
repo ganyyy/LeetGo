@@ -1,9 +1,5 @@
 package main
 
-import (
-	. "leetgo/data"
-)
-
 /**
  * Definition for a binary tree node.
  * type TreeNode struct {
@@ -23,11 +19,4 @@ func minDepth(root *TreeNode) int {
 		return 1 + minDepth(root.Left)
 	}
 	return min(minDepth(root.Left), minDepth(root.Right)) + 1
-}
-
-func min(a, b int) int {
-	if a < b {
-		return a
-	}
-	return b
 }

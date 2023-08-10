@@ -2,13 +2,6 @@
 
 package main
 
-func min(a, b int) int {
-	if a > b {
-		return b
-	}
-	return a
-}
-
 func connectTwoGroups(cost [][]int) int {
 	// 数组维护的是任意两点之间的连接成本. 全相联映射
 	size1, size2, m := len(cost), len(cost[0]), 1<<len(cost[0])

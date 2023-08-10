@@ -36,13 +36,6 @@ func findMaxConsecutiveOnes2(nums []int) int {
 	return res
 }
 
-func max(a, b int) int {
-	if a > b {
-		return a
-	}
-	return b
-}
-
 func main() {
 	fmt.Println(findMaxConsecutiveOnes([]int{1, 1, 0, 1}))
 }

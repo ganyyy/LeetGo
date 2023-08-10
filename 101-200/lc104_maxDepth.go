@@ -1,6 +1,6 @@
-package main
+//go:build ignore
 
-import . "leetgo/data"
+package main
 
 // 非递归使用层次遍历进行处理
 func maxDepth(root *TreeNode) int {
@@ -33,13 +33,6 @@ func maxDepth2(root *TreeNode) int {
 		return 0
 	}
 	return max(maxDepth2(root.Left), maxDepth2(root.Right)) + 1
-}
-
-func max(a, b int) int {
-	if a < b {
-		return b
-	}
-	return a
 }
 
 func main() {

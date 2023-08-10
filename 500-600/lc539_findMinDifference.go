@@ -32,10 +32,3 @@ func findMinDifference(timePoints []string) int {
 	ret = min(ret, DAY+parse(timePoints[0])-b)
 	return ret
 }
-
-func min(a, b int) int {
-	if a > b {
-		return b
-	}
-	return a
-}

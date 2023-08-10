@@ -2,13 +2,6 @@
 
 package main
 
-func max(a, b int) int {
-	if a > b {
-		return a
-	}
-	return b
-}
-
 func lastSubstring(s string) string {
 	i, j, n := 0, 1, len(s)
 	// s[i:i+k+1] = ret

@@ -41,13 +41,6 @@ func countDifferentSubsequenceGCDs(nums []int) (ans int) {
 	return
 }
 
-func max(a, b int) int {
-	if b > a {
-		return b
-	}
-	return a
-}
-
 func gcd(num1, num2 int) int {
 	for num1 != 0 {
 		num1, num2 = num2%num1, num1

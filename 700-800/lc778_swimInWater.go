@@ -1,3 +1,5 @@
+//go:build ignore
+
 package main
 
 import (
@@ -119,11 +121,4 @@ func swimInWater3(grid [][]int) (ans int) {
 			}
 		}
 	}
-}
-
-func max(a, b int) int {
-	if a > b {
-		return a
-	}
-	return b
 }

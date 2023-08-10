@@ -69,10 +69,3 @@ func minRefuelStops2(target, startFuel int, stations [][]int) int {
 	}
 	return -1
 }
-
-func max(a, b int) int {
-	if b > a {
-		return b
-	}
-	return a
-}

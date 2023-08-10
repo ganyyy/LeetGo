@@ -1,3 +1,5 @@
+//go:build ignore
+
 package main
 
 func help(h1 [7]int, h2 [7]int, diff int) (res int) {
@@ -42,11 +44,4 @@ func minOperations(nums1 []int, nums2 []int) (ans int) {
 		return help(cnt2, cnt1, diff)
 	}
 	return help(cnt1, cnt2, -diff)
-}
-
-func min(a, b int) int {
-	if a > b {
-		return b
-	}
-	return a
 }

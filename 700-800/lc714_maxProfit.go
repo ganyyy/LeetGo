@@ -29,10 +29,3 @@ func maxProfit(prices []int, fee int) int {
 	// return dp[len(prices)-1][1]
 	return cash
 }
-
-func max(a, b int) int {
-	if a > b {
-		return a
-	}
-	return b
-}

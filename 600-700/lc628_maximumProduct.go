@@ -28,13 +28,6 @@ func maximumProduct(nums []int) int {
 	return nums[n-1] * nums[n-2] * nums[n-3]
 }
 
-func max(a, b int) int {
-	if a > b {
-		return a
-	}
-	return b
-}
-
 func maximumProduct2(nums []int) int {
 	var min1, min2 = math.MaxInt32, math.MaxInt32
 	var max1, max2, max3 = math.MinInt32, math.MinInt32, math.MinInt32

@@ -2,20 +2,6 @@
 
 package main
 
-func min(a, b int) int {
-	if a < b {
-		return a
-	}
-	return b
-}
-
-func max(a, b int) int {
-	if a > b {
-		return a
-	}
-	return b
-}
-
 // 感觉这题, 不如原神...
 func tilingRectangle(n int, m int) int {
 	// n: 行

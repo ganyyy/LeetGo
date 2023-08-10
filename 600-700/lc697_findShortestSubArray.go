@@ -126,17 +126,3 @@ func findShortestSubArray3(nums []int) int {
 	}
 	return mm.dis()
 }
-
-func max(a, b int) int {
-	if a > b {
-		return a
-	}
-	return b
-}
-
-func min(a, b int) int {
-	if a < b {
-		return a
-	}
-	return b
-}

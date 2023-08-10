@@ -58,10 +58,3 @@ func queryString(s string, n int) bool {
 	// 分别见检查 1, 2两部分是否合法
 	return check(k, n/2+1, 1<<k-1) && check(k+1, 1<<k, n)
 }
-
-func max(a, b int) int {
-	if a < b {
-		return b
-	}
-	return a
-}

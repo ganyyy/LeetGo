@@ -130,13 +130,6 @@ func bytesToString(bs []byte) string {
 	return *(*string)(unsafe.Pointer(&bs))
 }
 
-func max(a, b int) int {
-	if a > b {
-		return a
-	}
-	return b
-}
-
 func main() {
 	fmt.Println(addStrings2("19", "1"))
 }

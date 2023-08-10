@@ -2,13 +2,6 @@
 
 package main
 
-func max(a, b int) int {
-	if a > b {
-		return a
-	}
-	return b
-}
-
 func maximumSum(arr []int) int {
 	// dp0: 不删除任何元素的arr[:i+1]中最大的子数组和
 	//      当前元素不删除, 可以采用 max(dp0, 0) + arr[i]

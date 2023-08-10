@@ -35,10 +35,3 @@ func maxSum(nums1 []int, nums2 []int) int {
 
 	return max(F[l1], G[l2]) % (1e9 + 7)
 }
-
-func max(a, b int) int {
-	if a > b {
-		return a
-	}
-	return b
-}

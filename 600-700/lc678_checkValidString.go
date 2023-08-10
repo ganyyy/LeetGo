@@ -29,10 +29,3 @@ func checkValidString(str string) bool {
 	}
 	return lo <= 0
 }
-
-func max(a, b int) int {
-	if a > b {
-		return a
-	}
-	return b
-}

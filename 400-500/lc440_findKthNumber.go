@@ -32,13 +32,6 @@ func findKthNumber(n, k int) int {
 	return cur
 }
 
-func min(a, b int) int {
-	if a > b {
-		return b
-	}
-	return a
-}
-
 func findKthNumber2(n int, k int) int {
 	var cur = 1 // 第一个数
 	k--         // 算上第一个

@@ -1,3 +1,5 @@
+//go:build ignore
+
 package main
 
 import "container/heap"
@@ -43,10 +45,3 @@ func (h hp) Less(i, j int) bool  { return h[i].end < h[j].end }
 func (h hp) Swap(i, j int)       { h[i], h[j] = h[j], h[i] }
 func (h *hp) Push(v interface{}) { *h = append(*h, v.(pair)) }
 func (h *hp) Pop() interface{}   { a := *h; v := a[len(a)-1]; *h = a[:len(a)-1]; return v }
-
-func min(a, b int) int {
-	if a > b {
-		return b
-	}
-	return a
-}

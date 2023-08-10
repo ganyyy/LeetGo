@@ -5,13 +5,6 @@ type Node struct {
 	Children []*Node
 }
 
-func max(a, b int) int {
-	if a > b {
-		return a
-	}
-	return b
-}
-
 func maxDepth(root *Node) int {
 	if root == nil {
 		return 0

@@ -58,17 +58,3 @@ func minDifficulty(jobDifficulty []int, d int) int {
 	}
 	return dp[d-1][n-1]
 }
-
-func max(a, b int) int {
-	if a > b {
-		return a
-	}
-	return b
-}
-
-func min(a, b int) int {
-	if a < b {
-		return a
-	}
-	return b
-}

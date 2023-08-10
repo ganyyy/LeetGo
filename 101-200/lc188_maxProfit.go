@@ -44,13 +44,6 @@ func maxProfit(k int, prices []int) int {
 	return ret[total-1]
 }
 
-func max(a, b int) int {
-	if a > b {
-		return a
-	}
-	return b
-}
-
 func main() {
 
 }

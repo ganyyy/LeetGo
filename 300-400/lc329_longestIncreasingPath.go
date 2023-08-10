@@ -116,13 +116,6 @@ func longestIncreasingPathDFS(matrix [][]int) int {
 	return m
 }
 
-func max(a, b int) int {
-	if a > b {
-		return a
-	}
-	return b
-}
-
 func main() {
 
 }

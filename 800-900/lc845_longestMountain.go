@@ -54,13 +54,6 @@ func longestMountain(A []int) int {
 	return res
 }
 
-func max(a, b int) int {
-	if a > b {
-		return a
-	}
-	return b
-}
-
 func main() {
 	var cases = [][]int{
 		{1, 2, 3, 2, 1, 2, 3, 4, 5, 3, 2, 1},

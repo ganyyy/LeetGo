@@ -70,17 +70,3 @@ func findRadius(houses []int, heaters []int) int {
 	}
 	return ret
 }
-
-func min(a, b int) int {
-	if a < b {
-		return a
-	}
-	return b
-}
-
-func max(a, b int) int {
-	if a > b {
-		return a
-	}
-	return b
-}

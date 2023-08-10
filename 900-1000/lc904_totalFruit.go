@@ -60,10 +60,3 @@ func totalFruit(fruits []int) int {
 
 	return max(ret, len(fruits)-start)
 }
-
-func max(a, b int) int {
-	if a > b {
-		return a
-	}
-	return b
-}

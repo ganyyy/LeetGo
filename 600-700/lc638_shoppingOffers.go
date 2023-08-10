@@ -67,10 +67,3 @@ func shoppingOffers(price []int, special [][]int, needs []int) int {
 
 	return dfs(curNeeds)
 }
-
-func min(a, b int) int {
-	if a > b {
-		return b
-	}
-	return a
-}

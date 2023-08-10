@@ -35,10 +35,3 @@ func bestTeamScore(scores []int, ages []int) int {
 	}
 	return res
 }
-
-func max(a, b int) int {
-	if b > a {
-		return b
-	}
-	return a
-}

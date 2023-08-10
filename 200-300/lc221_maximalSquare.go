@@ -93,13 +93,6 @@ func maximalSquareDP(matrix [][]byte) int {
 	return max * max
 }
 
-func min(a, b int) int {
-	if b > a {
-		return a
-	}
-	return b
-}
-
 func main() {
 	/**
 

@@ -72,13 +72,6 @@ func countBinarySubstrings2(s string) int {
 	return res
 }
 
-func min(a, b int) int {
-	if a < b {
-		return a
-	}
-	return b
-}
-
 func main() {
 	fmt.Println("res is ", countBinarySubstrings("10101"))
 }

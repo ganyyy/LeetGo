@@ -29,10 +29,3 @@ func minSideJumps(obstacles []int) int {
 	}
 	return min(min(d[0], d[1]), d[2])
 }
-
-func min(a, b int) int {
-	if a > b {
-		return b
-	}
-	return a
-}

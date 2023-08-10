@@ -23,13 +23,6 @@ func maxSumTwoNoOverlap(nums []int, firstLen, secondLen int) (ans int) {
 	return
 }
 
-func max(a, b int) int {
-	if b > a {
-		return b
-	}
-	return a
-}
-
 /*
 func maxSumTwoNoOverlap(nums []int, firstLen, secondLen int) (ans int) {
     n := len(nums)

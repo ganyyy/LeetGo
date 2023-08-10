@@ -24,10 +24,3 @@ func maxEqualFreq(nums []int) (ans int) {
 	}
 	return
 }
-
-func max(a, b int) int {
-	if b > a {
-		return b
-	}
-	return a
-}

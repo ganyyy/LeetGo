@@ -1,3 +1,5 @@
+//go:build ignore
+
 package main
 
 func fallingSquares(positions [][]int) []int {
@@ -17,11 +19,4 @@ func fallingSquares(positions [][]int) []int {
 		heights[i] = max(heights[i], heights[i-1])
 	}
 	return heights
-}
-
-func max(a, b int) int {
-	if b > a {
-		return b
-	}
-	return a
 }

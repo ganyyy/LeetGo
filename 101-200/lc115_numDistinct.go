@@ -64,10 +64,3 @@ func numDistinctSingleDP(s string, t string) int {
 
 	return dp[len(t)]
 }
-
-func min(a, b int) int {
-	if a < b {
-		return a
-	}
-	return b
-}

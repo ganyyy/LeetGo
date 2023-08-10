@@ -97,10 +97,3 @@ func modifiedGraphEdges(n int, edges [][]int, source, destination, target int) [
 	}
 	return edges
 }
-
-func min(a, b int) int {
-	if b < a {
-		return b
-	}
-	return a
-}

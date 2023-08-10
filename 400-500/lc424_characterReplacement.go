@@ -90,10 +90,3 @@ func characterReplacement2(s string, k int) int {
 	}
 	return size + k
 }
-
-func max(a, b int) int {
-	if a < b {
-		return b
-	}
-	return a
-}

@@ -1,3 +1,5 @@
+//go:build ignore
+
 package main
 
 func findMinMoves(machines []int) (ans int) {
@@ -26,11 +28,4 @@ func abs(x int) int {
 		return -x
 	}
 	return x
-}
-
-func max(a, b int) int {
-	if b > a {
-		return b
-	}
-	return a
 }

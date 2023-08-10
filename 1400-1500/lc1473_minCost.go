@@ -103,13 +103,6 @@ func minCost(houses []int, cost [][]int, m int, n int, target int) int {
 	return res
 }
 
-func min(a, b int) int {
-	if a < b {
-		return a
-	}
-	return b
-}
-
 func minCostDaLao(houses []int, cost [][]int, m int, n int, target int) int {
 	dp0 := make([][]int, m+1)
 	dp1 := make([][]int, m+1)

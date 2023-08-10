@@ -1,3 +1,5 @@
+//go:build ignore
+
 package main
 
 import "math"
@@ -68,12 +70,4 @@ func dpMax(arr []int, k int) int {
 	}
 
 	return maxArea
-}
-
-func max(a, b int) int {
-	if a > b {
-		return a
-	}
-
-	return b
 }

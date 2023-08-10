@@ -61,10 +61,3 @@ func movesToChessboard(board [][]int) int {
 
 	return (rowSwap + colSwap) / 2
 }
-
-func min(a, b int) int {
-	if a < b {
-		return a
-	}
-	return b
-}

@@ -61,13 +61,6 @@ func trapRainWater(heightMap [][]int) (ans int) {
 	return
 }
 
-func max(a, b int) int {
-	if a > b {
-		return a
-	}
-	return b
-}
-
 func Constructor(size int) *PriQueue {
 	p := new(PriQueue)
 	p.capacity = size

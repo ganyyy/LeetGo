@@ -1,3 +1,5 @@
+//go:build ignore
+
 package main
 
 import (
@@ -71,13 +73,6 @@ func (h *ItemHeap) Pop() interface{} {
 	x := old[l-1]
 	*h = old[:l-1]
 	return x
-}
-
-func max(a, b int) int {
-	if a > b {
-		return a
-	}
-	return b
 }
 
 func main() {

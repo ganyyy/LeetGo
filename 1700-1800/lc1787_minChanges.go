@@ -1,19 +1,5 @@
 package main
 
-func min(a, b int) int {
-	if a <= b {
-		return a
-	}
-	return b
-}
-
-func max(a, b int) int {
-	if a >= b {
-		return a
-	}
-	return b
-}
-
 func minChanges(nums []int, k int) int {
 	// 这个数学推论直接看官方题解..
 	// 数字以k为周期, 分为k组, 且组内所有元素的值必须相等

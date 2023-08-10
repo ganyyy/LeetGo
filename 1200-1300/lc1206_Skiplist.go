@@ -95,10 +95,3 @@ func (s *SkipList) Erase(num int) bool {
 	}
 	return true
 }
-
-func max(a, b int) int {
-	if b > a {
-		return b
-	}
-	return a
-}

@@ -70,20 +70,6 @@ func superEggDrop(K int, N int) int {
 	return dp(K, N)
 }
 
-func max(a, b int) int {
-	if a > b {
-		return a
-	}
-	return b
-}
-
-func min(a, b int) int {
-	if a < b {
-		return a
-	}
-	return b
-}
-
 func main() {
 	fmt.Println(superEggDrop2(3, 14))
 }

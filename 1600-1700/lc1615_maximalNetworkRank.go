@@ -29,10 +29,3 @@ func maximalNetworkRank(n int, roads [][]int) int {
 	}
 	return maxRank
 }
-
-func max(a, b int) int {
-	if b > a {
-		return b
-	}
-	return a
-}

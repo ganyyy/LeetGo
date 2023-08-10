@@ -39,13 +39,6 @@ func lengthLongestPath(input string) int {
 	return res
 }
 
-func max(a, b int) int {
-	if a > b {
-		return a
-	}
-	return b
-}
-
 func lengthLongestPath2(input string) int {
 	var stack []int
 

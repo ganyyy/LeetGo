@@ -1,3 +1,5 @@
+//go:build ignore
+
 package main
 
 import (
@@ -54,13 +56,6 @@ func abs(a int) int {
 	return a
 }
 
-func min(a, b int) int {
-	if a < b {
-		return a
-	}
-	return b
-}
-
 func minAbsoluteSumDiff(nums1, nums2 []int) int {
 	rec := append(sort.IntSlice(nil), nums1...)
 	rec.Sort()
@@ -85,13 +80,6 @@ func minAbsoluteSumDiff(nums1, nums2 []int) int {
 		}
 	}
 	return (sum - m) % (1e9 + 7)
-}
-
-func max(a, b int) int {
-	if a > b {
-		return a
-	}
-	return b
 }
 
 func main() {

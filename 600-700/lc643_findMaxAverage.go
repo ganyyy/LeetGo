@@ -18,10 +18,3 @@ func findMaxAverage(nums []int, k int) float64 {
 
 	return res
 }
-
-func max(a, b float64) float64 {
-	if a > b {
-		return a
-	}
-	return b
-}

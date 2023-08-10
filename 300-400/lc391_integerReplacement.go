@@ -32,10 +32,3 @@ func integerReplacementInverse(n int) int {
 	}
 	return min(integerReplacement(n+1), integerReplacement(n-1)) + 1
 }
-
-func min(a, b int) int {
-	if a < b {
-		return a
-	}
-	return b
-}

@@ -1,16 +1,11 @@
+//go:build ignore
+
 package main
 
 const (
 	Empty byte = '0'
 	Fill  byte = '1'
 )
-
-func max(a, b int) int {
-	if a > b {
-		return a
-	}
-	return b
-}
 
 func getMaxArea(heights []int) int {
 	stack := make([]int, 0, len(heights)+1)
@@ -100,13 +95,6 @@ func largestRectangleArea23(heights []int) int {
 	}
 
 	return res
-}
-
-func max(a, b int) int {
-	if a > b {
-		return a
-	}
-	return b
 }
 
 func main() {

@@ -1,3 +1,5 @@
+//go:build ignore
+
 package main
 
 func maxProfit(prices []int) int {
@@ -42,13 +44,6 @@ func maxProfit122Dp(prices []int) int {
 	}
 	// 返回最后一天不持有股票的最大收益
 	return dp[len(prices)-1][1]
-}
-
-func max(a, b int) int {
-	if a > b {
-		return a
-	}
-	return b
 }
 
 func main() {

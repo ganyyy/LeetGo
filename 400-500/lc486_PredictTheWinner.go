@@ -42,20 +42,6 @@ func PredictTheWinner(nums []int) bool {
 	return dp[0][ln-1] >= sum-dp[0][ln-1]
 }
 
-func min(a, b int) int {
-	if a > b {
-		return b
-	}
-	return a
-}
-
-func max(a, b int) int {
-	if a < b {
-		return b
-	}
-	return a
-}
-
 func PredictTheWinnerWWW(nums []int) bool {
 	if len(nums)&1 == 0 {
 		// 偶数数组的情况下, 可以控制拿奇数还是偶数. 两部分的和一定存在 >= 的关系

@@ -45,13 +45,6 @@ func maxCoins(nums []int) int {
 	return dp[0][ln+1]
 }
 
-func max(a, b int) int {
-	if a > b {
-		return a
-	}
-	return b
-}
-
 func main() {
 	fmt.Println(maxCoins([]int{3, 1, 5, 8}))
 }

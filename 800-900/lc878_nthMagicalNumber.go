@@ -24,13 +24,6 @@ func nthMagicalNumber(n, a, b int) int {
 	return (r + 1) % mod
 }
 
-func min(a, b int) int {
-	if a > b {
-		return b
-	}
-	return a
-}
-
 func gcd(a, b int) int {
 	if b != 0 {
 		return gcd(b, a%b)

@@ -1,3 +1,5 @@
+//go:build ignore
+
 package main
 
 import "github.com/emirpasic/gods/trees/redblacktree"
@@ -81,11 +83,4 @@ func (t RangeModule) RemoveRange(left, right int) {
 			break
 		}
 	}
-}
-
-func max(a, b int) int {
-	if b > a {
-		return b
-	}
-	return a
 }

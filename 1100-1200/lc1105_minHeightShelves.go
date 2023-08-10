@@ -23,16 +23,3 @@ func minHeightShelves(books [][]int, shelfWidth int) int {
 	}
 	return f[n] // 翻译自 dfs(n-1)
 }
-
-func min(a, b int) int {
-	if b < a {
-		return b
-	}
-	return a
-}
-func max(a, b int) int {
-	if b > a {
-		return b
-	}
-	return a
-}

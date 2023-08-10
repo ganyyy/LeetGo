@@ -33,13 +33,6 @@ func longestSubstring(s string, k int) int {
 	return max(res, longestSubstring(s[l:], k))
 }
 
-func max(a, b int) int {
-	if a > b {
-		return a
-	}
-	return b
-}
-
 func longestSubstringWindow(s string, k int) (ans int) {
 	for t := 1; t <= 26; t++ {
 		// 按照字符的数量进行统计

@@ -102,13 +102,6 @@ func largestDivisibleSubset3(nums []int) []int {
 	return res
 }
 
-func max(a, b int) int {
-	if a > b {
-		return a
-	}
-	return b
-}
-
 func main() {
 	fmt.Println(largestDivisibleSubset3([]int{3, 4, 16, 8}))
 }

@@ -41,13 +41,6 @@ func restoreIpAddresses(s string) []string {
 	return res
 }
 
-func min(a, b int) int {
-	if a < b {
-		return a
-	}
-	return b
-}
-
 func main() {
 	restoreIpAddresses("25525511135")
 }

@@ -22,10 +22,3 @@ func respace(dictionary []string, sentence string) int {
 	}
 	return dp[ln]
 }
-
-func min(a, b int) int {
-	if a > b {
-		return b
-	}
-	return a
-}

@@ -36,13 +36,6 @@ func numWays(steps int, arrLen int) int {
 	return dp[0]
 }
 
-func min(a, b int) int {
-	if a < b {
-		return a
-	}
-	return b
-}
-
 func mod(a int) int {
 	const mod = 1000000007
 	return a % mod

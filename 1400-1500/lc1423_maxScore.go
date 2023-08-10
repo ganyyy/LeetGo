@@ -20,10 +20,3 @@ func maxScore(cardPoints []int, k int) int {
 	// 最后用总和减去这个值就行
 	return sum - mmin
 }
-
-func min(a, b int) int {
-	if a < b {
-		return a
-	}
-	return b
-}

@@ -1,3 +1,5 @@
+//go:build ignore
+
 package main
 
 import "math"
@@ -41,13 +43,6 @@ func maxProfit3(prices []int) int {
 	}
 
 	return second[1]
-}
-
-func max(a, b int) int {
-	if a > b {
-		return a
-	}
-	return b
 }
 
 func main() {

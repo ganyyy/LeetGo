@@ -1,3 +1,5 @@
+//go:build ignore
+
 package main
 
 func checkRecord(s string) bool {
@@ -29,11 +31,4 @@ func checkRecord(s string) bool {
 	}
 	calc()
 	return acnt < 2 && msl < 3
-}
-
-func max(a, b int) int {
-	if a > b {
-		return a
-	}
-	return b
 }

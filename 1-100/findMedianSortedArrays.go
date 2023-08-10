@@ -147,20 +147,6 @@ func m2(nums1 []int, nums2 []int) float64 {
 	return 0
 }
 
-func max(a, b int) int {
-	if a > b {
-		return a
-	}
-	return b
-}
-
-func min(a, b int) int {
-	if a < b {
-		return a
-	}
-	return b
-}
-
 func findMedianSortedArrays3(nums1 []int, nums2 []int) float64 {
 	// 取两个数组中较短的为 nums1
 	if len(nums1) > len(nums2) {

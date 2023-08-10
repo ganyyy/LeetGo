@@ -62,20 +62,13 @@ func numSquares2(n int) int {
 	return 3
 }
 
-func min(a, b int) int {
-	if a < b {
-		return a
-	}
-	return b
-}
-
 func main() {
-	//for i := 1; i <= 100; i++ {
+	// for i := 1; i <= 100; i++ {
 	//	var limit = sort.Search(101, func(k int) bool {
 	//		return cell[k] > i
 	//	}) - 1
 	//	fmt.Println(limit)
-	//}
+	// }
 	for i := 1; i <= 100; i++ {
 		println(i, numSquares(i))
 	}

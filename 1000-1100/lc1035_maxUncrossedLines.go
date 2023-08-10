@@ -25,10 +25,3 @@ func maxUncrossedLines(nums1 []int, nums2 []int) int {
 
 	return dp[len(nums1)][len(nums2)]
 }
-
-func max(a, b int) int {
-	if a < b {
-		return b
-	}
-	return a
-}

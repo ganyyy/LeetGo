@@ -58,10 +58,3 @@ func (l *MyLinkedList) DeleteAtIndex(index int) {
 	preNode := l.preNode(index)
 	preNode.Next = preNode.Next.Next
 }
-
-func max(a, b int) int {
-	if b > a {
-		return b
-	}
-	return a
-}

@@ -32,13 +32,6 @@ func videoStitching(clips [][]int, T int) int {
 	return dp[T]
 }
 
-func min(a, b int) int {
-	if a < b {
-		return a
-	}
-	return b
-}
-
 func main() {
 	var clips = [][]int{
 		{0, 2},

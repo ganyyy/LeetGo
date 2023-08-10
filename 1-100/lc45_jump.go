@@ -28,13 +28,6 @@ func jump(nums []int) int {
 	return dp[ln-1]
 }
 
-func min(a, b int) int {
-	if a < b {
-		return a
-	}
-	return b
-}
-
 // 上贪心算法
 func jump2(nums []int) int {
 	end, maxPos, steps := 0, 0, 0
@@ -48,13 +41,6 @@ func jump2(nums []int) int {
 		}
 	}
 	return steps
-}
-
-func max(a, b int) int {
-	if a < b {
-		return b
-	}
-	return a
 }
 
 func main() {

@@ -45,17 +45,3 @@ func minDays(bloomDay []int, m int, k int) int {
 	}
 	return ret + mi
 }
-
-func min(a, b int) int {
-	if a < b {
-		return a
-	}
-	return b
-}
-
-func max(a, b int) int {
-	if a > b {
-		return a
-	}
-	return b
-}

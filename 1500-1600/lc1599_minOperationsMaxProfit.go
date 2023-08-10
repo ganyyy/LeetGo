@@ -51,10 +51,3 @@ func minOperationsMaxProfit(customers []int, boardingCost, runningCost int) int 
 	}
 	return ans
 }
-
-func min(a, b int) int {
-	if a > b {
-		return b
-	}
-	return a
-}

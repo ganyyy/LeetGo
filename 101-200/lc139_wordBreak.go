@@ -1,3 +1,5 @@
+//go:build ignore
+
 package main
 
 // 这是一个失败的解决方式
@@ -66,11 +68,4 @@ func wordBreak(s string, wordDict []string) bool {
 		}
 	}
 	return dp[len(s)]
-}
-
-func max(a, b int) int {
-	if a > b {
-		return a
-	}
-	return b
 }

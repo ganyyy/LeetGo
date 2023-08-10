@@ -27,13 +27,6 @@ func longestStrChain(words []string) int {
 	return ret + 1
 }
 
-func max(a, b int) int {
-	if a > b {
-		return a
-	}
-	return b
-}
-
 func distance(a, b string) bool {
 	if len(a)+1 != len(b) {
 		return false

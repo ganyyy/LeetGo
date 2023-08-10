@@ -2,13 +2,6 @@
 
 package main
 
-func max(a, b int) int {
-	if a > b {
-		return a
-	}
-	return b
-}
-
 func maxSumDivThree(nums []int) int {
 	// 上一个状态, sum mod 3 = 0/1/2 对应的最大值
 	f := []int{0, -0x3f3f3f3f, -0x3f3f3f3f}

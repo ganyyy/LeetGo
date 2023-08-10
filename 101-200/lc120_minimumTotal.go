@@ -15,13 +15,6 @@ func minimumTotal(triangle [][]int) int {
 	return triangle[0][0]
 }
 
-func min(a, b int) int {
-	if a < b {
-		return a
-	}
-	return b
-}
-
 func main() {
 	var t = [][]int{
 		{2},

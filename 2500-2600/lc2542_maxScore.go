@@ -1,3 +1,5 @@
+//go:build ignore
+
 package main
 
 import (
@@ -49,10 +51,4 @@ func (h hp) replace(v int) int {
 	h.IntSlice[0] = v
 	heap.Fix(&h, 0)
 	return top
-}
-func max(a, b int) int {
-	if b > a {
-		return b
-	}
-	return a
 }

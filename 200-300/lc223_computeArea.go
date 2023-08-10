@@ -14,17 +14,3 @@ func computeArea(ax1 int, ay1 int, ax2 int, ay2 int, bx1 int, by1 int, bx2 int, 
 	// 如果相交, 去掉公共部分
 	return a + b - (min(ax2, bx2)-max(ax1, bx1))*(min(ay2, by2)-max(ay1, by1))
 }
-
-func max(a, b int) int {
-	if a > b {
-		return a
-	}
-	return b
-}
-
-func min(a, b int) int {
-	if a < b {
-		return a
-	}
-	return b
-}

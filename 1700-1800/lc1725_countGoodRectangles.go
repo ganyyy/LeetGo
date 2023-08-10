@@ -15,13 +15,6 @@ func countGoodRectangles(rectangles [][]int) int {
 	return cnt
 }
 
-func max(a, b int) int {
-	if a < b {
-		return b
-	}
-	return a
-}
-
 func minSide(r []int) int {
 	var a, b = r[0], r[1]
 	if a < b {

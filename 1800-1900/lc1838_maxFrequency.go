@@ -31,10 +31,3 @@ func maxFrequency(nums []int, k int) int {
 	return max(ret, right-left)
 
 }
-
-func max(a, b int) int {
-	if a > b {
-		return a
-	}
-	return b
-}

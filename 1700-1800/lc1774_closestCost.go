@@ -9,7 +9,7 @@ func closestCost(baseCosts []int, toppingCosts []int, target int) int {
 	for _, c := range baseCosts {
 		x = min(x, c)
 	}
-	//提前枝减恰好相等的情况(不加任何配料)
+	// 提前枝减恰好相等的情况(不加任何配料)
 	if x >= target {
 		return x
 	}
@@ -66,11 +66,4 @@ func closestCost(baseCosts []int, toppingCosts []int, target int) int {
 		}
 	}
 	return ans
-}
-
-func min(a, b int) int {
-	if a > b {
-		return b
-	}
-	return a
 }

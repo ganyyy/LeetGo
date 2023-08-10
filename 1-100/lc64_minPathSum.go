@@ -2,7 +2,6 @@ package main
 
 import (
 	"fmt"
-	"strconv"
 )
 
 func minPathSum(grid [][]int) int {
@@ -28,13 +27,6 @@ func minPathSum(grid [][]int) int {
 		}
 	}
 	return grid[ln-1][lm-1]
-}
-
-func min(a, b int) int {
-	if a < b {
-		return a
-	}
-	return b
 }
 
 func main() {
