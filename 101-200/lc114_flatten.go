@@ -1,9 +1,5 @@
 package main
 
-import (
-	. "leetgo/data"
-)
-
 func flatten(root *TreeNode) {
 	if nil == root {
 		return
@@ -38,6 +34,8 @@ func flatten2(root *TreeNode) {
 	curr := root
 	for curr != nil {
 		// 如果当前节点的左子节点不为空, 就找到右子节点的前驱节点
+		// 这个右子节点的前驱, 就是左子节点一直往右找到空的位置
+		// 然后将右子节点接到前驱上, 将左子节点转移到右子节点, 实现一次旋转(!)
 		if curr.Left != nil {
 			next := curr.Left
 			predecessor := next
