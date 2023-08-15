@@ -201,3 +201,45 @@ func canFinish4(numCourses int, prerequisites [][]int) bool {
 	// return true
 	return cnt == numCourses
 }
+
+func canFinish5(numCourses int, prerequisites [][]int) bool {
+	// 所有入度为0的课程, 就是起始课程
+
+	// pre -> [post]
+	var nextCourses = make([][]int, numCourses)
+	// [post]
+	var inDegrees = make([]int, numCourses)
+	// 累计学习完成的课程
+	var past int
+
+	for _, prerequisite := range prerequisites {
+		post, pre := prerequisite[0], prerequisite[1]
+		inDegrees[post]++
+		nextCourses[pre] = append(nextCourses[pre], post)
+	}
+
+	var cur []int
+	var next []int
+
+	for course, ind := range inDegrees {
+		if ind == 0 {
+			cur = append(cur, course)
+		}
+	}
+
+	for len(cur) != 0 {
+		past += len(cur)
+		for _, course := range cur {
+			for _, nextCourse := range nextCourses[course] {
+				inDegrees[nextCourse]--
+				if inDegrees[nextCourse] <= 0 {
+					next = append(next, nextCourse)
+				}
+			}
+		}
+
+		cur, next = next, cur[:0]
+	}
+
+	return past == numCourses
+}
