@@ -5,7 +5,7 @@ import (
 	"sort"
 )
 
-func combinationSum2(candidates []int, target int) [][]int {
+func combinationSum5(candidates []int, target int) [][]int {
 	// 先排序
 	sort.Ints(candidates)
 	var res [][]int

@@ -32,6 +32,33 @@ func combination1(candidates []int, target int) [][]int {
 	return res
 }
 
+func combinationSum3(candidates []int, target int) (ans [][]int) {
+	var comb []int
+	var dfs func(target, idx int)
+	dfs = func(target, idx int) {
+		if idx == len(candidates) {
+			return
+		}
+		if target == 0 {
+			ans = append(ans, append([]int(nil), comb...))
+			return
+		}
+
+		// 很有意思的思路: 从小往大的发散, 保证了不会出现重复的组合
+
+		// 直接跳过: 不选择当前数
+		dfs(target, idx+1)
+		// 选择当前数
+		if target-candidates[idx] >= 0 {
+			comb = append(comb, candidates[idx])
+			dfs(target-candidates[idx], idx)
+			comb = comb[:len(comb)-1]
+		}
+	}
+	dfs(target, 0)
+	return
+}
+
 /**
 [7,3,2]
 18

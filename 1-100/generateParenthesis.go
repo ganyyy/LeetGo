@@ -48,6 +48,33 @@ func generateParenthesis2(n int) []string {
 	return res
 }
 
+func generateParenthesis3(n int) []string {
+	if n == 0 {
+		return nil
+	}
+	var ret []string
+
+	var dfs func(left, right int, buf []byte)
+
+	dfs = func(left, right int, buf []byte) {
+		if left|right == 0 {
+			ret = append(ret, string(buf))
+			return
+		}
+		if left > right {
+			return
+		}
+		if left > 0 {
+			dfs(left-1, right, append(buf, '('))
+		}
+		if right > 0 {
+			dfs(left, right-1, append(buf, ')'))
+		}
+	}
+	dfs(n, n, make([]byte, 0, n*2))
+	return ret
+}
+
 func main() {
 	res := generateParenthesis2(3)
 	fmt.Println(res)
