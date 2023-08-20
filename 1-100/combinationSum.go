@@ -44,6 +44,7 @@ func combinationSum3(candidates []int, target int) (ans [][]int) {
 			return
 		}
 
+		// 核心点是: 不会回退!
 		// 很有意思的思路: 从小往大的发散, 保证了不会出现重复的组合
 
 		// 直接跳过: 不选择当前数
