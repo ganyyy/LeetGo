@@ -17,13 +17,13 @@ func solveNQueens(n int) [][]string {
 		}
 	}
 
-	dfs(chess, 0, &res)
+	dfs51(chess, 0, &res)
 	return res
 
 }
 
 // row行 之前的数据都已经正确的放置了皇后
-func dfs(chess [][]byte, row int, res *[][]string) {
+func dfs51(chess [][]byte, row int, res *[][]string) {
 	l := len(chess)
 	if row == l {
 		r := make([]string, 0)
@@ -35,17 +35,17 @@ func dfs(chess [][]byte, row int, res *[][]string) {
 	}
 	// 一行只能存在一个皇后
 	for col := 0; col < l; col++ {
-		if !isValid(chess, row, col) {
+		if !isValid51(chess, row, col) {
 			continue
 		}
 		// 交换后换回去
 		chess[row][col] = Queen
-		dfs(chess, row+1, res)
+		dfs51(chess, row+1, res)
 		chess[row][col] = Empty
 	}
 }
 
-func isValid(chess [][]byte, row, col int) bool {
+func isValid51(chess [][]byte, row, col int) bool {
 	// 检查列
 	for i := 0; i <= row-1; i++ {
 		if chess[i][col] == Queen {
@@ -108,6 +108,65 @@ func solveNQueens2(n int) [][]string {
 					dfs(i + 1)
 					// 复原
 					cols[j], ml[i-j+n], sl[i+j], chess[i][j] = 0, 0, 0, 0
+				}
+
+			}
+		}
+	}
+
+	dfs(0)
+	return res
+}
+
+type Bit51 uint64
+
+func (b Bit51) Get(idx int) bool    { return int(b)&(1<<idx) != 0 }
+func (b Bit51) Set(idx int) Bit51   { return Bit51(int(b) | (1 << idx)) }
+func (b Bit51) Unset(idx int) Bit51 { return Bit51(int(b) &^ (1 << idx)) }
+
+func solveNQueens3(n int) [][]string {
+	chess := make([][]byte, n)
+	for i := 0; i < n; i++ {
+		row := make([]byte, n)
+		for idx := range row {
+			row[idx] = Empty
+		}
+		chess[i] = row
+	}
+
+	var dfs func(i int)
+	var res [][]string
+
+	// n的上限是9, 所以用uint64 足够了
+
+	// 同一列, 最多n个值
+	var cols Bit51
+	// 主对角线(左上到右下) 主对角线的 row-col = const, 最大为(n-1, 0), 最小为(0, n-1), 需要通过+n 来保证都是>0的
+	// 可以这么理解, 当到下一行时, row/col 都+1. 所以二者相减的值是恒定的
+	var ml Bit51 // 范围: [0, 2n-1]
+	// 次对角线(右上到左下) 次对角线的 row+col = const, 最大为(n-1, n-1)
+	// 可以这么理解, 当到下一行时, row+1, col-1. 所以二者相加的值是恒定的
+	var sl Bit51 // 范围: [0, 2n-2]
+
+	dfs = func(i int) {
+		if i == n {
+			// 增加一个解
+			vs := make([]string, n)
+			for j := 0; j < n; j++ {
+				vs[j] = string(chess[j])
+			}
+			res = append(res, vs)
+		} else {
+			for j := 0; j < n; j++ {
+				// 在这一行的每个格子上尝试添加一枚皇后
+				c, m, s := j, i-j+n, i+j
+				if !cols.Get(c) && !ml.Get(m) && !sl.Get(s) {
+					// 更新列, 主次对角线, 棋盘对应位置的值
+					cols, ml, sl, chess[i][j] = cols.Set(c), ml.Set(m), sl.Set(s), Queen
+					// 迭代下一行
+					dfs(i + 1)
+					// 复原
+					cols, ml, sl, chess[i][j] = cols.Unset(c), ml.Unset(m), sl.Unset(s), Empty
 				}
 
 			}
