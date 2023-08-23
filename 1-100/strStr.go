@@ -50,7 +50,7 @@ func makeDP() {
 	}
 }
 
-func search(txt string) int {
+func search_(txt string) int {
 	lp, lt := len(pat), len(txt)
 	var j int // 初始状态
 	for i := 0; i < lt; i++ {
@@ -70,5 +70,5 @@ func main() {
 	makeDP()
 	fmt.Println(dm)
 
-	fmt.Println(search("aaaababbbbb"))
+	fmt.Println(search_("aaaababbbbb"))
 }

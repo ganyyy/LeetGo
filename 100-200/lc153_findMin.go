@@ -4,6 +4,7 @@ import "fmt"
 
 func findMin(nums []int) int {
 	// 取中值, 不管如何旋转, 如果 中值比 右值小, 说明拐点在左边, 否则拐点在右边
+	// Mark
 	left, right := 0, len(nums)-1
 	for left < right {
 		mid := left + (right-left)>>1

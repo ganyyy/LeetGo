@@ -95,18 +95,16 @@ func findMedianSortedArrays(nums1 []int, nums2 []int) float64 {
 	}
 }
 
-func m2(nums1 []int, nums2 []int) float64 {
-	len1, len2 := len(nums1), len(nums2)
-	if len1 < len2 {
+func findMedianSortedArrays(nums1 []int, nums2 []int) float64 {
+	if len(nums1) > len(nums2) {
 		nums1, nums2 = nums2, nums1
-		len1, len2 = len2, len1
 	}
 	// head: nums1的头
 	// tail: nums1的尾
 	// mid: nums1和nums2的中位
+	len1, len2 := len(nums1), len(nums2)
 	head, tail, mid := 0, len1, (len1+len2+1)/2
-	for head < tail {
-
+	for head <= tail {
 		// 原理是通过依次向中间逼近找到
 		// 感觉这个时间复杂度不对啊
 		// 应该不是O(log n)
@@ -116,11 +114,16 @@ func m2(nums1 []int, nums2 []int) float64 {
 		// 相应的, mid-i就是nums2的中位?
 		j := mid - i
 		if i < tail && nums1[i] < nums2[j-1] {
-			//
+			// i太小了, 需要增大
 			head = i + 1
 		} else if i > head && nums1[i-1] > nums2[j] {
+			// i太大了, 需要减小
 			tail = i - 1
 		} else {
+			// 到这里, 就可以保证: nums1[i-1] <= nums2[j] && nums2[j-1] <= nums1[i]
+			// 相当于要从 nums1[i-1], nums1[i], nums2[j-1], nums2[j]中找到中位数
+
+			// left是左边的最大值
 			var left int
 			if i == 0 {
 				left = nums2[j-1]
@@ -129,10 +132,13 @@ func m2(nums1 []int, nums2 []int) float64 {
 			} else {
 				left = max(nums1[i-1], nums2[j-1])
 			}
+
+			// 长度为奇数, 返回left
 			if (len1+len2)&1 == 1 {
 				return float64(left)
 			}
 
+			// right是右边的最小值
 			var right int
 			if i == len1 {
 				right = nums2[j]
@@ -141,6 +147,8 @@ func m2(nums1 []int, nums2 []int) float64 {
 			} else {
 				right = min(nums1[i], nums2[j])
 			}
+
+			// 长度为偶数, 返回(left+right)/2
 			return float64(left+right) / 2
 		}
 	}

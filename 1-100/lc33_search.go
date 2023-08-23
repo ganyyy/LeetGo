@@ -4,7 +4,7 @@ import (
 	"fmt"
 )
 
-func search(nums []int, target int) int {
+func search33_1(nums []int, target int) int {
 	ln := len(nums)
 	if ln == 0 {
 		return -1
@@ -99,7 +99,41 @@ func search33_2(nums []int, target int) int {
 	return -1
 }
 
+func search33_3(nums []int, target int) int {
+	l, r := 0, len(nums)-1
+	if r < 0 || (r == 0 && nums[0] != target) {
+		return -1
+	}
+
+	for l <= r {
+		mid := l + (r-l)/2
+		mv := nums[mid]
+		if mv == target {
+			return mid
+		}
+		// 判断是不是有拐点
+		lv, rv := nums[l], nums[r]
+
+		if mv > lv && mv > rv {
+			// 拐点在中点的右侧, 此时[l,m]是有序的
+			if target < mv && target >= lv {
+				r = mid - 1
+			} else {
+				l = mid + 1
+			}
+		} else {
+			// 拐点在中点的左侧, 此时[m,r]是有序的
+			if target > mv && target <= rv {
+				l = mid + 1
+			} else {
+				r = mid - 1
+			}
+		}
+	}
+	return -1
+}
+
 func main() {
 	var nums = []int{2, 4, 5, 6, 7, 0, 1}
-	fmt.Println(search(nums, 7))
+	fmt.Println(search33_1(nums, 7))
 }
