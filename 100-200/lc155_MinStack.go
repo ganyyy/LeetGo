@@ -1,46 +1,46 @@
 package main
 
 type MinStack struct {
-	Vals []int
+	val []int
+	min []int
 }
 
-/** initialize your data structure here. */
 func Constructor() MinStack {
 	return MinStack{}
 }
 
-func (this *MinStack) Push(x int) {
-	// 插入两个值, 一个是当前元素本身，一个是当前的最小值
-	// 空间换时间
-	if ln := len(this.Vals); 0 == ln {
-		this.Vals = append(this.Vals, x, x)
-	} else {
-		min := this.Vals[ln-1]
-		if min > x {
-			min = x
-		}
-		this.Vals = append(this.Vals, x, min)
+func (ms *MinStack) Push(val int) {
+	ln := len(ms.val) - 1
+	ms.val = append(ms.val, val)
+	if ln >= 0 && val > ms.min[ln] {
+		val = ms.min[ln]
 	}
+	ms.min = append(ms.min, val)
 }
 
-func (this *MinStack) Pop() {
-	if ln := len(this.Vals); 0 != ln {
-		this.Vals = this.Vals[:ln-2]
+func (ms *MinStack) Pop() {
+	ln := len(ms.val)
+	if ln == 0 {
+		return
 	}
+	ms.val = ms.val[:ln-1]
+	ms.min = ms.min[:ln-1]
 }
 
-func (this *MinStack) Top() int {
-	if ln := len(this.Vals); 0 != ln {
-		return this.Vals[ln-2]
+func (ms *MinStack) Top() int {
+	ln := len(ms.val)
+	if ln == 0 {
+		return 0
 	}
-	return 0
+	return ms.val[ln-1]
 }
 
-func (this *MinStack) GetMin() int {
-	if ln := len(this.Vals); 0 != ln {
-		return this.Vals[ln-1]
+func (ms *MinStack) GetMin() int {
+	ln := len(ms.val)
+	if ln == 0 {
+		return 0
 	}
-	return 0
+	return ms.min[ln-1]
 }
 
 /**

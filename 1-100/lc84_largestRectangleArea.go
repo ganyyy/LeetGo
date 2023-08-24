@@ -35,6 +35,8 @@ func largestRectangleArea2(heights []int) int {
 	stack = append(stack, -1)
 	var mArea int
 
+	// Mark
+
 	//   [2, 1, 5, 6, 2, 3] 的矩形 数组 想象成
 	// [-1, 2, 1, 5, 6, 2, 3]  几条边构成 的 图形
 	// 比如当前循环到了 i=4, v=2
@@ -70,7 +72,10 @@ func largestRectangleAreaNew(heights []int) int {
 		for t := len(stack) - 1; t != 0 && heights[stack[t]] >= v; t-- {
 			// 长度就是栈中的最后一个数值
 			// 宽度就是 i 距离 栈顶前一个元素的距离
-			res = max(res, heights[stack[t]]*(i-stack[t-1]-1))
+			// 可以这么理解: 矩形的高度相当于是 heights[stack[t]]和 heights[i-1]中的较小值
+			// 但是在i之前, stack是单调递增的, 所以 heights[stack[t]] < heights[i-1], 因此可以直接使用 heights[stack[t]]
+			// 宽度的起始值是 stack[t-1]+1, 因为 heights[stack[t-1]]是比 heights[stack[t]]小的, 所以宽度至少是1
+			res = max(res, heights[stack[t]]*(i-(stack[t-1])+1))
 			stack = stack[:t]
 		}
 		stack = append(stack, i)
