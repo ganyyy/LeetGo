@@ -10,7 +10,7 @@ type MedianFinderErr struct {
 	nums []int
 }
 
-//ConstructorErr 超时太严重了...
+// ConstructorErr 超时太严重了...
 func ConstructorErr() MedianFinderErr {
 	return MedianFinderErr{}
 }
@@ -78,12 +78,14 @@ type MedianFinder struct {
 	max *MaxHeap // 存储前半部分
 }
 
-func Constructor() MedianFinder {
+func Constructor295() MedianFinder {
 	// 通过两个堆快速查找数字的中位数
 	return MedianFinder{
-		// 后半部分为一个小顶堆, 堆顶为最小值
+		// 假设原始数组为 [1, 2, 3, 4, 5, 6]
+
+		// 后半部分为一个小顶堆, 堆顶为最小值, 比如 [4, 5, 6]
 		min: &MinHeap{},
-		// 前半部分为一个大顶堆, 堆顶为最大值
+		// 前半部分为一个大顶堆, 堆顶为最大值, 比如 [3, 2, 1]
 		max: &MaxHeap{},
 	}
 }
