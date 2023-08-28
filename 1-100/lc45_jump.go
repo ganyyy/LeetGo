@@ -30,6 +30,7 @@ func jump(nums []int) int {
 
 // 上贪心算法
 func jump2(nums []int) int {
+	// mark
 	end, maxPos, steps := 0, 0, 0
 	for i := 0; i < len(nums)-1; i++ {
 		// 更新能跳到的最远位置
