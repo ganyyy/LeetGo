@@ -52,7 +52,7 @@ func insert2(intervals [][]int, newInterval []int) [][]int {
 	for r < len(intervals) {
 		left, right := intervals[l], intervals[r]
 		if !isInsert {
-			isInsert = combine(left, newInterval)
+			isInsert = combine57(left, newInterval)
 		}
 		if left[1] >= right[0] {
 			if left[1] < right[1] {
@@ -68,7 +68,7 @@ func insert2(intervals [][]int, newInterval []int) [][]int {
 	if !isInsert {
 		// 合并interval[i]和newInterval
 		left := intervals[l]
-		if !combine(left, newInterval) {
+		if !combine57(left, newInterval) {
 			// 新增, 判断是加前边还是后边
 			if left[0] > newInterval[1] {
 				intervals = append(append([][]int{}, newInterval), intervals...)
@@ -81,7 +81,7 @@ func insert2(intervals [][]int, newInterval []int) [][]int {
 	return intervals[:l+1]
 }
 
-func combine(a, b []int) bool {
+func combine57(a, b []int) bool {
 	if (a[0] <= b[0] && b[0] <= a[1]) || (b[0] <= a[0] && a[0] <= b[1]) {
 		if a[0] > b[0] {
 			a[0] = b[0]
@@ -217,6 +217,43 @@ func binarySearch2(a []int, t int) int {
 		}
 	}
 	return -1
+}
+
+func insert5(intervals [][]int, newInterval []int) [][]int {
+	s, e := newInterval[0], newInterval[1]
+	s1, e1 := s, e
+	result := make([][]int, 0, len(intervals))
+	i := 0
+	for _, arr := range intervals {
+		if s < arr[0] {
+			s1 = s
+			break
+		} else if s >= arr[0] && s <= arr[1] {
+			s1 = arr[0]
+			break
+		} else {
+			result = append(result, arr)
+		}
+		i++
+	}
+	for ; i < len(intervals); i++ {
+		arr := intervals[i]
+		if e < arr[0] {
+			e1 = e
+			break
+		} else if e >= arr[0] && e <= arr[1] {
+			e1 = arr[1]
+			i++
+			break
+		}
+	}
+	result = append(result, []int{s1, e1})
+
+	for ; i < len(intervals); i++ {
+		arr := intervals[i]
+		result = append(result, arr)
+	}
+	return result
 }
 
 func main() {
