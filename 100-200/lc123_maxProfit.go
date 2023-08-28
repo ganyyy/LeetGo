@@ -5,6 +5,7 @@ package main
 import "math"
 
 func maxProfit(prices []int) int {
+	// mark
 	// 每次更新4个值, 原则上允许一天买卖买卖
 	var fstSell, secSell int
 	fstBuy, secBuy := math.MinInt32, math.MinInt32
@@ -22,6 +23,7 @@ func maxProfit(prices []int) int {
 }
 
 func maxProfit3(prices []int) int {
+	// Mark
 
 	if len(prices) < 2 {
 		return 0

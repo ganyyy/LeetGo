@@ -8,6 +8,7 @@ import (
 )
 
 func maxProfit(prices []int) int {
+	// mark
 	if len(prices) < 2 {
 		return 0
 	}

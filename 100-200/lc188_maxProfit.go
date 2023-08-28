@@ -3,6 +3,7 @@ package main
 import "math"
 
 func maxProfit(k int, prices []int) int {
+	// mark
 	if k == 0 || len(prices) == 0 {
 		return 0
 	}
