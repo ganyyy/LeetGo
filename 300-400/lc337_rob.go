@@ -5,6 +5,7 @@ package main
 import . "leetgo/data"
 
 func rob(root *TreeNode) int {
+	// mark
 	ret := robHelper(root)
 	return max(ret[0], ret[1])
 }

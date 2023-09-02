@@ -1,6 +1,7 @@
 package main
 
 func rob(nums []int) int {
+	// mark
 	// a为前一个没选
 	// b为选了前一个
 	var a, b int

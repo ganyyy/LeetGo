@@ -3,6 +3,7 @@ package main
 import "math"
 
 func rob(nums []int) int {
+	// mark
 	// 选第一个和不选第一个, 取最大值?
 	ln := len(nums)
 
@@ -50,15 +51,15 @@ func rob2(nums []int) int {
 
 	// 想复杂了. 如果从开头就进行大小判断的话, 就没这个问题了
 	// 分两趟, 第一趟看[0, n-2], 第二趟看[1, n-1]
-	//var a, b, c = nums[0], nums[1], max(nums[1], nums[2]+nums[0])
-	//for i := 3; i < len(nums)-1; i++ {
+	// var a, b, c = nums[0], nums[1], max(nums[1], nums[2]+nums[0])
+	// for i := 3; i < len(nums)-1; i++ {
 	//	a, b, c = b, c, max(c, max(a+nums[i], b+nums[i]))
-	//}
-	//res = max(a, max(b, c))
-	//a, b, c = nums[1], nums[2], max(nums[2], nums[3]+nums[1])
-	//for i := 4; i < len(nums); i++ {
+	// }
+	// res = max(a, max(b, c))
+	// a, b, c = nums[1], nums[2], max(nums[2], nums[3]+nums[1])
+	// for i := 4; i < len(nums); i++ {
 	//	a, b, c = b, c, max(c, max(a+nums[i], b+nums[i]))
-	//}
+	// }
 	var a, b int
 	for i := 0; i < len(nums)-1; i++ {
 		a, b = b, max(a+nums[i], b)
