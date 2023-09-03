@@ -38,6 +38,7 @@ func wordBreakFail(s string, wordDict []string) bool {
 
 // 通过DP进行处理
 func wordBreak(s string, wordDict []string) bool {
+	// mark
 	// dp方式解决
 
 	// 先记录所有出现的单词

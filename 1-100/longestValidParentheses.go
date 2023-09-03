@@ -108,6 +108,7 @@ func longestValidParentheses3(s string) int {
 		mark[i] = true
 	}
 
+	// 喵啊, 相当于统计最长的连续的false的个数
 	var cnt int
 	var ret int
 	for _, v := range mark {
@@ -121,6 +122,50 @@ func longestValidParentheses3(s string) int {
 		}
 	}
 	return ret
+}
+
+func longestValidParentheses4(s string) int {
+	// dp[i]: s[:i]以当前位置为结尾的有效括号长度
+	// 如果是 (X) 格式的话, s[i] = ')', s[i-dp[i-1]-1] = '(', dp[i] = dp[i-1]+2
+	// 如果是 X() 格式的话, s[i] = ')', s[i-1] = '(', dp[i] = dp[i-2]+2
+
+	var ret int
+	dp := make([]int, len(s))
+	for i := 1; i < len(s); i++ {
+		if s[i] == '(' {
+			continue
+		}
+		// s[i] == ')'
+
+		var v int
+		if s[i-1] == '(' {
+			// X()
+			v = 2
+			if i > 1 {
+				v += dp[i-2]
+			}
+		} else if s[i-1] == ')' && dp[i-1] > 0 {
+			// (X)
+			idx := i - dp[i-1] - 1
+			if idx >= 0 && s[idx] == '(' {
+				v = dp[i-1] + 2
+				// ()(X)?
+				if idx > 0 && dp[idx-1] != 0 {
+					v += dp[idx-1]
+				}
+			}
+		}
+		ret = max(ret, v)
+		dp[i] = v
+	}
+	return ret
+}
+
+func max(a, b int) int {
+	if a > b {
+		return a
+	}
+	return b
 }
 
 func main() {
