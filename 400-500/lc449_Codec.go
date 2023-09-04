@@ -14,6 +14,7 @@ type Codec struct{}
 func Constructor() (_ Codec) { return }
 
 func (Codec) serialize(root *TreeNode) string {
+	// mark
 	var arr []string
 	var postOrder func(*TreeNode)
 	postOrder = func(node *TreeNode) {
