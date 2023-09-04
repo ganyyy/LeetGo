@@ -1,18 +1,12 @@
 package main
 
 func longestCommonSubsequence(text1 string, text2 string) int {
+	// mark
 
-	//dp[i][j]表示的是text1[:i+1]和text2[:j+1]中的最长公共字串的长度
+	// dp[i][j]表示的是text1[:i+1]和text2[:j+1]中的最长公共字串的长度
 	var dp = make([][]int, len(text1)+1)
 	for i := range dp {
 		dp[i] = make([]int, len(text2)+1)
-	}
-
-	var max = func(a, b int) int {
-		if a > b {
-			return a
-		}
-		return b
 	}
 
 	for i := range text1 {
@@ -33,22 +27,20 @@ func longestCommonSubsequence(text1 string, text2 string) int {
 func longestCommonSubsequence2(text1 string, text2 string) int {
 	// 压缩版
 
-	//1. 选取较小的字符串构建DP数组
+	// 1. 选取较小的字符串构建DP数组
 
 	if len(text1) > len(text2) {
 		text1, text2 = text2, text1
 	}
 	var dp = make([]int, len(text1)+1)
 
-	var max = func(a, b int) int {
-		if a > b {
-			return a
-		}
-		return b
-	}
-
 	// 和二维DP概念相同
 	// 因为只需要 左, 上, 左上 三个方向, 所以可以进行dp的压缩
+
+	/*
+	   pre   cur
+	   dp[j] dp[j+1]
+	*/
 	var pre int
 	for i := range text2 {
 		// pre记录的是二维中左上方的值

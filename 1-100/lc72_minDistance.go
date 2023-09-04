@@ -47,12 +47,6 @@ func minDistance2(word1 string, word2 string) int {
 	// cost[i][j], word1[:i] -> word2[:j] 所需要的最小的消耗、
 	// cost[0][X]和cost[X][0]的开销, 就是两个字符串对应的长度: 只能删除
 
-	var min = func(a, b int) int {
-		if a > b {
-			return b
-		}
-		return a
-	}
 	for i := 1; i <= n; i++ {
 		// 初始化第一行, 代表着在word1 == ""时, 需要添加多少
 		cost[i] = i
@@ -72,6 +66,44 @@ func minDistance2(word1 string, word2 string) int {
 				// 感觉可以压缩啊..?
 				// 上, 左, 左上
 				cost[j] = min(min(cur, cost[j-1]), pre) + 1
+			}
+			pre = cur
+		}
+	}
+	return cost[n]
+}
+
+func minDistance3(word1 string, word2 string) int {
+	// dp[i1][i2] 表示 word1[:i1+1] == word2[:i2+1] 所需要的步数
+	// 如果需要插入一个字符才相等, dp[i1][i2] = dp[i1-1][i2] + 1
+	// 如果需要删除一个字符才相等, dp[i1][i2] = dp[i1][i2-1] + 1
+	// 如果需要替换一个字符才相等, dp[i1][i2] = dp[i1-1][i2-1] + 1
+	// 如果什么都不用做, 那就dp[i1][i2] = dp[i1-1][i2-1]
+
+	var m, n = len(word1), len(word2)
+
+	// word1转变成word2[:n]所需要的代价
+	var cost = make([]int, n+1)
+
+	for i := 1; i <= n; i++ {
+		// 初始化第一行, 代表着在word1 == ""时, 需要添加多少才能转变成word2[:i]
+		cost[i] = i
+	}
+
+	for i := 1; i <= m; i++ {
+		// 对于word1[:i]而言, 转变成word2[:0]的代价就等同于全部删除的步数
+		cost[0] = i
+		// pre对应的是左上角的值, 初始状态下, 相当于word1[:i-1] -> word2[:0]需要删除的步数
+		pre := i - 1
+		for j := 1; j <= n; j++ {
+			// cur等同于正上方的值
+			cur := cost[j]
+			if word1[i-1] == word2[j-1] {
+				// 啥都不用做, 就是左上方的pre
+				cost[j] = pre
+			} else {
+				// 删除/替换/添加
+				cost[j] = min(cost[j-1], min(pre, cur)) + 1
 			}
 			pre = cur
 		}
