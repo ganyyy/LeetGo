@@ -5,6 +5,7 @@ package main
 import "fmt"
 
 func singleNumber(nums []int) int {
+	// mark
 	// 核心是 - 逢3变0
 
 	// 如果是两个清零, 直接异或就可

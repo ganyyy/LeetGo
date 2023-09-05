@@ -49,6 +49,7 @@ func singleNumbers(nums []int) []int {
 }
 
 func singleNumber3(nums []int) []int {
+	// mark
 	// 还是得3
 	var num int
 
