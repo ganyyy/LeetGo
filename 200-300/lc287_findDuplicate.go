@@ -1,6 +1,7 @@
 package main
 
 func findDuplicate(nums []int) int {
+	// mark
 	var res int
 	// 将数组抽象成链表, 通过快慢指针进行解决
 	// 先找到快慢指针相同的点, 再将头指针和慢指针同时移动找到环的入口
@@ -11,7 +12,7 @@ func findDuplicate(nums []int) int {
 		res = nums[res]
 		fast = nums[nums[fast]]
 	}
-	// 在从头开始找,
+	// 再从头开始找,
 	for i := 0; res != i; i = nums[i] {
 		res = nums[res]
 	}

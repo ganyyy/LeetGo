@@ -15,7 +15,7 @@ func nextPermutation1(nums []int) {
 	}
 	if i == 0 {
 		// 表示nums是最大序列, 那就直接整体逆序
-		reverse(0, nums)
+		reverse31(0, nums)
 	} else {
 		// 找到最后一个大于 nums[i-1]的值 nums[j]
 		// 互换nums[i-1]和nums[j] 并将 nums[i:]逆序一下
@@ -25,11 +25,11 @@ func nextPermutation1(nums []int) {
 			j++
 		}
 		nums[i-1], nums[j-1] = nums[j-1], val
-		reverse(i, nums)
+		reverse31(i, nums)
 	}
 }
 
-func reverse(start int, nums []int) {
+func reverse31(start int, nums []int) {
 	for j, k := start, len(nums)-1; j < k; {
 		nums[j], nums[k] = nums[k], nums[j]
 		j++
@@ -38,6 +38,13 @@ func reverse(start int, nums []int) {
 }
 
 func nextPermutation(nums []int) {
+
+	// 1,5,4,3,2 -> 2,1,3,4,5
+	// 从后向前 找到非逆序位置 [1], 5,4,3,2
+	// 从[5,4,3,2]中找到首个大于1的位置 5,4,3,[2]
+	// 交换[1],[2]  -> 2,5,4,3,1
+	// 逆序后半部分 -> 2,1,3,4,5
+
 	if len(nums) <= 1 {
 		return
 	}
