@@ -32,10 +32,14 @@ func rotate2(nums []int, k int) {
 
 // 反转解法
 func rotate(nums []int, k int) {
+	// [1,2,3,4,5], 2
 	// 防止数组越界
 	k %= len(nums)
+	// [5,4,3,2,1]
 	reverse(nums)
+	// [4,5,3,2,1]
 	reverse(nums[:k])
+	// [4,5,1,2,3]
 	reverse(nums[k:])
 }
 
