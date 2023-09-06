@@ -6,19 +6,35 @@ import (
 )
 
 func repairCars(ranks []int, cars int) int64 {
-	minR := ranks[0]
-	for _, r := range ranks {
-		if r < minR {
-			minR = r
+	// 计数
+	var allCnt [101]int
+	// rank最小值
+	var minR = math.MaxInt32
+	for _, rank := range ranks {
+		if rank < minR {
+			minR = rank
 		}
+		allCnt[rank]++
 	}
-	// 上界就是能力最差的人修所有的车
-	return int64(sort.Search(minR*cars*cars, func(t int) bool {
+	const (
+		Shift = 32
+		Mask  = (1 << Shift) - 1
+	)
+	// 压缩
+	var rankCntBuf = allCnt[:0]
+	for rank, cnt := range allCnt {
+		if cnt == 0 {
+			continue
+		}
+		rankCntBuf = append(rankCntBuf, (rank<<Shift)|cnt)
+	}
+	// 上界就是能力最强的人(rank最低)修所有的车, 因为只要有其他人加入, 那么时间就会减少
+	return int64(sort.Search(minR*cars*cars, func(curTime int) bool {
 		s := 0
-		for _, r := range ranks {
-			// 每个工人在时间t内, 最多可以修几辆车呢?
-			// r*n^2 = t => n = sqrt(t/r)
-			s += int(math.Sqrt(float64(t / r)))
+		for _, rankCnt := range rankCntBuf {
+			rank := rankCnt >> Shift
+			cnt := rankCnt & Mask
+			s += int(math.Sqrt(float64(curTime/rank))) * cnt
 		}
 		// 累计每个工人的修车数, 二分查找答案.
 		return s >= cars
