@@ -3,7 +3,7 @@ package main
 import "fmt"
 
 func canCompleteCircuit(gas []int, cost []int) int {
-	// 首先, 可以保证车子能够正常往返的必要条件是 sum(gas) >sum(cost)
+	// 首先, 可以保证车子能够正常往返的必要条件是 sum(gas) >= sum(cost)
 
 	var rest, run, start int
 	for i := range gas {
@@ -11,7 +11,7 @@ func canCompleteCircuit(gas []int, cost []int) int {
 		rest += gas[i] - cost[i]
 		// 注意 cost[i]的意义: 从 i -> i+1 点所消耗的汽油数量
 		// [0:i]均是大于0的, 但是无法越过 i点, 说明i点的消耗太大, 此时不管从 [0:i+1]中的任何一个点出发都不能走完全程
-		// 此时需要以i为起点重新出发
+		// 此时需要以i+1为起点重新出发
 		if run < 0 {
 			// 以i+1为起点重新出发,
 			// 清空走过的路
@@ -22,8 +22,9 @@ func canCompleteCircuit(gas []int, cost []int) int {
 
 	// 可以将整个数组抽象的分为两部分
 	// [0:i], [i:len]
-	// 如果整个路程中, gas的和大于cost, 那么 sum([0:i]) + sum[i:len])一定是大于0的
-	// 可以将 i 理解为一个分界点, 其中一边可能小于0, 另一边一定大于0
+	// 如果整个路程中, gas的和大于cost, 那么
+	// sum({gas[x]-cost[x]}[0:i]) + sum({gas[x]-cost[x]}[i:len])一定是>=0的
+	// 可以将 i 理解为一个分界点, 其中一边可以小于<=0, 另一边一定大于>=0
 
 	// 总油量是不够的
 	if rest < 0 {
@@ -68,6 +69,29 @@ func canCompleteCircuitFail(gas []int, cost []int) int {
 		}
 	}
 	return -1
+}
+
+func canCompleteCircuit3(gas []int, cost []int) int {
+	var rest int  // 获得的油和消耗的油  的 总和
+	var run int   // 跑到现在还剩多少油
+	var start int // 起始位置
+
+	for i, g := range gas {
+		c := g - cost[i]
+		rest += c
+		run += c
+		if run < 0 {
+			// 当从前面某一个位置运行到i时, 油量不足了,
+			// 此时就要重置车上剩余的油量, 以及新的发车位置
+			run = 0
+			start = i + 1
+		}
+	}
+
+	if rest < 0 {
+		return -1
+	}
+	return start
 }
 
 func main() {

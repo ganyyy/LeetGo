@@ -72,13 +72,14 @@ func candy3(ratings []int) int {
 			dec++
 			if dec == inc {
 				// 特殊情况1: 递减序列的长度等同于上一次递增序列, 那么峰值需要并过来
+
+				// 这个怎么理解呢?
+				// 1 => +1
+				// 2, 1 => +1,+2
+				// 3, 2, 1 => +1,+2,+3
+				// 2,3,4,3,2,1 => (inc == dec) => +1,+2,+3,+3,+2,+1. 所以4的位置要+1
 				dec++
 			}
-			// 这个怎么理解呢?
-			// 1 => +1
-			// 2, 1 => +1,+2
-			// 3, 2, 1 => +1,+2,+3
-			// 2,3,4,3,2,1 => (inc == dec) => +1,+2,+3(+4),+3,+2,+1. 所以需要补1
 			ans += dec
 			pre = 1
 		}
@@ -115,6 +116,41 @@ func candy2(ratings []int) int {
 		}
 		// 取最大值
 		res += max(right, left[i])
+	}
+
+	return res
+}
+
+func candy5(ratings []int) int {
+	var res = 1 // 结果
+	var pre = 1 // 前一个人的糖果数量
+	var dec int // 递减序列的长度
+	var inc = 1 // 递增序列的长度
+
+	for i := 1; i < len(ratings); i++ {
+		if ratings[i] >= ratings[i-1] {
+			// 重置递减序列的长度
+			dec = 0
+			if ratings[i] == ratings[i-1] {
+				// 相同就从0开始
+				pre = 1
+			} else {
+				pre++
+			}
+			res += pre
+			// 记录当前递增序列的长度
+			inc = pre
+		} else {
+			// 给前边连续递减的序列都额外加一个糖果
+			dec++
+			if inc == dec {
+				// 当正好相同时, 此时会出现两个临近的孩子拿到一样的值, 所以将原来递增的峰值也算上
+				dec++
+			}
+			res += dec
+			// 新增的一定是从1开始的, 因为它小
+			pre = 1
+		}
 	}
 
 	return res
