@@ -42,7 +42,9 @@ var m = [...]string{"I", "IV", "V", "IX", "X", "XL", "L", "XC", "C", "CD", "D", 
 var s = [...]int{1, 4, 5, 9, 10, 40, 50, 90, 100, 400, 500, 900, 1000}
 
 func intToRoman2(num int) string {
+	// mark
 	var sb strings.Builder
+	// 核心: 从大到小
 	for i := len(s) - 1; i >= 0; i-- {
 		if num >= s[i] {
 			n := num / s[i]

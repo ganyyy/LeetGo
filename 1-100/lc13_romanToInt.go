@@ -3,7 +3,7 @@ package main
 import "fmt"
 
 func romanToInt(s string) int {
-	mk := map[uint8]int{
+	mk := [...]int{
 		'I': 1,
 		'V': 5,
 		'X': 10,
@@ -45,6 +45,7 @@ func romanToInt2(s string) int {
 	// 想啥来啥
 
 	// 如果倒序看, 大的直接加, 小的直接减去
+	// mark
 	var ret = m3[s[len(s)-1]]
 	var before = ret
 	for i := len(s) - 2; i >= 0; i-- {
