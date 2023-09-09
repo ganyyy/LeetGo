@@ -3,6 +3,7 @@ package main
 import "fmt"
 
 func twoSum(numbers []int, target int) []int {
+	// 二分
 	left, right := 0, len(numbers)-1
 	for left < right {
 		if t := numbers[left] + numbers[right]; t == target {

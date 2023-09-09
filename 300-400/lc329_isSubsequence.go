@@ -17,3 +17,24 @@ func isSubsequence(s string, t string) bool {
 	}
 	return false
 }
+
+func isSubsequence2(s string, t string) bool {
+	sl := len(s)
+	if sl > len(t) {
+		return false
+	}
+	if sl == 0 || s == t {
+		return true
+	}
+
+	var si int
+	for ti := range t {
+		if t[ti] == s[si] {
+			si++
+			if si >= sl {
+				return true
+			}
+		}
+	}
+	return false
+}

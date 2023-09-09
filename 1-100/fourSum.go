@@ -93,7 +93,7 @@ func fourSum2(nums []int, target int) [][]int {
 func fourSum3(nums []int, target int) (quadruplets [][]int) {
 	sort.Ints(nums)
 	n := len(nums)
-	// 枝减最重要!
+	// 枝减最重要+1!
 
 	// 1. 最小值小于等于target
 	for i := 0; i < n-3 && nums[i]+nums[i+1]+nums[i+2]+nums[i+3] <= target; i++ {
@@ -119,9 +119,11 @@ func fourSum3(nums []int, target int) (quadruplets [][]int) {
 					for right--; left < right && nums[right] == nums[right+1]; right-- {
 					}
 				} else if sum < target {
-					left++
+					for left++; left < right && nums[left] == nums[left-1]; left++ {
+					}
 				} else {
-					right--
+					for right--; left < right && nums[right] == nums[right+1]; right-- {
+					}
 				}
 			}
 		}

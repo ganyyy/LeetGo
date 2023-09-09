@@ -3,6 +3,7 @@ package main
 import "fmt"
 
 func strStr(haystack, needle string) int {
+	// Mark: kmp算法
 	n, m := len(haystack), len(needle)
 	if m == 0 {
 		return 0

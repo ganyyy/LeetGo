@@ -1,6 +1,8 @@
 package main
 
-import "fmt"
+import (
+	"fmt"
+)
 
 // 标记一下, 又臭又长的代码. 比写业务逻辑还烦人
 
@@ -14,24 +16,21 @@ func fullJustify(words []string, maxWidth int) []string {
 	//  2. 左边数量>=右边数量
 	// 最后一行要求左对齐, 即每个单词之间留一个空格即可
 
-	res := make([]string, 0)
+	var res []string
+	seqBuffer := make([]byte, maxWidth)
 
 	genSeq := func(wordSeq []string, numSeq []int) {
-		seq := make([]byte, maxWidth)
-		index, wordIndex, numIndex := 0, 0, 0
+		seq := seqBuffer[:0]
+		var wordIndex, numIndex int
 		for {
 			if wordIndex < len(wordSeq) {
 				w := wordSeq[wordIndex]
-				for i := 0; i < len(w); i++ {
-					seq[index] = w[i]
-					index++
-				}
+				seq = append(seq, w...)
 				wordIndex++
 			}
 			if numIndex < len(numSeq) {
 				for i := 0; i < numSeq[numIndex]; i++ {
-					seq[index] = ' '
-					index++
+					seq = append(seq, ' ')
 				}
 				numIndex++
 			} else {
@@ -39,15 +38,16 @@ func fullJustify(words []string, maxWidth int) []string {
 			}
 		}
 		// 结尾的
-		for i := index; i < maxWidth; i++ {
-			seq[i] = ' '
+		for i := len(seq); i < maxWidth; i++ {
+			seq = append(seq, ' ')
 		}
 		res = append(res, string(seq))
 	}
 	// start表示每句话开头的单词的索引
 	// i 表示当前是第几个单词
-	// count 当前句子最小长度(n个单词长度)
+	// count 当前句子最小长度(n个单词长度+ n-1个空格长度)
 	start, i, count := 0, 0, 0
+	whiteCountBuf := make([]int, maxWidth)
 	for i < len(words) {
 		// 单词的数量+最小空格数量
 		w := words[i]
@@ -56,28 +56,25 @@ func fullJustify(words []string, maxWidth int) []string {
 			i++
 		} else {
 			wordCount := i - start
-			seq := make([]byte, maxWidth)
 			if wordCount == 1 {
+				w := words[start]
+				seq := seqBuffer[:len(w)]
 				// 只有一个单词
-				w, k := words[start], 0
-				for ; k < len(w); k++ {
-					seq[k] = w[k]
-				}
-				for k < maxWidth {
-					seq[k] = ' '
-					k++
+				copy(seq, w)
+				for len(seq) < maxWidth {
+					seq = append(seq, ' ')
 				}
 				res = append(res, string(seq))
 			} else {
 				// 实际的空格数量
 				white := maxWidth - count
 				whiteCount := wordCount - 1
-				whiteSeq := make([]int, whiteCount)
+				whiteSeq := whiteCountBuf[:0]
 				if white%whiteCount == 0 {
 					// 正好分配完
 					num := white / whiteCount
 					for k := 0; k < whiteCount; k++ {
-						whiteSeq[k] = num
+						whiteSeq = append(whiteSeq, num)
 					}
 					genSeq(words[start:i], whiteSeq)
 				} else {
@@ -86,9 +83,9 @@ func fullJustify(words []string, maxWidth int) []string {
 					remain := white % whiteCount
 					for k := 0; k < whiteCount; k++ {
 						if k < remain {
-							whiteSeq[k] = num + 1
+							whiteSeq = append(whiteSeq, num+1)
 						} else {
-							whiteSeq[k] = num
+							whiteSeq = append(whiteSeq, num)
 						}
 					}
 					// 填充字符串
@@ -102,22 +99,15 @@ func fullJustify(words []string, maxWidth int) []string {
 	// 结尾的处理
 	// 到最后了还有剩下的, 就把剩下的添加进去
 	// 最后的长度一定是 <= maxWidth 的
-	seq := make([]byte, maxWidth)
-	index := 0
+	seq := seqBuffer[:0]
 	for k := start; k < len(words); k++ {
-		word := words[k]
-		for j := 0; j < len(word); j++ {
-			seq[index] = word[j]
-			index++
-		}
-		if index < maxWidth {
-			seq[index] = ' '
-			index++
+		seq = append(seq, words[k]...)
+		if len(seq) < maxWidth {
+			seq = append(seq, ' ')
 		}
 	}
-	for index < maxWidth {
-		seq[index] = ' '
-		index++
+	for len(seq) < maxWidth {
+		seq = append(seq, ' ')
 	}
 	res = append(res, string(seq))
 	return res
