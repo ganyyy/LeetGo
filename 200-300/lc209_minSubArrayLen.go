@@ -43,3 +43,21 @@ func minSubArrayLen(s int, nums []int) int {
 	}
 	return res
 }
+
+func minSubArrayLen2(target int, nums []int) int {
+	var total int
+	var minLength = math.MaxInt32
+	for left, right := 0, 0; right < len(nums); right++ {
+		total += nums[right]
+
+		for total >= target && left <= right {
+			minLength = min(minLength, right-left+1)
+			total -= nums[left]
+			left++
+		}
+	}
+	if minLength == math.MaxInt32 {
+		return 0
+	}
+	return minLength
+}

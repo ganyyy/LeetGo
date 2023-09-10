@@ -76,28 +76,31 @@ func minWindow2(s, t string) string {
 	}
 
 	// l: 左指针
-	// count: t串的长度
-	// max: 初始最大长度是原串
+	// count: t串剩余待匹配的字符数量. 这个解法神奇就神奇在只有减少, 没有增加
+	//		  从count第一次为0开始, 往后的count都是0!
+	//		  因为此时不会再次发生hash[s[r]] >= 0的情况
+	// minLen: 初始最大长度是原串
 	// results: 返回的结果
-	l, count, max, results := 0, len(t), len(s)+1, ""
+	l, count, minLen, results := 0, len(t), len(s)+1, ""
 	for r := 0; r < len(s); r++ {
 		// 直接减
 		hash[s[r]]--
-		// 如果减后还满足>=0说明这是在t串中的数, 满足直接减去即可,
-		// 说明[l,r]包含足够数量的t中的s[r]
+		// 如果不是t串中的字符, 此时的hash[s[r]]会小于0. 此时不会减少count
 		if hash[s[r]] >= 0 {
+			// 说明[l,r]包含足够数量的t中的s[r]
 			count--
 		}
 		// 如果左指针小于右指针 并且是s[l]剩余数量小于0
 		// 说明左边可以前进一步, 同时增加s[l]的计数
+		// 如果不是t串中的字符, 那么hash[s[l]]会一直小于等于0
 		for l < r && hash[s[l]] < 0 {
 			hash[s[l]]++
 			l++
 		}
 		// 如果全部满足了, 并且新窗口比原来小, 就更新一下
 		// max和结果的值
-		if count == 0 && max > r-l+1 {
-			max = r - l + 1
+		if count == 0 && minLen > r-l+1 {
+			minLen = r - l + 1
 			results = s[l : r+1]
 		}
 	}
