@@ -49,3 +49,49 @@ func (h *Heap) Pop() interface{} {
 	h.IntSlice = a[:len(a)-1]
 	return x
 }
+
+func scheduleCourse2(courses [][]int) int {
+	// 按照结束时间排序?
+
+	// 首先, 剔除掉所有的 持续时间 > 截止时间的课程. 因为这些课程是不可能完成的
+	var validCourses = courses[:0]
+	for _, course := range courses {
+		if course[0] > course[1] {
+			continue
+		}
+		validCourses = append(validCourses, course)
+	}
+	courses = validCourses
+
+	if len(courses) < 2 {
+		return len(courses)
+	}
+
+	// 按照每门课程的截止时间排序
+	sort.Slice(courses, func(i, j int) bool {
+		return courses[i][1] < courses[j][1]
+	})
+
+	// 大顶堆, 堆顶是耗时最大的课程
+	var h Heap
+	h.IntSlice = make([]int, 0, len(courses)/2)
+	var total int // 总耗时
+	for _, course := range courses {
+		if duration := course[0]; duration+total <= course[1] {
+			// 如果当前已经消耗的时间 + 该门课程的持续时间 <= 该门课程的截至时间, 直接入堆
+			total += duration
+			// 为啥把时长入堆呢? 这样就可以优先弹出耗时最长的课程, 从而保证堆中的课程的持续时间之和最小
+			heap.Push(&h, duration)
+		} else if h.Len() > 0 && h.IntSlice[0] > duration {
+			// 如果当前课程的持续时间要小于当前堆顶,
+			// 首先可以确认的是: 当前的持续时间已经不满足同时学习堆顶课程和当前课程(中间的省略)
+			// 那么, 如果堆顶课程的持续时间要 > 当前课程, 那么完全可以优先学习当前课程,
+			// 从而降低整体的耗时, 方便未来学习更多的课程(?)
+			total += duration - h.IntSlice[0]
+			h.IntSlice[0] = duration
+			heap.Fix(&h, 0)
+		}
+	}
+
+	return h.Len()
+}
