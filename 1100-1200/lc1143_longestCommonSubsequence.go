@@ -34,6 +34,8 @@ func longestCommonSubsequence2(text1 string, text2 string) int {
 	}
 	var dp = make([]int, len(text1)+1)
 
+	// dp压缩只能压缩内层循环, 因为外层循环是用来构建dp的
+
 	// 和二维DP概念相同
 	// 因为只需要 左, 上, 左上 三个方向, 所以可以进行dp的压缩
 

@@ -84,6 +84,7 @@ func longestValidParentheses2(s string) int {
 
 func longestValidParentheses3(s string) int {
 	// 整理所有匹配的括号, 返回连续最长的有效数组长
+	// 有意思的做法
 
 	var mark = make([]bool, len(s))
 	var stack []int

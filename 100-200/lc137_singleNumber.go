@@ -5,6 +5,9 @@ package main
 import "fmt"
 
 func singleNumber(nums []int) int {
+
+	// 可远观而不可亵玩焉
+
 	// mark
 	// 核心是 - 逢3变0
 
@@ -36,6 +39,7 @@ func singleNumber(nums []int) int {
 // 解法2: 判断每一位上为1的个数, 如果个数不是3的倍数, 那么不同的数这一位一定是1
 // 这个可以扩充到任意个相同数字, 只需要修改count取余的值即可
 func singleNumber2(nums []int) int {
+	// 这个解法是通用的, 可以扩展到任意个相同数字
 	var res int
 	for i := 0; i < 32; i++ {
 		var mask, count = 1 << i, 0
