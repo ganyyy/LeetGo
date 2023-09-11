@@ -5,6 +5,7 @@ var DX = [8]int{0, 0, 1, -1, 1, 1, -1, -1}
 var DY = [8]int{1, -1, 0, 0, 1, -1, 1, -1}
 
 func gameOfLife(board [][]int) {
+	// mark
 	// 定义几个方向
 	ln := len(board)
 	if ln == 0 {
