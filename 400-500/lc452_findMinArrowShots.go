@@ -38,6 +38,7 @@ func findMinArrowShots(points [][]int) int {
 		return len(points)
 	}
 
+	// 找到核心的先决条件: 只要超过了当前记录的最远右端点, 就需要再射一箭
 	// 需要先拍一下顺序 按照右端点排序
 	sort.Slice(points, func(i, j int) bool {
 		return points[i][1] < points[j][1]
