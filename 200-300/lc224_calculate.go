@@ -1,5 +1,7 @@
 package main
 
+import "fmt"
+
 type stack struct {
 	vals []int
 }
@@ -28,7 +30,7 @@ func newStack() *stack {
 	return &stack{}
 }
 
-func calculate(s string) int {
+func calculate3(s string) int {
 	const (
 		Add   = '+'
 		Sub   = '-'
@@ -134,6 +136,41 @@ func calculate2(s string) int {
 	return res
 }
 
+func calculate5(s string) (ans int) {
+	// 一种很新颖的做法: 用栈来保存符号
+	// 没有乘除法, 只有加减法所以可以直接计算
+	// 这种做法相当于直接把括号拆开了, 将外部的符号直接作用到括号内部
+	var ops = []int{1}
+	sign := 1
+	n := len(s)
+	for i := 0; i < n; {
+		switch s[i] {
+		case ' ':
+			i++
+		case '+':
+			sign = ops[len(ops)-1]
+			i++
+		case '-':
+			sign = -ops[len(ops)-1]
+			i++
+		case '(':
+			ops = append(ops, sign)
+			i++
+		case ')':
+			ops = ops[:len(ops)-1]
+			i++
+		default:
+			num := 0
+			for ; i < n && '0' <= s[i] && s[i] <= '9'; i++ {
+				num = num*10 + int(s[i]-'0')
+			}
+			ans += sign * num
+			fmt.Println(ops, sign, num, ans)
+		}
+	}
+	return
+}
+
 func main() {
-	println(calculate("-2-3-4-5-6-1+10"))
+	println(calculate5("-2-3-(4-5-6)-1+10"))
 }

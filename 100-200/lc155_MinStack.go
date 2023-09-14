@@ -1,8 +1,8 @@
 package main
 
 type MinStack struct {
-	val []int
-	min []int
+	val []int // 数值的入栈顺序
+	min []int // 最小值的入栈顺序
 }
 
 func Constructor() MinStack {
