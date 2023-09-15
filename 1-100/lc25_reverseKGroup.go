@@ -24,8 +24,12 @@ func reverseKGroup(head *ListNode, k int) *ListNode {
 			// 以后的操作就相当一向头部插入新节点, 尾部一直向下指
 			t := gHead.Next
 			for count > 0 {
+				// 头插法, 插完再移动头
+				// N1(gHead) -> N2(t) -> N3(tn) -> N4
 				tn := t.Next
+				// N1(gHead) -> N2(t) -> N4
 				t.Next = tn.Next
+				// N1(gHead) -> N3(tn) -> N2(t) -> N4
 				tn.Next = gHead.Next
 				gHead.Next = tn
 				count--
@@ -40,6 +44,46 @@ func reverseKGroup(head *ListNode, k int) *ListNode {
 	}
 
 	return n.Next
+}
+
+func reverseKGroupBad(head *ListNode, k int) *ListNode {
+	if head == nil || k == 1 {
+		return head
+	}
+	cnt := k - 1
+	cur := head
+
+	for cnt > 0 && cur != nil {
+		cur = cur.Next
+		if cur != nil {
+			cnt--
+		}
+	}
+	if cnt > 0 {
+		// 不反转
+		return head
+	}
+	var next *ListNode
+	if cur != nil {
+		next = cur.Next
+		cur.Next = nil
+	}
+	old := head
+	head = reverse25(head)
+	old.Next = reverseKGroup(next, k)
+	return head
+}
+
+func reverse25(head *ListNode) *ListNode {
+	if head == nil || head.Next == nil {
+		return head
+	}
+	next := head.Next
+	head.Next = nil
+	for next != nil {
+		next.Next, head, next = head, next, next.Next
+	}
+	return head
 }
 
 func main() {

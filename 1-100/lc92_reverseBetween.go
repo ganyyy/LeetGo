@@ -37,6 +37,7 @@ func reverseBetween(head *ListNode, m int, n int) *ListNode {
 }
 
 func reverseBetween2(head *ListNode, left int, right int) *ListNode {
+	// good solution
 	var step = 1
 	var pp *ListNode
 	var pre = head
@@ -59,6 +60,7 @@ func reverseBetween2(head *ListNode, left int, right int) *ListNode {
 		pp.Next = pre
 		return head
 	}
+	// 当left == 1时, pp == nil
 	return pre
 }
 
@@ -76,6 +78,50 @@ func reverse2(root *ListNode) *ListNode {
 		cur = next
 	}
 	return pre
+}
+
+func reverseBetweenBad(head *ListNode, left int, right int) *ListNode {
+	ol := left
+	if left >= right || head == nil || head.Next == nil {
+		return head
+	}
+	if left == 1 {
+		// 加一个dummy节点, 兼容后续的逻辑
+		head = &ListNode{Next: head}
+		left++
+		right++
+	}
+	// l的前置
+	var pl *ListNode
+	var r *ListNode
+
+	for curr := head; curr != nil; curr = curr.Next {
+		left--
+		right--
+		if left == 1 {
+			pl = curr
+		}
+		if right == 0 {
+			r = curr
+			break
+		}
+	}
+	if r == nil || pl == nil {
+		return head
+	}
+	// r的后继节点
+	ar := r.Next
+	// 置空方便翻转
+	r.Next = nil
+	// left起始节点
+	l := pl.Next
+	pl.Next = reverse2(l)
+	// 此时的l已经是逆转后的列表的末尾了
+	l.Next = ar
+	if ol == 1 {
+		head = head.Next
+	}
+	return head
 }
 
 func main() {
