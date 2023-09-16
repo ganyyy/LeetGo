@@ -26,7 +26,7 @@ type LFUCache struct {
 	cache          map[int]*list.Element // 所有节点的数据
 }
 
-func Constructor(capacity int) LFUCache {
+func Constructor460(capacity int) LFUCache {
 	return LFUCache{
 		capacity:       capacity,
 		minFrequency:   1,
@@ -37,7 +37,7 @@ func Constructor(capacity int) LFUCache {
 
 func (lfu *LFUCache) Get(key int) int {
 	if ele, ok := lfu.cache[key]; ok {
-		var lfuNode = ele.Value.(LFUNode)
+		var lfuNode = ele.Value.(*LFUNode)
 		lfu.updateNode(lfuNode, ele)
 		// lfu.Show(fmt.Sprintf("Get:%v", key))
 		return lfuNode.Val
@@ -55,7 +55,7 @@ func (lfu *LFUCache) getFrequencyList(frequency int) *list.List {
 	return frequencyList
 }
 
-func (lfu *LFUCache) updateNode(lfuNode LFUNode, ele *list.Element) {
+func (lfu *LFUCache) updateNode(lfuNode *LFUNode, ele *list.Element) {
 	// 从旧的队列中删除
 	var oldList = lfu.getFrequencyList(lfuNode.Frequency)
 	oldList.Remove(ele)
@@ -79,7 +79,7 @@ func (lfu *LFUCache) Put(key int, value int) {
 		return
 	}
 	if ele, ok := lfu.cache[key]; ok {
-		var lfuNode = ele.Value.(LFUNode)
+		var lfuNode = ele.Value.(*LFUNode)
 		lfuNode.Val = value
 		lfu.updateNode(lfuNode, ele)
 		// lfu.Show(fmt.Sprintf("Put:%v,%v", key, value))
@@ -87,14 +87,14 @@ func (lfu *LFUCache) Put(key int, value int) {
 		if len(lfu.cache) >= lfu.capacity {
 			// 移除最小频率列表对应的最后一个值
 			var minList = lfu.getFrequencyList(lfu.minFrequency)
-			var lfuNode = minList.Remove(minList.Back()).(LFUNode)
+			var lfuNode = minList.Remove(minList.Back()).(*LFUNode)
 			delete(lfu.cache, lfuNode.Key)
 			if minList.Len() == 0 {
 				delete(lfu.frequencyCache, lfu.minFrequency)
 				lfu.minFrequency++
 			}
 		}
-		var lfuNode = LFUNode{
+		var lfuNode = &LFUNode{
 			Key:       key,
 			Val:       value,
 			Frequency: 1,

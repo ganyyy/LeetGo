@@ -10,6 +10,7 @@ import . "leetgo/data"
  * }
  */
 func partition(head *ListNode, x int) *ListNode {
+	// mark
 	if head == nil {
 		return nil
 	}

@@ -106,7 +106,7 @@ func Constructor(capacity int) LRUCache {
 func (l *LRUCache) Get(key int) int {
 	if ele, ok := l.keys[key]; ok {
 		l.list.MoveToFront(ele)
-		return ele.Value.(Node).Val
+		return ele.Value.(*Node).Val
 	} else {
 		return -1
 	}
@@ -114,16 +114,16 @@ func (l *LRUCache) Get(key int) int {
 
 func (l *LRUCache) Put(key int, value int) {
 	if ele, ok := l.keys[key]; ok {
-		ele.Value = Node{
+		ele.Value = &Node{
 			Key: key, Val: value,
 		}
 		l.list.MoveToFront(ele)
 	} else {
 		if len(l.keys) >= l.capacity {
 			var val = l.list.Remove(l.list.Back())
-			delete(l.keys, val.(Node).Key)
+			delete(l.keys, val.(*Node).Key)
 		}
-		l.keys[key] = l.list.PushFront(Node{
+		l.keys[key] = l.list.PushFront(&Node{
 			Key: key,
 			Val: value,
 		})

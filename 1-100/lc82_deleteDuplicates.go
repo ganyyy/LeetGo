@@ -2,7 +2,7 @@ package main
 
 import . "leetgo/data"
 
-func deleteDuplicates(head *ListNode) *ListNode {
+func deleteDuplicates3(head *ListNode) *ListNode {
 	if head == nil {
 		return head
 	}
@@ -30,7 +30,7 @@ func deleteDuplicates2(head *ListNode) *ListNode {
 	if head == nil || head.Next == nil {
 		return head
 	}
-	//var h = &ListNode{Val: head.Val - 1, Next: head}
+	// var h = &ListNode{Val: head.Val - 1, Next: head}
 	var h = &ListNode{Next: head}
 	pre, head := h, head.Next
 	var remove bool
@@ -60,13 +60,13 @@ func main() {
 	}
 	head.Add(1)
 	head.Add(2)
-	//head.Add(2)
-	//head.Add(3)
+	// head.Add(2)
+	// head.Add(3)
 
 	head.Add(3)
 	head.Add(4)
-	//head.Add(4)
-	//head.Add(5)
+	// head.Add(4)
+	// head.Add(5)
 	head.Add(5)
 	ShowList(head)
 	ShowList(deleteDuplicates2(head))
