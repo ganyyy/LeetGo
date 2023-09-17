@@ -69,6 +69,14 @@ func largestRectangleAreaNew(heights []int) int {
 
 	var res int
 	for i, v := range heights {
+		// 比如 [2, 1, 5, 6, 2, 3]
+		// 栈中元素对应的数值如下:
+		// [2]
+		// [1].       出栈2*1
+		// [1, 5]
+		// [1, 5, 6]
+		// [1, 2]. 	  出栈6*1, 再出栈5*2
+		// [1, 2, 3]. 出栈3*1, 2*2, 1*5
 		for t := len(stack) - 1; t != 0 && heights[stack[t]] >= v; t-- {
 			// 长度就是栈中的最后一个数值
 			// 宽度就是 i 距离 栈顶前一个元素的距离
