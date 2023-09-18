@@ -7,6 +7,7 @@ type TreeNode struct {
 }
 
 type BSTIteratorError struct {
+	// mark
 	// 写一个中序遍历即可
 	vals []int
 	idx  int
