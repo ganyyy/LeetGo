@@ -11,6 +11,10 @@ func lowestCommonAncestor(root, p, q *TreeNode) *TreeNode {
 		return root
 	}
 
+	// left == nil 说明左半边不包含p/q
+	// right== nil 说明右半边不包含p/q
+	// 二者只要有一个不为nil, 那么root肯定不会是公共父节点
+
 	// 分别找左右两边
 	left, right := lowestCommonAncestor(root.Left, p, q), lowestCommonAncestor(root.Right, p, q)
 	// 左右节点都在, 说明这是个公共节点

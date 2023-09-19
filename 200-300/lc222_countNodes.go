@@ -1,8 +1,11 @@
+//go:build ignore
+
 package main
 
 import . "leetgo/data"
 
 func countNodes(root *TreeNode) int {
+	// mark
 	if root == nil {
 		return 0
 	}

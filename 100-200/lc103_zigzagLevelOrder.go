@@ -1,7 +1,5 @@
 package main
 
-import . "leetgo/data"
-
 /**
  * Definition for a binary tree node.
  * type TreeNode struct {
@@ -50,4 +48,37 @@ func zigzagLevelOrder(root *TreeNode) [][]int {
 	}
 
 	return res
+}
+
+func zigzagLevelOrder2(root *TreeNode) [][]int {
+	if root == nil {
+		return nil
+	}
+	var queueBuf, nextBuf [32]*TreeNode
+	var queue = queueBuf[:0]
+	var next = nextBuf[:0]
+	queue = append(queue, root)
+	var ret [][]int
+	var l2r = true
+	for len(queue) != 0 {
+		base, add := 0, 1
+		if !l2r {
+			base, add = len(queue)-1, -1
+		}
+		var cur = make([]int, len(queue))
+		for _, node := range queue {
+			cur[base] = node.Val
+			base += add
+			if node.Left != nil {
+				next = append(next, node.Left)
+			}
+			if node.Right != nil {
+				next = append(next, node.Right)
+			}
+		}
+		queue, next = next, queue[:0]
+		ret = append(ret, cur)
+		l2r = !l2r
+	}
+	return ret
 }
