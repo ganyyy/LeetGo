@@ -9,6 +9,7 @@ func minMutation(start string, end string, bank []string) int {
 			if b == "" {
 				continue
 			}
+			// 差异值
 			var diff int
 			for idx := range b {
 				if src[idx] == b[idx] {
@@ -18,6 +19,7 @@ func minMutation(start string, end string, bank []string) int {
 			}
 
 			if diff == 1 {
+				// 差异值为1, 可以进行转换, 同时将bank中的值置空标记为已经使用过
 				bank[i] = ""
 				ret = append(ret, b)
 			}
