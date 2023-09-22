@@ -106,6 +106,7 @@ func sumOfDistancesInTree(N int, edges [][]int) []int {
 
 func sumOfDistancesInTree3(n int, edges [][]int) []int {
 	// 暴力解法肯定是有的, 但是怎么运用dp呢?
+	// mark
 
 	next := make([][]int, n)
 	for _, edge := range edges {
