@@ -67,10 +67,11 @@ func (b bitset) set(v int) {
 }
 
 func (b bitset) del(v int) {
-	b[v/POW] &= ^(1 << (v & MASK))
+	b[v/POW] &^= 1 << (v & MASK)
 }
 
 func findWords(board [][]byte, words []string) []string {
+	// mark
 	// 需要构建一个字典树吗...
 	var r = &root{}
 	for _, w := range words {
@@ -117,7 +118,7 @@ func findWords(board [][]byte, words []string) []string {
 		}
 	}
 
-	//fmt.Println(use)
+	// fmt.Println(use)
 
 	return ret
 }

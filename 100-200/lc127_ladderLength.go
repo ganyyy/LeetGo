@@ -7,9 +7,14 @@ import (
 )
 
 // 换bfs试试, 首次BFS, 内存溢出了
-var empty = struct{}{}
+var empty127 = struct{}{}
 
 func ladderLength(beginWord string, endWord string, wordList []string) int {
+
+	if len(beginWord) != len(endWord) {
+		return 0
+	}
+
 	// 换双端搜索, 每次都从备选词库较少的那一方进行筛选
 	// begin -> ... tmp ... -> end
 	// 初始情况下, begin只包含 beginWord
@@ -18,34 +23,41 @@ func ladderLength(beginWord string, endWord string, wordList []string) int {
 	// 同样的,
 	// 双指针的变形记
 
-	// 标记set
+	// 所有单词的集合
 	var dict = make(map[string]struct{}, len(wordList))
 	for _, w := range wordList {
-		dict[w] = empty
+		if len(w) != len(beginWord) {
+			continue
+		}
+		dict[w] = empty127
 	}
 
-	// 找不到直接返回
+	// 首先判断一下结束单词是否在备选词库中
 	if _, ok := dict[endWord]; !ok {
 		return 0
 	}
 
-	// 开始的set
+	// 启用双端搜索
+
+	// 开始的集合
 	var beginSet = map[string]struct{}{
-		beginWord: empty,
+		beginWord: empty127,
 	}
-	// 结束的set
+	// 结束的集合
 	var endSet = map[string]struct{}{
-		endWord: empty,
+		endWord: empty127,
 	}
+
+	var buffer = make([]byte, len(beginWord))
 
 	// 总的步数
 	var level = 1
 
-	// 中间集合
-	var tmpSet map[string]struct{}
+	// 当前的临时集合
+	var tmpSet = map[string]struct{}{}
 	for len(beginSet) != 0 {
-		tmpSet = map[string]struct{}{}
-		// 在加一次迭代次数
+		clear(tmpSet)
+		// 层次+1
 		level++
 		// 从备选词库中去掉开始集合中存在的元素, 防止重复遍历
 		for s := range beginSet {
@@ -55,11 +67,11 @@ func ladderLength(beginWord string, endWord string, wordList []string) int {
 		for bs := range beginSet {
 			// 挨个位置, 挨个字母的进行替换. 进行过滤和对比, 将时间复杂度降低到可控范围(len(bs)*26)
 			for i := 0; i < len(bs); i++ {
-				var b = []byte(bs)
+				copy(buffer, bs)
 				for c := 'a'; c <= 'z'; c++ {
-					b[i] = byte(c)
+					buffer[i] = byte(c)
 					// 如果已经过滤掉了
-					var s = toString(b)
+					var s = toString127(buffer)
 					if _, ok := dict[s]; !ok {
 						continue
 					}
@@ -69,7 +81,7 @@ func ladderLength(beginWord string, endWord string, wordList []string) int {
 					}
 					// 不符合上述条件的直接放入到临时集合中, 等待下一次的查找
 					// 这里需要进行一次copy, 不然就会出现重复的情况
-					tmpSet[string(b)] = empty
+					tmpSet[string(buffer)] = empty127
 				}
 			}
 		}
@@ -77,9 +89,9 @@ func ladderLength(beginWord string, endWord string, wordList []string) int {
 		// 如果tmpSet较小, 从tmpSet开始查找,
 		// 否则从 endSet开始查找
 		if len(tmpSet) < len(endSet) {
-			beginSet = tmpSet
+			beginSet, tmpSet = tmpSet, beginSet
 		} else {
-			beginSet, endSet = endSet, tmpSet
+			beginSet, endSet, tmpSet = endSet, tmpSet, beginSet
 		}
 	}
 
@@ -87,10 +99,9 @@ func ladderLength(beginWord string, endWord string, wordList []string) int {
 	return 0
 }
 
-func toString(b []byte) string {
+func toString127(b []byte) string {
 	return *(*string)(unsafe.Pointer(&b))
 }
-
 func ladderLengthErrMemory(beginWord string, endWord string, wordList []string) int {
 	var dict = make(map[string]map[string]bool, len(wordList))
 
@@ -155,14 +166,14 @@ func ladderLengthErrMemory(beginWord string, endWord string, wordList []string) 
 			// 出队
 			queue = queue[1:]
 			// 标记
-			check[cur] = empty
+			check[cur] = empty127
 			// 获取当前元素的所有可以转移的目标
 			for s = range dict[cur] {
 				if _, ok = check[s]; ok {
 					continue
 				}
 				// 标记
-				check[s] = empty
+				check[s] = empty127
 				// 入队
 				queue = append(queue, s)
 			}
