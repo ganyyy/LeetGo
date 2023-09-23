@@ -9,6 +9,7 @@ func (b Bit52) Set(idx int) Bit52   { return Bit52(int(b) | (1 << idx)) }
 func (b Bit52) Unset(idx int) Bit52 { return Bit52(int(b) &^ (1 << idx)) }
 
 func totalNQueens(n int) int {
+	// mark
 	var dfs func(i int)
 
 	// n的上限是9, 所以用uint64 足够了

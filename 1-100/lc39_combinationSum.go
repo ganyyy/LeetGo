@@ -33,30 +33,28 @@ func combination1(candidates []int, target int) [][]int {
 }
 
 func combinationSum3(candidates []int, target int) (ans [][]int) {
-	var comb []int
-	var dfs func(target, idx int)
-	dfs = func(target, idx int) {
-		if idx == len(candidates) {
+	if len(candidates) == 0 {
+		return nil
+	}
+	var dfs func(idx, target int, buf []int)
+
+	dfs = func(idx, target int, buf []int) {
+		if idx == len(candidates) || target < 0 {
 			return
 		}
 		if target == 0 {
-			ans = append(ans, append([]int(nil), comb...))
+			// 添加到结果集
+			ans = append(ans, append([]int(nil), buf...))
 			return
 		}
-
-		// 核心点是: 不会回退!
-		// 很有意思的思路: 从小往大的发散, 保证了不会出现重复的组合
-
-		// 直接跳过: 不选择当前数
-		dfs(target, idx+1)
-		// 选择当前数
-		if target-candidates[idx] >= 0 {
-			comb = append(comb, candidates[idx])
-			dfs(target-candidates[idx], idx)
-			comb = comb[:len(comb)-1]
+		// 跳过当前元素
+		dfs(idx+1, target, buf)
+		if rem := target - candidates[idx]; rem >= 0 {
+			// 选择当前元素
+			dfs(idx, rem, append(buf, candidates[idx]))
 		}
 	}
-	dfs(target, 0)
+	dfs(0, target, make([]int, 0, len(candidates)))
 	return
 }
 
