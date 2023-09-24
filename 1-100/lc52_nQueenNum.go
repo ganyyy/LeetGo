@@ -41,7 +41,6 @@ func totalNQueens(n int) int {
 					// 复原
 					cols, ml, sl = cols.Unset(c), ml.Unset(m), sl.Unset(s)
 				}
-
 			}
 		}
 	}

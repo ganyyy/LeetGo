@@ -38,6 +38,7 @@ func construct(grid [][]int) *Node {
 
 func construct2(grid [][]int) *Node {
 	// 分两步
+	// mark
 	// 第一步: 二维区域的前缀和
 	var ln = len(grid)
 	var sum = make([][]int, ln+1)
