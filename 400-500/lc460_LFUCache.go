@@ -69,9 +69,7 @@ func (lfu *LFUCache) updateNode(lfuNode *LFUNode, ele *list.Element) {
 	// 增加节点的频率
 	lfuNode.Frequency++
 	// 插入到新的列表中
-	var newList = lfu.getFrequencyList(lfuNode.Frequency)
-	ele.Value = lfuNode
-	lfu.cache[lfuNode.Key] = newList.PushFront(lfuNode)
+	lfu.cache[lfuNode.Key] = lfu.getFrequencyList(lfuNode.Frequency).PushFront(lfuNode)
 }
 
 func (lfu *LFUCache) Put(key int, value int) {
@@ -100,8 +98,7 @@ func (lfu *LFUCache) Put(key int, value int) {
 			Frequency: 1,
 		}
 		lfu.minFrequency = 1
-		var addList = lfu.getFrequencyList(lfu.minFrequency)
-		lfu.cache[key] = addList.PushFront(lfuNode)
+		lfu.cache[key] = lfu.getFrequencyList(lfu.minFrequency).PushFront(lfuNode)
 		// lfu.Show(fmt.Sprintf("Put Remove:%v,%v", key, value))
 	}
 }
