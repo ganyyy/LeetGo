@@ -53,6 +53,7 @@ func (h *Heap) Pop() interface{} {
 func scheduleCourse2(courses [][]int) int {
 	// 按照结束时间排序?
 
+	// 先过滤一下不可能完成的课程
 	// 首先, 剔除掉所有的 持续时间 > 截止时间的课程. 因为这些课程是不可能完成的
 	var validCourses = courses[:0]
 	for _, course := range courses {

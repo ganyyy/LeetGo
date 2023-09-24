@@ -23,7 +23,7 @@ func gameOfLife(board [][]int) {
 			var cnt int
 			for k := 0; k < 8; k++ {
 				x, y := i+DX[k], j+DY[k]
-				if x < 0 || y < 0 || x >= ln || y >= lm {
+				if uint(x) >= uint(ln) || uint(y) >= uint(lm) {
 					continue
 				}
 				// 最后一位只能是0或者1
@@ -42,7 +42,7 @@ func gameOfLife(board [][]int) {
 			}
 		}
 	}
-
+	// 位运算
 	// 更新状态
 	for i := 0; i < ln; i++ {
 		for j := 0; j < lm; j++ {

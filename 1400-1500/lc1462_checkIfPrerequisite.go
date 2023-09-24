@@ -85,3 +85,56 @@ func checkIfPrerequisite2(numCourses int, prerequisites [][]int, queries [][]int
 
 	return ret
 }
+
+func checkIfPrerequisite3(numCourses int, prerequisites [][]int, queries [][]int) []bool {
+	// graph[i] 表示 i的后置课程
+	graph := make([][]int, numCourses)
+	// inDegree[i] 表示 i的入度, 即i还有多少前置课程未完成
+	inDegree := make([]int, numCourses)
+	// isPreCourse[i][j] 表示 i是j的前置课程
+	isPreCourse := make([][]bool, numCourses)
+	for course := range isPreCourse {
+		isPreCourse[course] = make([]bool, numCourses)
+		graph[course] = []int{}
+	}
+	for _, prerequisite := range prerequisites {
+		pre, next := prerequisite[0], prerequisite[1]
+		// next入度+1
+		inDegree[next]++
+		// pre的后置课程有next
+		graph[pre] = append(graph[pre], next)
+	}
+
+	var curQueue, nextQueue []int
+	for course := 0; course < numCourses; course++ {
+		if inDegree[course] == 0 {
+			// 入度为0, 说明没有前置课程, 可以直接学习
+			curQueue = append(curQueue, course)
+		}
+	}
+
+	for len(curQueue) > 0 {
+		for _, cur := range curQueue {
+			for _, next := range graph[cur] {
+				isPreCourse[cur][next] = true
+				for i := 0; i < numCourses; i++ {
+					// i是否是ne的前置课程呢? 主要由两个条件决定:
+					// i是ne的直接前置
+					// i是ne的间接前置(i是cur的前置)
+					isPreCourse[i][next] = isPreCourse[i][next] || isPreCourse[i][cur]
+				}
+				inDegree[next]--
+				if inDegree[next] == 0 {
+					// next的入度为0, 说明next的前置课程都已经完成, 可以继续学习
+					nextQueue = append(nextQueue, next)
+				}
+			}
+		}
+		curQueue, nextQueue = nextQueue, curQueue[:0]
+	}
+	var res = make([]bool, 0, len(queries))
+	for _, query := range queries {
+		res = append(res, isPreCourse[query[0]][query[1]])
+	}
+	return res
+}

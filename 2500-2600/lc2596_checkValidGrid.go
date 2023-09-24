@@ -30,6 +30,7 @@ func checkValidGrid(grid [][]int) bool {
 	if pre[0] != pre[1] || pre[0] != 0 {
 		return false
 	}
+	// 因为预先设定好了行走的顺序, 所以只需要验证相邻的两个点是否满足条件即可
 	for _, step := range seq[1:] {
 		var valid bool
 		// 优化: 绝对值相加等于3!

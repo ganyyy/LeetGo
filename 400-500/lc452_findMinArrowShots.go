@@ -47,7 +47,9 @@ func findMinArrowShots(points [][]int) int {
 	var res = 1
 	var cur = points[0][1]
 	for i := 1; i < len(points); i++ {
-		// 如果当前气球的左端点大于当前记录的最远右端点, 就需要射下一箭
+		// 如果当前气球的左端点大于当前记录的右端点, 就需要射下一箭
+		// 可以理解为: 就是先在cur这个位置射一箭, 因为整体是按照右端点排序的,
+		// 所以只要当前气球的左端点大于cur, 就说明cur这一箭这个气球是射不到的
 		if points[i][0] > cur {
 			res++
 			cur = points[i][1]
@@ -57,20 +59,6 @@ func findMinArrowShots(points [][]int) int {
 }
 
 func findMinArrowShots3(points [][]int) int {
-
-	var min = func(a, b int) int {
-		if a < b {
-			return a
-		}
-		return b
-	}
-
-	var max = func(a, b int) int {
-		if a > b {
-			return a
-		}
-		return b
-	}
 
 	if len(points) == 0 {
 		return 0

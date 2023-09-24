@@ -42,6 +42,7 @@ func containsNearbyAlmostDuplicate(nums []int, k, t int) bool {
 		// 如果x == nums[i-k], 那该怎么处理?
 		// 如果这样的话, 第一个条件就会成功判定了.
 		// 所以这里的 nums[i-k]在整个区间内的ID一定是唯一的
+		// 每个桶最多只能有一个元素
 		mp[id] = x
 		// 维护大小为k的窗口
 		if i >= k {

@@ -36,6 +36,8 @@ func queensAttackTheKing(queens [][]int, king []int) [][]int {
 }
 
 func queensAttackTheKingQueue(queens [][]int, king []int) [][]int {
+	// 压缩+队列+贪心
+	// 由于国王的位置是固定的, 所以可以将其视为原点
 
 	// 范围是 [-1, 1]. 为了保证key的唯一性, 可以将其映射到 [0, 2]
 	// 获取相对位置: 1表示在前边, 0在同一行/列, -1表示在后边
