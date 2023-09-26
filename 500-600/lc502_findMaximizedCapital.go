@@ -30,6 +30,13 @@ func findMaximizedCapital(k, w int, profits, capital []int) int {
 		if h.Len() == 0 {
 			break
 		}
+		if cur == n {
+			// 如果当前遍历的索引已经到了最后一个项目, 后续不会再有可选的项目了, 直接将所有的项目都选上就是最大利润
+			for _, v := range h.IntSlice {
+				w += v
+			}
+			break
+		}
 		// 获取到的总资本就是所有消耗小于当前资本的项目里的最大值
 		w += heap.Pop(h).(int)
 	}
@@ -38,7 +45,7 @@ func findMaximizedCapital(k, w int, profits, capital []int) int {
 
 type hp struct{ sort.IntSlice }
 
-func (h hp) Less(i, j int) bool  { return h.IntSlice[i] > h.IntSlice[j] }
+func (h *hp) Less(i, j int) bool { return h.IntSlice[i] > h.IntSlice[j] }
 func (h *hp) Push(v interface{}) { h.IntSlice = append(h.IntSlice, v.(int)) }
 func (h *hp) Pop() interface{} {
 	a := h.IntSlice
@@ -48,8 +55,8 @@ func (h *hp) Pop() interface{} {
 }
 
 func findMaximizedCapital222(k int, w int, profits []int, capital []int) int {
-	//双重循环:一重是k 二重是遍历profits找最大（在资本满足的前提下）
-	//变量设计 res最终输出的 currnt当前资本
+	// 双重循环:一重是k 二重是遍历profits找最大（在资本满足的前提下）
+	// 变量设计 res最终输出的 current 当前资本
 	if k == 100000 && w == 100000 && profits[0] == 10000 {
 		return 1000100000
 	}
@@ -60,14 +67,14 @@ func findMaximizedCapital222(k int, w int, profits []int, capital []int) int {
 		return 2000000000
 	}
 	res := w
-	lenp := len(profits)
+	lp := len(profits)
 	for i := 0; i < k; i++ {
-		max := 0
+		mx := 0
 		pos := -1
-		for j := 0; j < lenp; j++ {
+		for j := 0; j < lp; j++ {
 			// 从所有项目中选取开销小于当前资本, 并且利润最大的那个项目
-			if capital[j] <= res && profits[j] > max {
-				max = profits[j]
+			if capital[j] <= res && profits[j] > mx {
+				mx = profits[j]
 				pos = j
 			}
 		}

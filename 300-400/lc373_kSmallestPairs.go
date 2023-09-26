@@ -3,6 +3,7 @@ package main
 import "container/heap"
 
 func kSmallestPairs(nums1, nums2 []int, k int) (ans [][]int) {
+	// mark
 	m, n := len(nums1), len(nums2)
 	h := hp{nil, nums1, nums2}
 	for i := 0; i < k && i < m; i++ {

@@ -2,7 +2,10 @@
 
 package main
 
-import "math"
+import (
+	"container/heap"
+	"math"
+)
 
 func findMedianSortedArrays(nums1 []int, nums2 []int) float64 {
 	// 保证 nums1是短的那一个
@@ -99,26 +102,35 @@ func findMedianSortedArrays(nums1 []int, nums2 []int) float64 {
 	if len(nums1) > len(nums2) {
 		nums1, nums2 = nums2, nums1
 	}
-	// head: nums1的头
-	// tail: nums1的尾
-	// mid: nums1和nums2的中位
+	// left: nums1的头
+	// right: nums1的尾
+	// mid: nums1和nums2的中位数中偏右的那个位置
+
+	heap.Fix()
+
+	/*
+		相当于找到nums1中的一个位置i, 和nums2中的一个位置j
+		首先: i+j = (len1+len2+1)/2. 这个相当于找的是中位数偏右的那个位置, 奇数情况下-1就是中位数, 偶数情况下-1就是左边的那个数
+		然后需要满足的是: nums1[i-1] <= nums2[j] && nums2[j-1] <= nums1[i]
+		在此条件下针对较长的数组进行二分查找, 逼近i的位置
+		如果 nums1[i-1] > nums2[j], 说明i太大了, 需要减小; 如果 nums2[j-1] > nums1[i], 说明i太小了, 需要增大
+	*/
+
 	len1, len2 := len(nums1), len(nums2)
-	head, tail, mid := 0, len1, (len1+len2+1)/2
-	for head <= tail {
+	left, right, mid := 0, len1, (len1+len2+1)/2
+	for left <= right {
 		// 原理是通过依次向中间逼近找到
-		// 感觉这个时间复杂度不对啊
-		// 应该不是O(log n)
 
 		// 每次都取nums1的中位
-		i := (head + tail) / 2
+		i := (left + right) / 2
 		// 相应的, mid-i就是nums2的中位?
 		j := mid - i
-		if i < tail && nums1[i] < nums2[j-1] {
+		if i < right && nums1[i] < nums2[j-1] {
 			// i太小了, 需要增大
-			head = i + 1
-		} else if i > head && nums1[i-1] > nums2[j] {
+			left = i + 1
+		} else if i > left && nums1[i-1] > nums2[j] {
 			// i太大了, 需要减小
-			tail = i - 1
+			right = i - 1
 		} else {
 			// 到这里, 就可以保证: nums1[i-1] <= nums2[j] && nums2[j-1] <= nums1[i]
 			// 相当于要从 nums1[i-1], nums1[i], nums2[j-1], nums2[j]中找到中位数
