@@ -1,5 +1,7 @@
 package main
 
+import "math/bits"
+
 func hammingWeight(num uint32) int {
 	var count int
 	// 核心想法是通过-1将低位的1变成0
@@ -8,6 +10,7 @@ func hammingWeight(num uint32) int {
 		num &= num - 1
 		count++
 	}
+	bits.OnesCount32(num)
 	return count
 }
 

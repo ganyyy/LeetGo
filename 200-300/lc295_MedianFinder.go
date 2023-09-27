@@ -57,21 +57,13 @@ func (in *IntNums) Pop() (ret interface{}) {
 	return
 }
 
-type MinHeap struct {
-	IntNums
-}
+type MinHeap struct{ IntNums }
 
-func (m MinHeap) Less(i, j int) bool {
-	return m.IntNums[i] < m.IntNums[j]
-}
+func (m MinHeap) Less(i, j int) bool { return m.IntNums[i] < m.IntNums[j] }
 
-type MaxHeap struct {
-	IntNums
-}
+type MaxHeap struct{ IntNums }
 
-func (m MaxHeap) Less(i, j int) bool {
-	return m.IntNums[i] > m.IntNums[j]
-}
+func (m MaxHeap) Less(i, j int) bool { return m.IntNums[i] > m.IntNums[j] }
 
 type MedianFinder struct {
 	min *MinHeap // 存储后半部分
@@ -96,6 +88,11 @@ func (f *MedianFinder) AddNum(num int) {
 		heap.Push(f.min, num)
 		return
 	}
+
+	/*
+		尽可能的让两个堆的数量相等, 这样中位数就是两个堆顶的平均值
+		如果不相等, 就是数量多的那个堆顶
+	*/
 
 	if f.min.Len() < f.max.Len() {
 		// 如果后半部分的数量小于前半部分, 为了保证两者的平衡, 需要加入到后半部分中
