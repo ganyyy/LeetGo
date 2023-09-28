@@ -33,6 +33,8 @@ func maxPointsOld(points [][]int) int {
 
 				for k := j + 1; k < len(points); k++ {
 					var p3 = points[k]
+					// 避免除数为0的情况: 改成乘法
+					// 这个转换公式就是: (y2-y1)/(x2-x1) = (y3-y1)/(x3-x1) => (y2-y1)*(x3-x1) = (y3-y1)*(x2-x1)
 					if xDiff*(p1[1]-p3[1]) == yDiff*(p1[0]-p3[0]) {
 						// 如果在同一条线上...
 						cnt++
@@ -71,8 +73,10 @@ func maxPoints(points [][]int) int {
 			x := point[0] - nextPoint[0]
 			y := point[1] - nextPoint[1]
 			if x == 0 {
+				// 竖直线
 				y = 1
 			} else if y == 0 {
+				// 水平线
 				x = 1
 			} else {
 				if y < 0 {
