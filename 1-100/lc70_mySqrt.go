@@ -3,16 +3,16 @@ package main
 import "fmt"
 
 func mySqrt(x int) int {
-	min, max := 0, x
-	for max-min > 1 {
-		m := (min + max) / 2
+	mi, ma := 0, x
+	for ma-mi > 1 {
+		m := (mi + ma) / 2
 		if m > x/m {
-			max = m
+			ma = m
 		} else {
-			min = m
+			mi = m
 		}
 	}
-	return min
+	return mi
 }
 
 func mySqrt2(x int) int {
@@ -20,10 +20,13 @@ func mySqrt2(x int) int {
 		return x
 	}
 	const e = 1e-10
+	// 先假设x的平方根是x, 然后不断的逼近. 逼近的公式就是 (t + x/t) / 2, 判断的条件就是 t-xx/t > e
 	t := float64(x)
 	xx := float64(x)
-	for r := xx / t; t-xx/t > e; /**核心是这里, 如果有精度需要就是 t - x/t > 最小精度*/ r = xx / t {
-		t = (t + r) / 2
+	// r = xx / t => r*t = xx
+	// t-xx/t > e => t*t-xx > e*t => t*t > xx + e*t => t*t > xx (e就是趋近于0的值, 所以可以忽略)
+	for t-xx/t > e /**核心是这里, 如果有精度需要就是 t - x/t > 最小精度*/ {
+		t = (t + xx/t) / 2
 	}
 	fmt.Println(t)
 	return int(t)

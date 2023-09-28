@@ -24,6 +24,11 @@ func myPow2(x float64, n int) float64 {
 
 	// 这么理解
 	// 2^10 = (((2^2)^2)^2) * 2 * 2
+	/*
+		2^10 = 2^5 * 2^5 = 4^5
+		4^5 = 4^2 * 4^2 * 4 = 16^2 * 4 => res *= 4
+		16^2 = 256^1
+	*/
 	// 这里通过二分找快速的找到最接近的 2的指数次幂
 	// 中间的每一个单数都相当于 多乘以一次
 	// 不管怎么计算, 最终 n 都会到1, 此时 的res就是最终的结果
@@ -42,6 +47,21 @@ func myPow2(x float64, n int) float64 {
 		return 1.0 / res
 	}
 	return res
+}
+
+func myPow3(x float64, n int) float64 {
+	var ret float64 = 1
+	var cur = x
+	for n := n; n != 0; n /= 2 {
+		if n&1 == 1 {
+			ret *= cur
+		}
+		cur *= cur
+	}
+	if n < 0 {
+		ret = 1 / ret
+	}
+	return ret
 }
 
 func main() {
