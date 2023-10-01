@@ -47,6 +47,30 @@ func maxProfit3(prices []int) int {
 	return second[1]
 }
 
+func maxProfit4(prices []int) int {
+	const (
+		BUY  = 0
+		SELL = 1
+	)
+	// 一天是可以同时买卖两次的. 所以第一天二者是一样的
+	var first, second [2]int
+	first[BUY] = -prices[0]
+	second = first
+
+	for _, price := range prices[1:] {
+		// 第一手购买的收益
+		first[BUY] = max(first[BUY], -price)
+		// 第一手卖出的收益
+		first[SELL] = max(first[SELL], price+first[BUY])
+		// 第二手购买
+		second[BUY] = max(second[BUY], first[SELL]-price)
+		// 第二手卖出
+		second[SELL] = max(second[SELL], second[BUY]+price)
+	}
+
+	return second[SELL]
+}
+
 func main() {
 
 }

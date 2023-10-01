@@ -74,41 +74,49 @@ func minDistance2(word1 string, word2 string) int {
 }
 
 func minDistance3(word1 string, word2 string) int {
-	// dp[i1][i2] 表示 word1[:i1+1] == word2[:i2+1] 所需要的步数
-	// 如果需要插入一个字符才相等, dp[i1][i2] = dp[i1-1][i2] + 1
-	// 如果需要删除一个字符才相等, dp[i1][i2] = dp[i1][i2-1] + 1
-	// 如果需要替换一个字符才相等, dp[i1][i2] = dp[i1-1][i2-1] + 1
-	// 如果什么都不用做, 那就dp[i1][i2] = dp[i1-1][i2-1]
+	/*
+	   cost[i+1][j+1] = word1[:i+1] -> word2[:j+1]所需要的最小步骤
+	   针对 word1[i]和word2[j]而言
+	   相等:
+	       不需要任何步骤
+	   不相等: 需要从以下步骤中找出最小的开销+1
+	       如果是插入的话, 相当于是由word1[:i] -> word2[:j+1] (cost[i][j+1])
+	       如果是删除的话, 相当于是由word1[:i+1] -> word2[:j] (cost[i+1][j])
+	       如果是替换的话, 相当于是由word1[:i] -> word2[:j]   (cost[i][j])
 
-	var m, n = len(word1), len(word2)
+	   由上边的dp可得: 只和上一行有关. 但是需要关注 leftTop, top, left 三个方向
+	*/
+	if word1 == word2 {
+		return 0
+	}
+	cost := make([]int, len(word2)+1)
 
-	// word1转变成word2[:n]所需要的代价
-	var cost = make([]int, n+1)
-
-	for i := 1; i <= n; i++ {
-		// 初始化第一行, 代表着在word1 == ""时, 需要添加多少才能转变成word2[:i]
+	// 特殊情况1: cost[0][...]的处理, 相当于将 "" -> word2[:j]的开销, 都是插入
+	for i := range cost {
 		cost[i] = i
 	}
 
-	for i := 1; i <= m; i++ {
-		// 对于word1[:i]而言, 转变成word2[:0]的代价就等同于全部删除的步数
-		cost[0] = i
-		// pre对应的是左上角的值, 初始状态下, 相当于word1[:i-1] -> word2[:0]需要删除的步数
-		pre := i - 1
-		for j := 1; j <= n; j++ {
-			// cur等同于正上方的值
-			cur := cost[j]
-			if word1[i-1] == word2[j-1] {
-				// 啥都不用做, 就是左上方的pre
-				cost[j] = pre
+	for w1Idx := 1; w1Idx <= len(word1); w1Idx++ {
+		// word1[:w1Idx] -> word2[:0], 需要删除多少个字符
+		cost[0] = w1Idx
+		// 左上方, 初始值对应的就是dp[w1Idx-1][0]
+		leftTop := w1Idx - 1
+		for w2Idx := 1; w2Idx <= len(word2); w2Idx++ {
+			// 左方
+			left := cost[w2Idx-1]
+			// 正上方
+			top := cost[w2Idx]
+
+			if word1[w1Idx-1] == word2[w2Idx-1] {
+				cost[w2Idx] = leftTop
 			} else {
-				// 删除/替换/添加
-				cost[j] = min(cost[j-1], min(pre, cur)) + 1
+				cost[w2Idx] = min(left, min(top, leftTop)) + 1
 			}
-			pre = cur
+			// 下一列的 leftTop 就是这一列的top
+			leftTop = top
 		}
 	}
-	return cost[n]
+	return cost[len(word2)]
 }
 
 func main() {

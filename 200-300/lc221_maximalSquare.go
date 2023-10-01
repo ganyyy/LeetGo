@@ -63,13 +63,6 @@ func getMax(matrix [][]byte, row, col int) int {
 	return res * res
 }
 
-func max(i, j int) int {
-	if i > j {
-		return i
-	}
-	return j
-}
-
 func maximalSquareDP(matrix [][]byte) int {
 	dp := make([][]int, len(matrix)+1)
 	if len(matrix) == 0 {
@@ -91,6 +84,39 @@ func maximalSquareDP(matrix [][]byte) int {
 		}
 	}
 	return max * max
+}
+
+func maximalSquareDP2(matrix [][]byte) int {
+	// 在二维矩阵中:
+	// 想要判断是否可以围成一个正方形
+	// dp[i-1][j-1] == dp[i-1][j] == dp[i][j-1]
+	rc := len(matrix)
+	if rc == 0 {
+		return 0
+	}
+	cc := len(matrix[0])
+
+	dp := make([]int, cc+1)
+	var ret int
+	for _, row := range matrix {
+		leftTop := 0
+		for j := 1; j <= cc; j++ {
+			v := row[j-1]
+			left := dp[j-1]
+			top := dp[j]
+			var cur int
+			if v == '1' {
+				/*
+				   连续性传递的问题: 取三方最小值
+				*/
+				cur = min(left, min(top, leftTop)) + 1
+			}
+			dp[j] = cur
+			ret = max(ret, cur)
+			leftTop = top
+		}
+	}
+	return ret * ret
 }
 
 func main() {
