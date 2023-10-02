@@ -8,6 +8,7 @@ import (
 )
 
 // 远比想象的要复杂, 很明显,
+// 感觉这个LFU算法有问题啊. 新加入的元素被淘汰的概率很大
 
 type LFUNode struct {
 	Key       int

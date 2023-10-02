@@ -46,19 +46,25 @@ func (bsi *BSTIteratorError) HasNext() bool {
 
 type BSTIterator struct {
 	// 写一个中序遍历即可
+	// 相当于将中序遍历的结果保存下来, 整体拆成了两个步骤
+	// 中序遍历的顺序是左中右.
+	// 一直找到最左边的节点, 然后依次出栈, 出栈的时候, 如果有右节点, 就将右节点的左节点依次入栈
 	nodes []*TreeNode
 }
 
 func ConstructorTrue(root *TreeNode) BSTIterator {
-	var nodes []*TreeNode
+	return BSTIterator{
+		nodes: flattenLeft(root),
+	}
+}
 
+func flattenLeft(root *TreeNode) []*TreeNode {
+	var nodes []*TreeNode
 	for root != nil {
 		nodes = append(nodes, root)
 		root = root.Left
 	}
-	return BSTIterator{
-		nodes: nodes,
-	}
+	return nodes
 }
 
 func (bsi *BSTIterator) Next() int {
@@ -68,11 +74,7 @@ func (bsi *BSTIterator) Next() int {
 
 	if top.Right != nil {
 		// 右边依次入栈
-		var root = top.Right
-		for root != nil {
-			bsi.nodes = append(bsi.nodes, root)
-			root = root.Left
-		}
+		bsi.nodes = append(bsi.nodes, flattenLeft(top.Right)...)
 	}
 	return top.Val
 }
