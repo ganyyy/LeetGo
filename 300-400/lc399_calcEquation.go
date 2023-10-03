@@ -122,6 +122,8 @@ func calcEquation3(equations [][]string, values []float64, queries [][]string) [
 		return nil
 	}
 
+	// 这属于是带有权重的并查集. 合并时还需要维护权重
+
 	// 给每个数组编号
 	var identity = make(map[string]int, len(queries))
 	add := func(v string) {
