@@ -34,6 +34,8 @@ func totalNQueens(n int) int {
 				// 在这一行的每个格子上尝试添加一枚皇后
 				c, m, s := j, i-j+n, i+j
 				if !cols.Get(c) && !ml.Get(m) && !sl.Get(s) {
+					// 标准的标记回溯
+
 					// 更新列, 主次对角线, 棋盘对应位置的值
 					cols, ml, sl = cols.Set(c), ml.Set(m), sl.Set(s)
 					// 迭代下一行

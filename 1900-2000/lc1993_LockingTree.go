@@ -63,6 +63,7 @@ func (lt *LockingTree) hasLockedAncestor(num int) bool {
 
 func (lt *LockingTree) checkAndUnlockDescendant(num int) bool {
 	res := false
+	// 只要有一个子节点(或者自己)被锁了, 那么就是可以解锁的
 	if lt.lockNodeUser[num] != -1 {
 		res = true
 	}
@@ -71,6 +72,7 @@ func (lt *LockingTree) checkAndUnlockDescendant(num int) bool {
 	// 如果一旦有锁, 那么就应该是-1
 	lt.lockNodeUser[num] = -1
 	for _, child := range lt.children[num] {
+		// 如果所有的子节点都没有锁, 那么就是false
 		if lt.checkAndUnlockDescendant(child) {
 			res = true
 		}

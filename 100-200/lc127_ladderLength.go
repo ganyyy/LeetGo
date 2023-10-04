@@ -53,10 +53,10 @@ func ladderLength(beginWord string, endWord string, wordList []string) int {
 	// 总的步数
 	var level = 1
 
-	// 当前的临时集合
-	var tmpSet = map[string]struct{}{}
+	// 由beginSet转移到下一层的集合
+	var nextSet = map[string]struct{}{}
 	for len(beginSet) != 0 {
-		clear(tmpSet)
+		clear(nextSet)
 		// 层次+1
 		level++
 		// 从备选词库中去掉开始集合中存在的元素, 防止重复遍历
@@ -81,17 +81,17 @@ func ladderLength(beginWord string, endWord string, wordList []string) int {
 					}
 					// 不符合上述条件的直接放入到临时集合中, 等待下一次的查找
 					// 这里需要进行一次copy, 不然就会出现重复的情况
-					tmpSet[string(buffer)] = empty127
+					nextSet[string(buffer)] = empty127
 				}
 			}
 		}
-		// 比较tmpSet和endSet的大小,
-		// 如果tmpSet较小, 从tmpSet开始查找,
-		// 否则从 endSet开始查找
-		if len(tmpSet) < len(endSet) {
-			beginSet, tmpSet = tmpSet, beginSet
+		// 比较nextSet和endSet的大小,
+		// 如果nextSet较小, 从nextSet向endSet进行查找
+		// 否则从 endSet 向 nextSet 进行查找
+		if len(nextSet) < len(endSet) {
+			beginSet, nextSet = nextSet, beginSet
 		} else {
-			beginSet, endSet, tmpSet = endSet, tmpSet, beginSet
+			beginSet, endSet, nextSet = endSet, nextSet, beginSet
 		}
 	}
 

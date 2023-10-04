@@ -82,6 +82,7 @@ func findWords(board [][]byte, words []string) []string {
 
 	var row, col = len(board), len(board[0])
 
+	// 用于标记已经走过的路径
 	var use bitset = make([]uint32, (row*col+MASK)/POW)
 
 	var check func(i, j int, t *trie)
@@ -101,7 +102,7 @@ func findWords(board [][]byte, words []string) []string {
 		}
 		for _, d := range dir {
 			var x, y = i + d[0], j + d[1]
-			if x >= 0 && x < row && y >= 0 && y < col {
+			if uint(x) < uint(row) && uint(y) < uint(col) {
 				check(x, y, t.get(board[x][y]))
 			}
 		}

@@ -105,6 +105,8 @@ func sumOfDistancesInTree(N int, edges [][]int) []int {
 }
 
 func sumOfDistancesInTree3(n int, edges [][]int) []int {
+	// 不会就是不会, 再看几遍都不会
+
 	// 暴力解法肯定是有的, 但是怎么运用dp呢?
 	// mark
 
@@ -117,7 +119,7 @@ func sumOfDistancesInTree3(n int, edges [][]int) []int {
 
 	ret := make([]int, n)
 
-	// 以i节点作为根节点, 刨去父节点这个树的节点个数
+	// 以i节点作为根节点, 刨去父节点这个树的节点个数(包括自己)
 	// 起始情况下, 每个节点都看成是一个单独的树, 对应的节点数量就是1
 	size := make([]int, n)
 	for i := range size {
@@ -128,10 +130,12 @@ func sumOfDistancesInTree3(n int, edges [][]int) []int {
 	// father: 父节点
 	// depth: 深度
 	// 计算每个节点作为树的根节点时, 这个树对应的节点个数
-	var dfs func(int, int, int)
+	var dfs func(start int, father int, depth int)
 
 	dfs = func(start, father, depth int) {
-		ret[0] += depth // 0 到其他节点的累加和, 直接算
+		ret[0] += depth // 0 到其他节点的路径累加和, 直接算
+
+		// 如果是叶子节点, 那么就直接返回. 对应的size就是默认值1
 		for _, nxt := range next[start] {
 			if nxt == father {
 				continue
@@ -153,7 +157,7 @@ func sumOfDistancesInTree3(n int, edges [][]int) []int {
 	   对于A,B两个相连接的节点, 分别拆成两棵子树
 	   sum(A): 所有子节点到A的距离和(注意: 这里是已经断开了A-B之间连接后的结果)
 
-	   ret[A] = sum(A) + sum(B) + size[B] , 加一个size[B]是因为从B子树中任意一个点位到A都需要额外+1
+	   ret[A] = sum(A) + sum(B) + size[B] , 加一个size[B]是因为从B子树中任意一个点位到A都需要额外+1(B->A)
 	   ret[B] = sum(B) + sum(A) + size[A] , 加一个size[A]同理
 
 	   size[A]+size[B] = N, 因为他们将整个树分成了两部分
