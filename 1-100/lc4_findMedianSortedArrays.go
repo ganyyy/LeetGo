@@ -3,7 +3,6 @@
 package main
 
 import (
-	"container/heap"
 	"math"
 )
 
@@ -105,8 +104,6 @@ func findMedianSortedArrays(nums1 []int, nums2 []int) float64 {
 	// left: nums1的头
 	// right: nums1的尾
 	// mid: nums1和nums2的中位数中偏右的那个位置
-
-	heap.Fix()
 
 	/*
 		相当于找到nums1中的一个位置i, 和nums2中的一个位置j

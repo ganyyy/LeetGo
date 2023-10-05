@@ -2,6 +2,7 @@ package main
 
 import (
 	"fmt"
+	"sort"
 )
 
 func searchRange(nums []int, target int) []int {
@@ -76,6 +77,16 @@ func searchRangeNew(nums []int, target int) []int {
 	res[1] = left - 1
 
 	return res
+}
+
+func searchRangeAPI(nums []int, target int) []int {
+	// >= target 第一个位置
+	i1 := sort.SearchInts(nums, target)
+	if i1 == len(nums) || nums[i1] != target {
+		return []int{-1, -1}
+	}
+	i2 := sort.SearchInts(nums, target+1)
+	return []int{i1, i2 - 1}
 }
 
 func main() {

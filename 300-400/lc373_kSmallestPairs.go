@@ -7,7 +7,7 @@ func kSmallestPairs(nums1, nums2 []int, k int) (ans [][]int) {
 	m, n := len(nums1), len(nums2)
 	h := hp{nil, nums1, nums2}
 	for i := 0; i < k && i < m; i++ {
-		// 先将 nums1[0], nums2[0...n]入堆
+		// 先将 nums1[0...n], nums2[0]入堆
 		h.data = append(h.data, pair{i, 0})
 	}
 	for h.Len() > 0 && len(ans) < k {
