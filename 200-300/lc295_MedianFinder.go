@@ -83,6 +83,8 @@ func Constructor295() MedianFinder {
 }
 
 func (f *MedianFinder) AddNum(num int) {
+	// 神级操作: 通过两个堆来维护一个数组的中位数
+
 	// 首先扔到小顶堆中
 	if f.min.Len() == 0 {
 		heap.Push(f.min, num)
@@ -92,6 +94,12 @@ func (f *MedianFinder) AddNum(num int) {
 	/*
 		尽可能的让两个堆的数量相等, 这样中位数就是两个堆顶的平均值
 		如果不相等, 就是数量多的那个堆顶
+	*/
+
+	/*
+		核心要求只有两点:
+		1. 两个堆的数量相差不超过1
+		2. 后半部分的最小值大于前半部分的最大值
 	*/
 
 	if f.min.Len() < f.max.Len() {

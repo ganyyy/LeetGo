@@ -70,27 +70,30 @@ func maxPoints(points [][]int) int {
 		}
 		clear(slope)
 		for _, nextPoint := range points[i+1:] {
-			x := point[0] - nextPoint[0]
-			y := point[1] - nextPoint[1]
-			if x == 0 {
+			deltaX := point[0] - nextPoint[0]
+			deltaY := point[1] - nextPoint[1]
+			if deltaX == 0 {
 				// 竖直线
-				y = 1
-			} else if y == 0 {
+				deltaY = 1
+			} else if deltaY == 0 {
 				// 水平线
-				x = 1
+				deltaX = 1
 			} else {
-				if y < 0 {
+				if deltaY < 0 {
 					// 用于归一化: 将斜率转换成一个具体的数字
 					// 可以这么理解: 协议为 Δy/Δx, Δy或者Δx小于0时, 斜率应该是一致的
 					// 同样的, 同时小于0和同时大于0的情况下, 斜率也是一样的
 					// 这里针对的是单方面小于0的情况.
-					x, y = -x, -y
+					deltaX, deltaY = -deltaX, -deltaY
 				}
-				xy := gcd(abs149(x), abs149(y))
-				x /= xy
-				y /= xy
+				// 同时除以最大公约数, 保证斜率是一个最简分数
+				xy := gcd(abs149(deltaX), abs149(deltaY))
+				deltaX /= xy
+				deltaY /= xy
 			}
-			var sp = *(*int)(unsafe.Pointer(&[2]int32{int32(x), int32(y)}))
+			// 将deltaX和deltaY组合成一个数字, 用于标记斜率
+			var sp = *(*int)(unsafe.Pointer(&[2]int32{int32(deltaX), int32(deltaY)}))
+			// 统计同一斜率的点数, 并更新最大值
 			cnt := slope[sp] + 1
 			slope[sp] = cnt
 			if ret < cnt {

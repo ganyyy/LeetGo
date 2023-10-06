@@ -18,16 +18,19 @@ func fullBloomFlowers(flowers [][]int, people []int) []int {
 		// 注意:
 		// 在start中查找p+1是查找的 <= p位置的数所处的位置
 		// 在 ends中查找 p 是查找的  < p位置的数所处的位置
+		// 在p+1这个位置开放的花-在p这个位置凋落的花, 就是p这个位置的花的数量
 		people[i] = sort.SearchInts(starts, p+1) - sort.SearchInts(ends, p)
 	}
 	return people
 }
 
 func fullBloomFlowers2(flowers [][]int, people []int) []int {
-	// 构建离散化差分数组
+	// 构建离散化差分数组. 这是map, 不是数组
+	// go的map不是有序的, 所以需要额外的排序
 	var flowerDiff = make(map[int]int, len(flowers))
 	for _, flower := range flowers {
 		flowerDiff[flower[0]]++
+		// 因为是flower[1]的时候花还是开着的, 所以需要在flower[1]+1的时候减去
 		flowerDiff[flower[1]+1]--
 	}
 	length := len(flowerDiff)

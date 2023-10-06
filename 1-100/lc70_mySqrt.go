@@ -20,7 +20,8 @@ func mySqrt2(x int) int {
 		return x
 	}
 	const e = 1e-10
-	// 先假设x的平方根是x, 然后不断的逼近. 逼近的公式就是 (t + x/t) / 2, 判断的条件就是 t-xx/t > e
+	// 先假设x的平方根t是x, 然后不断的逼近.
+	// 逼近的公式就是 (t + x/t) / 2, 判断的条件就是 t-x/t > e
 	t := float64(x)
 	xx := float64(x)
 	// r = xx / t => r*t = xx
