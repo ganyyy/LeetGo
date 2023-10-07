@@ -2,19 +2,19 @@ package main
 
 import "container/heap"
 
-//type StockPrice struct {
+// type StockPrice struct {
 //	price      map[int]int // 时间戳->价格
 //	latestTime int         // 最后一次出价的时间点
 //	maxTime    int
 //	minTime    int
 //	maxValid   bool // 延时刷新用的
 //	minValid   bool // 延时刷新用的
-//}
+// }
 //
-//const DEFAULT = math.MinInt32
-//const DEFAULT2 = math.MaxInt32
+// const DEFAULT = math.MinInt32
+// const DEFAULT2 = math.MaxInt32
 //
-//func Constructor() StockPrice {
+// func Constructor() StockPrice {
 //	return StockPrice{
 //		price: map[int]int{
 //			DEFAULT:  DEFAULT,
@@ -24,9 +24,9 @@ import "container/heap"
 //		maxTime:    DEFAULT,
 //		minTime:    DEFAULT2,
 //	}
-//}
+// }
 //
-//func (sp *StockPrice) Update(timestamp int, price int) {
+// func (sp *StockPrice) Update(timestamp int, price int) {
 //
 //	if price >= sp.price[sp.maxTime] {
 //		sp.maxTime = timestamp
@@ -47,13 +47,13 @@ import "container/heap"
 //	}
 //
 //	sp.price[timestamp] = price
-//}
+// }
 //
-//func (sp *StockPrice) Current() int {
+// func (sp *StockPrice) Current() int {
 //	return sp.price[sp.latestTime]
-//}
+// }
 //
-//func (sp *StockPrice) Maximum() int {
+// func (sp *StockPrice) Maximum() int {
 //	if sp.maxValid {
 //		return sp.price[sp.maxTime]
 //	}
@@ -67,9 +67,9 @@ import "container/heap"
 //	}
 //
 //	return maxV
-//}
+// }
 //
-//func (sp *StockPrice) Minimum() int {
+// func (sp *StockPrice) Minimum() int {
 //	if sp.minValid {
 //		return sp.price[sp.minTime]
 //	}
@@ -83,7 +83,7 @@ import "container/heap"
 //	}
 //
 //	return minV
-//}
+// }
 
 type StockPrice struct {
 	maxPrice, minPrice hp
@@ -91,7 +91,7 @@ type StockPrice struct {
 	maxTimestamp       int
 }
 
-func Constructor() StockPrice {
+func Constructor2043() StockPrice {
 	return StockPrice{timePriceMap: map[int]int{}}
 }
 
