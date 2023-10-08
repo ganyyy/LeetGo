@@ -89,7 +89,7 @@ func maximalSquareDP(matrix [][]byte) int {
 func maximalSquareDP2(matrix [][]byte) int {
 	// 在二维矩阵中:
 	// 想要判断是否可以围成一个正方形
-	// dp[i-1][j-1] == dp[i-1][j] == dp[i][j-1]
+	// left, top, leftTop 三个位置的最小值 + 1
 	rc := len(matrix)
 	if rc == 0 {
 		return 0

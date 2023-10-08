@@ -67,16 +67,23 @@ func isInterleave2(s1 string, s2 string, s3 string) bool {
 	if l1 < l2 {
 		l1, l2, s1, s2 = l2, l1, s2, s1
 	}
+	/*
+		状态转移方程:
+			dp[i][j] 表示 s3[:i+j] 可以由 s1[:i]+s2[:j]交替组成
+		那么:
+			dp[i][j] = dp[i-1][j] && s1[i-1] == s3[i+j-1] || dp[i][j-1] && s2[j-1] == s3[i+j-1]
+		简单而言: 就是看 s3[i+j-1] 是否等于 s1[i-1] 或者 s2[j-1], 如果等于, 就看前边的是否匹配
+	*/
 	dp := make([]bool, l2+1)
 	dp[0] = true
 	for i := 0; i <= l1; i++ {
 		for j := 0; j <= l2; j++ {
 			if i > 0 {
-				// 上方
+				// 上方. 等同于 dp[i][j] = dp[i-1][j] && s1[i-1] == s3[i+j-1]
 				dp[j] = dp[j] && s1[i-1] == s3[i+j-1]
 			}
 			if !dp[j] && j > 0 {
-				// 左方
+				// 左方. 等同于 dp[i][j] = dp[i][j-1] && s2[j-1] == s3[i+j-1]
 				dp[j] = dp[j-1] && s2[j-1] == s3[i+j-1]
 			}
 		}
