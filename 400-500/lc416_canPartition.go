@@ -61,6 +61,28 @@ func canPartition2(nums []int) bool {
 	return false
 }
 
-func main() {
+func canPartition3(nums []int) bool {
+	var sum int
+	for _, num := range nums {
+		sum += num
+	}
+	if sum&1 != 0 {
+		return false
+	}
+	target := sum / 2
 
+	dp := make([]bool, target+1)
+	dp[0] = true
+
+	for _, num := range nums {
+		// 为啥要倒序呢?
+		// 可以这么理解:
+		// 假设当前num == 1, target = 5
+		// 那么 dp[1] = true
+		// 计算 dp[2]时会使用到dp[2-1], 那么就相当于1被使用了两次!
+		for i := target; i >= num; i-- {
+			dp[i] = dp[i] || dp[i-num]
+		}
+	}
+	return dp[target]
 }
