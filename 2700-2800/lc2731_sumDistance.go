@@ -32,7 +32,8 @@ func sumDistance(nums []int, s string, d int) int {
 	// 那么idx左边存在idx个数不超过num,
 	//  那么 nums[idx]和前边的数的两两之间的距离差为
 	//  (nums[idx]-nums[0]) + (nums[idx]-nums[1]) + ...
-	//      = i * nums[idx] - (sum(nums[:idx-1]))
+	//      = idx * nums[idx] - (sum(nums[:idx]))
+	// 累加到最后, 就是所有的距离差
 	var sum, ret int
 	for idx, num := range nums {
 		ret = (ret + idx*num - sum) % MOD

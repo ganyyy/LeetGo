@@ -4,6 +4,7 @@ import "container/heap"
 
 func maxKelements(nums []int, k int) int64 {
 	// 用一个堆? 每次都用最大值作为计算的对象?
+	// 写不来, 告辞
 	var h intHeap = nums
 	heap.Init(&h)
 

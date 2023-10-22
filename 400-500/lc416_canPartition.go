@@ -76,7 +76,7 @@ func canPartition3(nums []int) bool {
 
 	for _, num := range nums {
 		// 为啥要倒序呢?
-		// 可以这么理解:
+		// 可以这么理解: 如果是正序的话, 那么会出现重复计算的情况
 		// 假设当前num == 1, target = 5
 		// 那么 dp[1] = true
 		// 计算 dp[2]时会使用到dp[2-1], 那么就相当于1被使用了两次!

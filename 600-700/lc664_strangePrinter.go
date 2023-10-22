@@ -39,24 +39,21 @@ func strangePrinter(s string) int {
 
 func strangePrinter2(s string) int {
 	length := len(s)
-	dp := make([][]int, length)
+	// 额外冗余一行作为哨兵
+	dp := make([][]int, length+1)
 	for i := range dp {
 		dp[i] = make([]int, length)
 	}
 
 	for count := 1; count <= length; count++ {
 		// count: 判断字符串的长度
-		// left,right: 字串的左右端点(包含, s[left:right+1])
+		// left,right: 字串的左右端点(包含, s[left]和s[right])
 		var left, right int
-		for left = 0; left+count-1 < length; left++ {
-			right = left + count - 1
+		right = left + count - 1
+		for right < length {
 			// 先无脑加一次打印. 因为不管是否和中间某个字母相同, 都允许这次单独打印
-			// 注意方向: xxxx[XXXX] -> xxx[xXXXX], 往左进位
-			var initVal = 1
-			if left+1 <= right {
-				initVal += dp[left+1][right]
-			}
-			dp[left][right] = initVal
+			// 注意方向: xxxo[XXXX] -> xxx[oXXXX], 往左进位
+			dp[left][right] = dp[left+1][right] + 1
 			for mid := left + 1; mid <= right; mid++ {
 				if s[left] == s[mid] {
 					//  axxxaxxxx ->
@@ -66,6 +63,8 @@ func strangePrinter2(s string) int {
 					dp[left][right] = min(dp[left][right], dp[left][mid-1]+dp[mid+1][right])
 				}
 			}
+			left++
+			right++
 		}
 	}
 	return dp[0][length-1]

@@ -53,23 +53,28 @@ func maxCoins2(nums []int) int {
 	newNums[0] = 1
 	newNums[length+1] = 1
 
-	// dp[left][right]: nums[left+1:right]中的最优解(不包括nums[left]和nums[right])
+	// dp[left][right]: (left,right)中的最优解(不包括nums[left]和nums[right])
 	dp := make([][]int, length+2)
 	for i := range dp {
 		dp[i] = make([]int, length+2)
 	}
 
+	// 一般区间dp都可以通过区间长度来进行遍历, 迭代的方向是从小到大
+	// 区间长度最少是3, 去掉两个哨兵, 最小长度是1
+
 	// 子数组长度
 	for count := 3; count <= length+2; count++ {
-		// 左边界和有边界
+		// 左边界和有边界(不包括)
 		left, right := 0, count-1
 		for right <= length+1 {
 			// mid 表示从 (left,right) 整个区间中, 最后剩下来的那个气球
 			// 那么dp[left][right]的整体贡献的最大值, 就是:
 			//
 			for mid := left + 1; mid <= right-1; mid++ {
-				dp[left][right] = max(dp[left][right],
-					dp[left][mid]+dp[mid][right]+newNums[left]*newNums[mid]*newNums[right])
+				dp[left][right] = max(
+					dp[left][right],
+					dp[left][mid]+dp[mid][right]+newNums[left]*newNums[mid]*newNums[right],
+				)
 			}
 			left++
 			right++
