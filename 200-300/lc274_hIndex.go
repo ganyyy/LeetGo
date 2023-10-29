@@ -22,13 +22,32 @@ func hIndex2(citations []int) int {
 	// 所以这也解释了为啥返回的是 len(citations)-i, 而不是v
 	// 从最终结果上来考量, h指数一定是论文的数量, 因为h指数是指有h篇论文的引用次数大于等于h
 
+	total := len(citations)
 	for i, v := range citations {
 		// 所以, 首个出现的引用次数大于等于论文数量的值就是数量最多的?
-		if len(citations)-i <= v {
+		if total-i <= v {
 			return len(citations) - i
 		}
 	}
 
+	return 0
+}
+
+func hIndex5(citations []int) int {
+	sort.Ints(citations)
+
+	total := len(citations)
+	for n, v := range citations {
+		// remain 代表 发表的引用次数 >= v 的论文数,
+		// 这些论文数至少被引用了v次
+		// remain 和 v 不是对等关系.
+		remain := total - n
+		if v >= remain {
+			// 卧槽, 一眼贪心啊
+			// 第一个一定是remain最大的!
+			return remain
+		}
+	}
 	return 0
 }
 
@@ -54,7 +73,7 @@ func hIndex(citations []int) (h int) {
 	return 0
 }
 
-func hIndex4(citations []int) (h int) {
+func hIndex4(citations []int) (ret int) {
 	n := len(citations)
 	counter := make([]int, n+1)
 	for _, citation := range citations {
@@ -64,13 +83,15 @@ func hIndex4(citations []int) (h int) {
 			counter[citation]++
 		}
 	}
-	// i: h指数, 最大也就是n. 因为总共发表了n篇论文
-	// tot: 截止到h指数为i时, 总的论文数量
-	// 所以, 当 tot >= i 时, 也就说明此时i就是最大的那个h指数
-	for i, tot := n, 0; i >= 0; i-- {
-		tot += counter[i]
-		if tot >= i {
-			return i
+	// h指数是论文的数量!
+	// h: h指数, 最大也就是n. 因为总共发表了n篇论文
+	// count: 截止到h指数时, 总的论文数量
+	for h, count := n, 0; h >= 0; h-- {
+		// 有count篇论文的引用次数大于等于h
+		// 根据贪心的思想, 首次出现的i就是最大的h指数
+		count += counter[h]
+		if count >= h {
+			return h
 		}
 	}
 	return 0
