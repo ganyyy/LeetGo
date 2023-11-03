@@ -48,3 +48,41 @@ func findMaximumXOR(nums []int) int {
 
 	return res
 }
+
+func findMaximumXOR2(nums []int) int {
+	type Node struct{ Next [2]*Node }
+
+	insert := func(root *Node, v int) {
+		for i := 30; i >= 0; i-- {
+			n := (v >> i) & 1
+			if root.Next[n] == nil {
+				root.Next[n] = &Node{}
+			}
+			root = root.Next[n]
+		}
+	}
+
+	var root Node
+	for _, num := range nums {
+		insert(&root, num)
+	}
+
+	var ret int
+	for _, num := range nums {
+		start := &root
+		var cur int
+		for i := 30; i >= 0; i-- {
+			// 获取当前数字的当前位
+			n := (num >> i) & 1
+			if start.Next[n^1] != nil {
+				// 如果异或的节点不为nil,
+				cur |= 1 << i
+				start = start.Next[n^1]
+			} else {
+				start = start.Next[n]
+			}
+		}
+		ret = max(ret, cur)
+	}
+	return ret
+}
