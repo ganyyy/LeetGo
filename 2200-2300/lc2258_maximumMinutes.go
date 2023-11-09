@@ -202,6 +202,7 @@ func maximumMinutes2(grid [][]int) int {
 	walk := func() (ret WalkGridResult) {
 		ret.Arrival = DefaultStep
 		var step int
+		var findEnd bool
 		for len(startQueue) != 0 {
 			step++
 			for _, pos := range startQueue {
@@ -220,7 +221,19 @@ func maximumMinutes2(grid [][]int) int {
 						continue
 					}
 					grid[newX][newY] = pack(step, state)
-					nextQueue = append(nextQueue, pack(newX, newY))
+					if newX == rowCount-1 && newY == colCount-1 {
+						findEnd = true
+						nextQueue = nextQueue[:0]
+						// 枝减: 因为只需要终点, 终点左边和终点上边的最短时间, 所以找到终点后,
+						// 只需要再找一圈终点左边和终点上边的最短时间即可
+						nextQueue = append(nextQueue, pack(newX, newY))
+						break
+					}
+					if !findEnd {
+						// 还没找到终点, 继续找,
+						// 找到终点后, 至多再找一圈
+						nextQueue = append(nextQueue, pack(newX, newY))
+					}
 				}
 			}
 			startQueue, nextQueue = nextQueue, startQueue[:0]
