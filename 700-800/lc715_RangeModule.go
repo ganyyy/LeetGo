@@ -1,5 +1,3 @@
-//go:build ignore
-
 package main
 
 import "github.com/emirpasic/gods/trees/redblacktree"
@@ -8,7 +6,7 @@ type RangeModule struct {
 	*redblacktree.Tree
 }
 
-func Constructor() RangeModule {
+func Constructor715() RangeModule {
 	return RangeModule{redblacktree.NewWithIntComparator()}
 }
 
@@ -54,7 +52,8 @@ func (t RangeModule) RemoveRange(left, right int) {
 		// 找前置节点, 这次的分割可能会将之前的一个区间分割成两个
 		l, r := node.Key.(int), node.Value.(int)
 		if r >= right {
-			// node.Key <= left <= right <= node.Value
+			// node.Key <= left <= right <= node.Value =>
+			// 	[node.key, left) + [right, node.Value)
 			if l == left {
 				t.Remove(l)
 			} else {
@@ -66,14 +65,16 @@ func (t RangeModule) RemoveRange(left, right int) {
 			return
 		}
 		if r > left {
-			// node.Key <= left < node.Value < right
+			// node.Key <= left < node.Value < right =>
+			// 	[node.key, left) + ...
 			node.Value = left
 		}
 	}
 
-	//
+	// 通过Ceil找出 node.Key >= left的最小值
 	for node, ok := t.Ceiling(left); ok && node.Key.(int) < right; node, ok = t.Ceiling(left) {
 		// 移除所有在 [left, right) 中的所有区间
+		//	... + [node.Key, node.Value) + ...
 		r := node.Value.(int)
 		t.Remove(node.Key)
 		if r > right {
