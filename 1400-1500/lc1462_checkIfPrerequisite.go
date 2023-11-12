@@ -4,7 +4,7 @@ func checkIfPrerequisite(numCourses int, prerequisites [][]int, queries [][]int)
 	g := make([][]int, numCourses)
 	indgree := make([]int, numCourses)
 	isPre := make([][]bool, numCourses)
-	for i, _ := range isPre {
+	for i := range isPre {
 		isPre[i] = make([]bool, numCourses)
 		g[i] = []int{}
 	}

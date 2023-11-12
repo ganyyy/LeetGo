@@ -38,7 +38,7 @@ func canFinish(numCourses int, prerequisites [][]int) bool {
 		todo = todo[1:]
 
 		cnt++
-		for i, _ := range m[h] {
+		for i := range m[h] {
 			// 入度-1
 			queue[i]--
 			// 如果入度变成了0, 那么就成为了安全点, 加入到todo队列中

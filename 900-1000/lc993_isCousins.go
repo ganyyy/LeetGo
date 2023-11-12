@@ -1,7 +1,5 @@
 package main
 
-import . "leetgo/data"
-
 /**
  * Definition for a binary tree node.
  * type TreeNode struct {
@@ -18,7 +16,7 @@ type myNode struct {
 
 func isCousins(r *TreeNode, x int, y int) bool {
 	// 层次遍历
-	var stack = []*myNode{&myNode{r, nil}}
+	var stack = []*myNode{{TreeNode: r}}
 	var fa, fb *myNode
 	var tmp []*myNode
 	var root *myNode

@@ -112,7 +112,7 @@ func removeStones2(stones [][]int) int {
 
 func removeStones3(stones [][]int) int {
 	arr := make([]int, len(stones))
-	for i, _ := range arr {
+	for i := range arr {
 		arr[i] = i
 	}
 	// 行, 列map
