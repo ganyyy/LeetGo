@@ -4,7 +4,7 @@ type NumArray struct {
 	sum []int
 }
 
-func Constructor(nums []int) NumArray {
+func Constructor303(nums []int) NumArray {
 	var tmp = make([]int, len(nums))
 	var cur int
 	for i, v := range nums {
@@ -23,7 +23,7 @@ func (n *NumArray) SumRange(i int, j int) int {
 }
 
 /**
- * Your NumArray object will be instantiated and called as such:
+ * Your NumArray307 object will be instantiated and called as such:
  * obj := Constructor(nums);
  * param_1 := obj.SumRange(i,j);
  */
