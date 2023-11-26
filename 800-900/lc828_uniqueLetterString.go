@@ -31,6 +31,31 @@ func uniqueLetterString(s string) (ans int) {
 	return
 }
 
-func main() {
-	uniqueLetterString("ABCA")
+func uniqueLetterString2(s string) int {
+	type ByteCount struct {
+		First, Second int
+	}
+	var count [26]ByteCount
+
+	for i := range count {
+		count[i] = ByteCount{First: -1, Second: -1}
+	}
+
+	// xxAxxxxAxxxxA
+	// [0] = 2, [1] = 7, i = 12
+	// [8, 12]中, ________xxxxA 中, 每个子串的不重复字符 +1(首次出现A)
+	// [3, 12]中, ___xxxxA____A 中, 每个子串的不重复字符 -1(重复出现一次A)
+	// [0, 12]中, xxA____A____A 中, 每个字串的不重复字符不变(已经出现2次A)
+	// 那么从[0, 11] -> [0, 12]时, 总共增加了 12 - 7 = 5次, 减少了 7 - 2次
+	// sum += (i-last0) - (last0-last1) = i-2*last0+last1
+	var sum int
+	var ret int
+	for i, c := range s {
+		bs := &count[c-'A']
+		// (i-bs.First) - (bs.First-bs.Second)
+		sum += i - 2*bs.First + bs.Second
+		ret += sum
+		bs.First, bs.Second = i, bs.First
+	}
+	return ret
 }
