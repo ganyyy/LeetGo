@@ -83,6 +83,28 @@ func sumSubarrayMins2(arr []int) (ans int) {
 	return
 }
 
+func sumSubarrayMins3(arr []int) int {
+	const MOD = 1e9 + 7
+
+	// 哨兵值, 保证末尾的计算
+	arr = append(arr, -1)
+	var ret int
+
+	var stack = []int{-1}
+
+	for right, val := range arr {
+		for last := len(stack) - 1; last >= 1 && arr[stack[last]] >= val; last-- {
+			idx := stack[last]
+			stack = stack[:last]
+			// arr[idx]左边有idx-stack[last-1]个元素, 右边有right-idx个元素
+			// 在这个范围内, arr[idx]是最小值
+			ret = (ret + arr[idx]*(idx-stack[last-1])*(right-idx)) % MOD
+		}
+		stack = append(stack, right)
+	}
+	return ret
+}
+
 func main() {
 	println(sumSubarrayMins([]int{4, 3, 2, 1}))
 }
