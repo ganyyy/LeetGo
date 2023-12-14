@@ -107,6 +107,7 @@ func possibleToStamp(grid [][]int, stampHeight, stampWidth int) bool {
 	// 3. 还原二维差分矩阵对应的计数矩阵（原地计算）
 	for i, row := range grid {
 		for j, v := range row {
+			// 恢复区间和
 			d[i+1][j+1] += d[i+1][j] + d[i][j+1] - d[i][j]
 			if v == 0 && d[i+1][j+1] == 0 {
 				// 如果格子上的值为0, 并且覆盖到的邮票数量为0, 说明这个格子盖不到
