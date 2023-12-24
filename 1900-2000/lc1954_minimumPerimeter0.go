@@ -27,7 +27,6 @@ func minimumPerimeter0(neededApples int64) int64 {
 		}
 		length++
 	}
-	return -1
 }
 
 func minimumPerimeter(neededApples int64) int64 {
