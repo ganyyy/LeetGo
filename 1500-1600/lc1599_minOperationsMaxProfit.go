@@ -51,3 +51,61 @@ func minOperationsMaxProfit(customers []int, boardingCost, runningCost int) int 
 	}
 	return ans
 }
+
+func minOperationsMaxProfit2(customers []int, boardingCost, runningCost int) int {
+
+	const (
+		Batch = 4
+	)
+
+	// 如果四人带来的收益还不如启动的开销, 则直接跳过即可
+	profitEachTime := boardingCost*Batch - runningCost
+	if profitEachTime <= 0 {
+		return -1
+	}
+
+	ans := -1
+	// 最大利润
+	// 当前利润
+	// 操作次数
+	// 乘客的数量
+	var maxProfit, totalProfit, operations, customersCount int
+
+	calcProfit := func(customers int) {
+		var add = profitEachTime
+		if customers != Batch {
+			add = boardingCost*customers - runningCost
+		}
+		totalProfit += add
+		operations++
+		if totalProfit > maxProfit {
+			maxProfit = totalProfit
+			ans = operations
+		}
+	}
+
+	for _, c := range customers {
+		customersCount += c                        // 总人数
+		curCustomers := min(customersCount, Batch) // 轮转的人数
+		customersCount -= curCustomers             // 剩余的人数
+		calcProfit(curCustomers)
+	}
+
+	// 当前剩余的人数
+	if customersCount > 0 {
+		{
+			// 让他们全部走一圈, 还需要多少次
+			fullTimes := customersCount / Batch
+			// 这里计算的利润
+			totalProfit += profitEachTime * fullTimes
+			operations += fullTimes
+			if totalProfit > maxProfit {
+				maxProfit = totalProfit
+				ans = operations
+			}
+		}
+		// 判断一下, 最后的 [0,3]人带来的收益
+		calcProfit(customersCount % Batch)
+	}
+	return ans
+}
