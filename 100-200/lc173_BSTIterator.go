@@ -85,7 +85,7 @@ func (bsi *BSTIterator) HasNext() bool {
 
 /**
  * Your BSTIteratorError object will be instantiated and called as such:
- * obj := Constructor(root);
+ * obj := Constructor146_2(root);
  * param_1 := obj.Next();
  * param_2 := obj.HasNext();
  */

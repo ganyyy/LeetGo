@@ -1,3 +1,5 @@
+//go:build ignore
+
 package main
 
 import (
@@ -5,12 +7,12 @@ import (
 	. "leetgo/data"
 )
 
-func connect(root *Node) *Node {
+func connect(root *TNode) *TNode {
 	if root == nil {
 		return root
 	}
 
-	queue := []*Node{root}
+	queue := []*TNode{root}
 
 	for len(queue) != 0 {
 		ln := len(queue)
@@ -35,7 +37,7 @@ func connect(root *Node) *Node {
 	return root
 }
 
-func connect2(root *Node) *Node {
+func connect2(root *TNode) *TNode {
 	if root == nil {
 		return nil
 	}
@@ -56,7 +58,7 @@ func connect2(root *Node) *Node {
 }
 
 // 根据父节点的next获取子节点的next
-func getNext(root *Node) *Node {
+func getNext(root *TNode) *TNode {
 	if root == nil {
 		return nil
 	}

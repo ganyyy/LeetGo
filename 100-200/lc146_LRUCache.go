@@ -1,5 +1,3 @@
-//go:build ignore
-
 package main
 
 import (
@@ -85,55 +83,112 @@ func (cache *LRUCacheOld) put(key int, value int) {
 	}
 }
 
-type Node struct {
+type ListNode struct {
 	Key, Val int
 }
 
-type LRUCache struct {
+type LRUCache2 struct {
 	keys     map[int]*list.Element
 	list     *list.List
 	capacity int
 }
 
-func Constructor(capacity int) LRUCache {
-	return LRUCache{
+func Constructor146(capacity int) LRUCache2 {
+	return LRUCache2{
 		keys:     make(map[int]*list.Element, capacity),
 		list:     list.New(),
 		capacity: capacity,
 	}
 }
 
-func (l *LRUCache) Get(key int) int {
+func (l *LRUCache2) Get(key int) int {
 	if ele, ok := l.keys[key]; ok {
 		l.list.MoveToFront(ele)
-		return ele.Value.(*Node).Val
+		return ele.Value.(*ListNode).Val
 	} else {
 		return -1
 	}
 }
 
-func (l *LRUCache) Put(key int, value int) {
+func (l *LRUCache2) Put(key int, value int) {
 	if ele, ok := l.keys[key]; ok {
-		ele.Value = &Node{
+		ele.Value = &ListNode{
 			Key: key, Val: value,
 		}
 		l.list.MoveToFront(ele)
 	} else {
 		if len(l.keys) >= l.capacity {
 			var val = l.list.Remove(l.list.Back())
-			delete(l.keys, val.(*Node).Key)
+			delete(l.keys, val.(*ListNode).Key)
 		}
-		l.keys[key] = l.list.PushFront(&Node{
+		l.keys[key] = l.list.PushFront(&ListNode{
 			Key: key,
 			Val: value,
 		})
 	}
 }
 
-func (l *LRUCache) Show() {
+func (l *LRUCache2) Show() {
 	var sb strings.Builder
 	for head := l.list.Front(); head != nil; head = head.Next() {
 		sb.WriteString(fmt.Sprintf("%+v,", head.Value))
 	}
 	fmt.Println(sb.String())
 }
+
+type Node146_2 struct {
+	Key, Val int
+}
+
+func To(node *list.Element) *Node146_2 {
+	return node.Value.(*Node146_2)
+}
+
+type LRUCache struct {
+	allNode  *list.List
+	nodes    map[int]*list.Element
+	capacity int
+}
+
+func Constructor146_2(capacity int) LRUCache {
+	return LRUCache{
+		allNode:  list.New(),
+		nodes:    make(map[int]*list.Element, capacity),
+		capacity: capacity,
+	}
+}
+
+func (cache *LRUCache) Get(key int) int {
+	if element, ok := cache.nodes[key]; ok {
+		cache.allNode.MoveToFront(element)
+		return To(element).Val
+	}
+	return -1
+}
+
+func (cache *LRUCache) Put(key int, value int) {
+	// 存在
+	if element, ok := cache.nodes[key]; ok {
+		To(element).Val = value
+		cache.allNode.MoveToFront(element)
+		return
+	}
+	if cache.capacity <= cache.allNode.Len() {
+		// 空间已满
+		last := cache.allNode.Back()
+		cache.allNode.Remove(last)
+		delete(cache.nodes, To(last).Key)
+	}
+	// 插入新节点
+	node := &Node146_2{
+		Key: key, Val: value,
+	}
+	cache.nodes[key] = cache.allNode.PushFront(node)
+}
+
+/**
+ * Your LRUCache object will be instantiated and called as such:
+ * obj := Constructor146_2(capacity);
+ * param_1 := obj.Get(key);
+ * obj.Put(key,value);
+ */

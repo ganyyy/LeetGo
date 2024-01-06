@@ -2,24 +2,29 @@ package main
 
 /**
  * Definition for a Node.
- * type Node struct {
- *     Val int
- *     Left *Node
- *     Right *Node
- *     Next *Node
- * }
+ *
+ *
+ *
+ *
+ *
+ *
  */
 
-import . "leetgo/data"
+type Node116 struct {
+	Val   int
+	Left  *Node116
+	Right *Node116
+	Next  *Node116
+}
 
-func connect2(root *Node) *Node {
+func connect116(root *Node116) *Node116 {
 	// 层次遍历可解, 不过占用空间不是常数级别的
 	// 这里采用递归的思路进行处理
 	if root == nil {
 		return nil
 	}
 	// 获取next的下一个
-	var next *Node
+	var next *Node116
 	if root.Next != nil {
 		if root.Next.Left != nil {
 			next = root.Next.Left
@@ -37,12 +42,12 @@ func connect2(root *Node) *Node {
 		}
 	}
 	// 先右边, 在左边
-	connect(root.Right)
-	connect(root.Left)
+	connect116(root.Right)
+	connect116(root.Left)
 	return root
 }
 
-func connect(root *Node) *Node {
+func connect3(root *Node116) *Node116 {
 	// 这是完美二叉树, 可以简化判断条件
 	if root == nil || root.Left == nil {
 		return root
@@ -51,8 +56,8 @@ func connect(root *Node) *Node {
 	if root.Next != nil {
 		root.Right.Next = root.Next.Left
 	}
-	connect(root.Left)
-	connect(root.Right)
+	connect3(root.Left)
+	connect3(root.Right)
 	return root
 }
 

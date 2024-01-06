@@ -1,8 +1,8 @@
 package data
 
-type Node struct {
+type TNode struct {
 	Val   int
-	Left  *Node
-	Right *Node
-	Next  *Node
+	Left  *TNode
+	Right *TNode
+	Next  *TNode
 }
