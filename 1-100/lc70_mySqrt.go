@@ -23,11 +23,13 @@ func mySqrt2(x int) int {
 	// 先假设x的平方根t是x, 然后不断的逼近.
 	// 逼近的公式就是 (t + x/t) / 2, 判断的条件就是 t-x/t > e
 	t := float64(x)
-	xx := float64(x)
-	// r = xx / t => r*t = xx
-	// t-xx/t > e => t*t-xx > e*t => t*t > xx + e*t => t*t > xx (e就是趋近于0的值, 所以可以忽略)
-	for t-xx/t > e /**核心是这里, 如果有精度需要就是 t - x/t > 最小精度*/ {
-		t = (t + xx/t) / 2
+	S := float64(x)
+	// 牛顿迭代法: f
+	// f(x) = x^2 - S
+	// f'(x) = 2x
+	// x_next = x - f(x)/f'(x) = x - (x^2-S)/2x = (x+S/x)/2
+	for t-S/t > e /**核心是这里, 如果有精度需要就是 t - x/t > 最小精度*/ {
+		t = (t + S/t) / 2
 	}
 	fmt.Println(t)
 	return int(t)

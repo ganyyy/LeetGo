@@ -126,6 +126,67 @@ func findKthLargest3(nums []int, k int) int {
 	return quick(0, len(nums)-1)
 }
 
+func up(nums []int, child int) {
+	for {
+		// 找到父节点
+		parent := (child - 1) / 2
+		if parent == child || nums[parent] < nums[child] {
+			// 没有父节点, 或者父节点小于自身, 说明不需要继续上升
+			break
+		}
+		nums[parent], nums[child] = nums[child], nums[parent]
+		child = parent
+	}
+}
+
+func down(nums []int, start int) bool {
+	parent := start
+	length := len(nums)
+	for {
+		// 左子节点
+		child := parent*2 + 1
+		if child >= length || child < 0 {
+			break
+		}
+		// 选出两个子节点的最小值
+		if right := child + 1; right < length && nums[right] < nums[child] {
+			child = right
+		}
+		if nums[child] > nums[parent] {
+			// 子节点 > 父节点
+			break
+		}
+		nums[child], nums[parent] = nums[parent], nums[child]
+		parent = child
+	}
+	return parent > start
+}
+
+func fix(nums []int, idx int) {
+	// idx始终都是0, 所以不需要down
+	if !down(nums, idx) {
+		up(nums, idx)
+	}
+}
+
+func initHeap(nums []int) {
+	for i := len(nums)/2 - 1; i >= 0; i-- {
+		down(nums, i)
+	}
+}
+
+func findKthLargestHeap(nums []int, k int) int {
+	var arr = nums[:k]
+	initHeap(arr)
+	for _, num := range nums[k:] {
+		if arr[0] < num {
+			arr[0] = num
+			fix(arr, 0)
+		}
+	}
+	return arr[0]
+}
+
 func main() {
 	fmt.Println(findKthLargest([]int{3, 2, 3, 1, 2, 4, 5, 5, 6}, 4))
 }

@@ -107,7 +107,7 @@ func candy2(ratings []int) int {
 	}
 
 	var right = 1
-	res += max(1, left[ln-1])
+	res += max(right, left[ln-1])
 	for i := ln - 2; i >= 0; i-- {
 		if ratings[i] > ratings[i+1] {
 			right++

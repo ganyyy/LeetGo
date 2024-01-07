@@ -139,7 +139,7 @@ func abs(a, b int) int {
 }
 
 func main() {
-	//arrNums := [][]int{
+	// arrNums := [][]int{
 	//	{1, 1, -1, -1, 3},
 	//	{1, 2, 4, 8, 16, 32, 64, 128},
 	//	{1, -3, 3, 5, 4, 1},
@@ -148,8 +148,8 @@ func main() {
 	//	{1, 1, -1, -1, 3},
 	//	{1, 1, 1, 0},
 	//	{13, 2, 0, -14, -20, 19, 8, -5, -13, -3, 20, 15, 20, 5, 13, 14, -17, -7, 12, -6, 0, 20, -19, -1, -15, -2, 8, -2, -9, 13, 0, -3, -18, -9, -9, -19, 17, -14, -19, -4, -16, 2, 0, 9, 5, -7, -4, 20, 18, 9, 0, 12, -1, 10, -17, -11, 16, -13, -14, -3, 0, 2, -18, 2, 8, 20, -15, 3, -13, -12, -2, -19, 11, 11, -10, 1, 1, -10, -2, 12, 0, 17, -19, -7, 8, -19, -17, 5, -5, -10, 8, 0, -12, 4, 19, 2, 0, 12, 14, -9, 15, 7, 0, -16, -5, 16, -12, 0, 2, -16, 14, 18, 12, 13, 5, 0, 5, 6},
-	//}
-	//arrTarget := []int{
+	// }
+	// arrTarget := []int{
 	//	-1,
 	//	82,
 	//	1,
@@ -158,8 +158,8 @@ func main() {
 	//	-1,
 	//	100,
 	//	-59,
-	//}
-	//arrResult := []int{
+	// }
+	// arrResult := []int{
 	//	-1,
 	//	82,
 	//	1,
@@ -168,15 +168,15 @@ func main() {
 	//	-1,
 	//	3,
 	//	-58,
-	//}
+	// }
 	//
-	//for i := 0; i < len(arrResult); i++ {
+	// for i := 0; i < len(arrResult); i++ {
 	//	res := threeSumClosest(arrNums[i], arrTarget[i])
 	//	if res != arrResult[i] {
 	//		fmt.Printf("i:%d\nnums:%v, \n target:%d, expect:%d, result:%d\n", i, arrNums[i], arrTarget[i], arrResult[i], res)
 	//		fmt.Printf("-------------------\n")
 	//	}
-	//}
+	// }
 
 	fmt.Println(threeSumClosest2([]int{-1, 2, 1, -4}, 1))
 
@@ -184,8 +184,49 @@ func main() {
 		[]
 		-59
 	*/
-	//res := threeSumClosest(arrNums[6], arrTarget[6])
-	//fmt.Printf("%d\n",res)
-	//if res == arrResult[4] {
-	//}
+	// res := threeSumClosest(arrNums[6], arrTarget[6])
+	// fmt.Printf("%d\n",res)
+	// if res == arrResult[4] {
+	// }
+}
+
+func threeSum2(nums []int) [][]int {
+	sort.Ints(nums)
+
+	// [i:n-2]
+	// [i+1:n-1]
+	var ret [][]int
+	numsLength := len(nums)
+	for i := 0; i < numsLength-2; i++ {
+		numI := nums[i]
+		if numI > 0 {
+			break
+		}
+		if i > 0 && nums[i-1] == numI {
+			continue
+		}
+		for j, k := i+1, numsLength-1; j < k; {
+			numJ, numK := nums[j], nums[k]
+			sum := numI + numJ + numK
+			var subK, addJ bool
+			if sum > 0 {
+				subK = true
+			} else if sum < 0 {
+				addJ = true
+			} else {
+				ret = append(ret, []int{numI, numJ, numK})
+				subK = true
+				addJ = true
+			}
+			if subK {
+				for k--; k > j && nums[k] == nums[k+1]; k-- {
+				}
+			}
+			if addJ {
+				for j++; k > j && nums[j] == nums[j-1]; j++ {
+				}
+			}
+		}
+	}
+	return ret
 }

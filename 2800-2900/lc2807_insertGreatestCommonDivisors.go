@@ -13,13 +13,13 @@ func insertGreatestCommonDivisors(head *ListNode) *ListNode {
 	if head == nil || head.Next == nil {
 		return head
 	}
-	for pre := head; pre != nil && pre.Next != nil; {
-		next := pre.Next
+	var next *ListNode
+	for pre := head; pre != nil && pre.Next != nil; pre = next {
+		next = pre.Next
 		pre.Next = &ListNode{
 			Next: next,
 			Val:  gcd(pre.Val, next.Val),
 		}
-		pre = next
 	}
 	return head
 }

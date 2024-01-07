@@ -156,6 +156,54 @@ func search33_3(nums []int, target int) int {
 	return -1
 }
 
+func search3A4(nums []int, target int) int {
+	// 怎么找到旋转点呢?
+
+	// 肯定还是二分
+	// 假设中点在 旋转点的左侧
+	// 4,5,6,7,0,1,2
+	// 中点为7, 大于左侧和右侧. 如果查找的数字小于中点, 且大于左侧, 则向左靠;
+	//                        如果查找的数字大于中点, 则向右靠
+	// 假设中点在 旋转点的右侧
+	// 6,7,0,1,2,4,5
+	// 中点为1, 小于左侧和右侧. 如果查找的数字小于中点, 那么就往左靠
+	//                        如果查找的数字大于中点, 且小于右侧, 则向右靠
+
+	var l, r = 0, len(nums)
+	for l < r {
+		mid := l + (r-l)/2
+		mv := nums[mid]
+		if mv == target {
+			return mid
+		}
+
+		lv, rv := nums[l], nums[r-1]
+
+		// mv是最小值, 说明拐点在中心的左边, 否则说明拐点在中心的右边
+		// 此时应该继续关注有序部分.
+		//  当拐点在左侧时, 右半部分肯定是有序的
+		//  当拐点在右侧时, 左半部分肯定是有序的
+		if mv <= lv && mv <= rv {
+			// [5,6,7,0,1,2,3,4], 1
+			// 处于有序的部分
+			if mv < target && target <= rv {
+				l = mid + 1
+			} else {
+				r = mid
+			}
+		} else {
+			// [3,4,5,6,7,0,1,2], 3
+			// 处于有序的部分
+			if lv <= target && target < mv {
+				r = mid
+			} else {
+				l = mid + 1
+			}
+		}
+	}
+	return -1
+}
+
 func main() {
 	var nums = []int{2, 4, 5, 6, 7, 0, 1}
 	fmt.Println(search33_1(nums, 7))

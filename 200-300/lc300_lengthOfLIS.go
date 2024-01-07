@@ -56,6 +56,38 @@ func lengthOfLIS2(nums []int) int {
 	return len(dp)
 }
 
+func lengthOfLISxSearch(nums []int) int {
+
+	search := func(nums []int, target int) int {
+		left, right := 0, len(nums)
+		for left < right {
+			mid := left + (right-left)/2
+			val := nums[mid]
+			if val == target {
+				return mid
+			}
+			if val > target {
+				right = mid
+			} else {
+				left = mid + 1
+			}
+		}
+		return left
+	}
+
+	var st []int
+
+	for _, num := range nums {
+		idx := search(st, num)
+		if idx >= len(st) {
+			st = append(st, num)
+		} else {
+			st[idx] = num
+		}
+	}
+	return len(st)
+}
+
 func main() {
 	fmt.Println(lengthOfLIS([]int{10, 9, 2, 5, 3, 7, 101, 18}))
 }

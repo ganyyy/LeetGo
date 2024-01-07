@@ -43,6 +43,28 @@ func permute2(nums []int) [][]int {
 	return ret
 }
 
+func permute3(nums []int) [][]int {
+	if len(nums) == 0 {
+		return nil
+	}
+	var ret [][]int
+	var dfs func(candidates, buf []int)
+	dfs = func(candidates, buf []int) {
+		if len(candidates) == 0 {
+			ret = append(ret, append([]int(nil), buf...))
+			return
+		}
+		var start = candidates[0]
+		for idx, val := range candidates {
+			candidates[idx] = start
+			dfs(candidates[1:], append(buf, val))
+			candidates[idx] = val
+		}
+	}
+	dfs(nums, make([]int, 0, len(nums)))
+	return ret
+}
+
 func main() {
 	fmt.Println(permute([]int{1, 2, 1}))
 }

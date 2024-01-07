@@ -119,6 +119,51 @@ func minDistance3(word1 string, word2 string) int {
 	return cost[len(word2)]
 }
 
+func minDistance4(word1 string, word2 string) int {
+	/*
+	   dp[i+1][j+1] = word1[:i+1] -> word2[:j+1]所需要的最小步骤
+	   针对 word1[i]和word2[j]而言
+	   相等:
+	       不需要任何步骤
+	   不相等: 需要从以下步骤中找出最小的开销+1
+	       如果是插入的话, 相当于是由word1[:i] -> word2[:j+1] (dp[i][j+1])
+	       如果是删除的话, 相当于是由word1[:i+1] -> word2[:j] (dp[i+1][j])
+	       如果是替换的话, 相当于是由word1[:i] -> word2[:j]   (dp[i][j])
+
+	   由上边的dp可得: 只和上一行有关. 但是需要关注 leftTop, top, left 三个方向
+	*/
+	if word1 == word2 {
+		return 0
+	}
+	lenWord1 := len(word1)
+	lenWord2 := len(word2)
+	// dp[i][j] -> word1[:i] -> word2[:j]的开销
+	dp := make([][]int, lenWord1+1)
+	for i := range dp {
+		dp[i] = make([]int, lenWord2+1)
+		// word1[:i] -> word2[:0], 需要删除i个字符
+		dp[i][0] = i
+	}
+	for i := range dp[0] {
+		// word1[:0] -> word2[:i], 需要添加i个字符
+		dp[0][i] = i
+	}
+
+	for idx1 := 1; idx1 <= lenWord1; idx1++ {
+		for idx2 := 1; idx2 <= lenWord2; idx2++ {
+			if word1[idx1-1] == word2[idx2-1] {
+				dp[idx1][idx2] = dp[idx1-1][idx2-1]
+			} else {
+				// 添加
+				// 删除
+				// 替换
+				dp[idx1][idx2] = min(dp[idx1-1][idx2], dp[idx1][idx2-1], dp[idx1-1][idx2-1]) + 1
+			}
+		}
+	}
+	return dp[lenWord1][lenWord2]
+}
+
 func main() {
 	fmt.Println(minDistance("ab", "a"))
 }

@@ -173,13 +173,52 @@ func spiralOrder3(matrix [][]int) []int {
 	return res
 }
 
+func spiralOrder4(matrix [][]int) []int {
+	var left, right, top, down = 0, len(matrix[0]) - 1, 0, len(matrix) - 1
+	var ret = make([]int, 0, (right+1)*(down+1))
+	add := func(val int) {
+		ret = append(ret, val)
+	}
+	for {
+		// 左往右一行, top++
+		for start := left; start <= right; start++ {
+			add(matrix[top][start])
+		}
+		if top++; top > down {
+			break
+		}
+		// 上往下一列, right--
+		for start := top; start <= down; start++ {
+			add(matrix[start][right])
+		}
+		if right--; right < left {
+			break
+		}
+		// 右往左一行, down--
+		for start := right; start >= left; start-- {
+			add(matrix[down][start])
+		}
+		if down--; down < top {
+			break
+		}
+		// 下往上一列, left++
+		for start := down; start >= top; start-- {
+			add(matrix[start][left])
+		}
+		if left++; left > right {
+			break
+		}
+	}
+	return ret
+}
+
 func main() {
-	//param := [][]int {
+	// param := [][]int {
 	//	{1, 2, 3, 4},
 	//	{5, 6, 7, 8},
 	//	{9,10,11,12},
 	//	{13,14,15,16},
 	//	{17,18,19,20},
-	//}
+	// }
 	fmt.Println(spiralOrder([][]int{{1, 2, 3, 4}}))
 }

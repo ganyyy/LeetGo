@@ -36,10 +36,10 @@ func combinationSum3(candidates []int, target int) (ans [][]int) {
 	if len(candidates) == 0 {
 		return nil
 	}
-	var dfs func(idx, target int, buf []int)
+	var dfs func(candidates []int, target int, buf []int)
 
-	dfs = func(idx, target int, buf []int) {
-		if idx == len(candidates) || target < 0 {
+	dfs = func(candidates []int, target int, buf []int) {
+		if 0 == len(candidates) || target < 0 {
 			return
 		}
 		if target == 0 {
@@ -48,13 +48,14 @@ func combinationSum3(candidates []int, target int) (ans [][]int) {
 			return
 		}
 		// 跳过当前元素
-		dfs(idx+1, target, buf)
-		if rem := target - candidates[idx]; rem >= 0 {
+		dfs(candidates[1:], target, buf)
+		var curVal = candidates[0]
+		if rem := target - curVal; rem >= 0 {
 			// 选择当前元素
-			dfs(idx, rem, append(buf, candidates[idx]))
+			dfs(candidates, rem, append(buf, curVal))
 		}
 	}
-	dfs(0, target, make([]int, 0, len(candidates)))
+	dfs(candidates, target, make([]int, 0, len(candidates)))
 	return
 }
 

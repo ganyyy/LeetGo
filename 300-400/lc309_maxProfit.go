@@ -51,3 +51,22 @@ func maxProfit2(prices []int) int {
 
 	return s2
 }
+
+func maxProfit3(prices []int) int {
+	var ln = len(prices)
+	if ln == 0 {
+		return 0
+	}
+
+	var sell, buy, cold int
+	buy = -prices[0]
+
+	for _, price := range prices[1:] {
+		curSell := max(sell, buy+price) // 卖或者不卖
+		curBuy := max(buy, cold-price)  // 买(冻结期之后)或者不买
+		curCold := max(cold, sell)      // 买了, 或者不买
+
+		sell, buy, cold = curSell, curBuy, curCold
+	}
+	return sell
+}

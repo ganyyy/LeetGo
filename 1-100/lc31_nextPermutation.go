@@ -94,6 +94,28 @@ func findIdx(nums []int, n int) int {
 	return l
 }
 
+func nextPermutation3(nums []int) {
+	// 1,5,4,3,2 -> 2,1,3,4,5
+	// 找到非逆序位置 [1], 5,4,3,2
+	var lastPos int
+	for lastPos = len(nums) - 2; lastPos >= 0 && nums[lastPos] >= nums[lastPos+1]; lastPos-- {
+	}
+	if lastPos == -1 {
+		reverseAll(nums)
+		return
+	}
+	// 从[5,4,3,2]中找到首个大于1的位置 5,4,3,[2]
+	var val = nums[lastPos]
+	var pos int
+	for pos = len(nums) - 1; pos >= 0 && nums[pos] <= val; pos-- {
+	}
+	// 交换[1],[2]  -> 2,5,4,3,1
+	nums[lastPos], nums[pos] = nums[pos], nums[lastPos]
+	// 逆序后半部分 -> 2,1,3,4,5
+	reverseAll(nums[lastPos+1:])
+	return
+}
+
 func main() {
 	var nums = []int{1, 5, 1}
 	nextPermutation(nums)

@@ -47,6 +47,25 @@ func triangleNumber(nums []int) int {
 	return cnt
 }
 
+func triangleNumber2(nums []int) int {
+	sort.Ints(nums)
+	// 三边定理: a+b > c
+	var count int
+	for large := len(nums) - 1; large >= 2; large-- {
+		largeVal := nums[large]
+		small, middle := 0, large-1
+		for small < middle {
+			if nums[small]+nums[middle] > largeVal {
+				count += middle - small
+				middle--
+			} else {
+				small++
+			}
+		}
+	}
+	return count
+}
+
 func main() {
 	var src = []int{1, 2, 3, 3, 4, 5, 6}
 	var idx = sort.Search(len(src), func(i int) bool {
