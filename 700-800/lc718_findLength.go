@@ -25,3 +25,34 @@ func findLength(A []int, B []int) int {
 	}
 	return maxln
 }
+
+func findLength2(nums1 []int, nums2 []int) int {
+	var l1, l2 = len(nums1), len(nums2)
+
+	// dp := make([][]int, l1+1)
+	// for i := range dp {
+	//     dp[i] = make([]int, l2+1)
+	// }
+
+	dp2 := make([]int, l2+1)
+
+	// dp := make
+
+	var ret int
+	for i := 1; i <= l1; i++ {
+		var leftTop2 int
+		for j := 1; j <= l2; j++ {
+			var top2 = dp2[j]
+			// var left = dp[i][j-1]
+			if nums1[i-1] == nums2[j-1] {
+				dp2[j] = leftTop2 + 1
+				ret = max(ret, dp2[j])
+			} else {
+				// 这种情况的dp压缩, 得需要考虑重置的逻辑
+				dp2[j] = 0
+			}
+			leftTop2 = top2
+		}
+	}
+	return ret
+}

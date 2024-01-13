@@ -13,16 +13,12 @@ func numberOfBoomerangs(points [][]int) int {
 			if j == i {
 				continue
 			}
-			t[dis(c, p)]++
+			d := dis(c, p)
+			// *2的意思是, 两个点可以互换
+			cc += t[d] * 2
+			t[d]++
 		}
-		for _, cnt := range t {
-			if cnt >= 2 {
-				cc += cnt * (cnt - 1)
-			}
-		}
-		for k := range t {
-			delete(t, k)
-		}
+		clear(t)
 	}
 	return cc
 }

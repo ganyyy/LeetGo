@@ -41,6 +41,47 @@ func restoreIpAddresses(s string) []string {
 	return res
 }
 
+func restoreIpAddresses3(s string) []string {
+	length := len(s)
+	if length > 12 {
+		return nil
+	}
+
+	// 三个点
+	var buf = make([]byte, 0, length+3)
+	var ret []string
+	var validIP func(buf []byte, s string, remain int)
+	validIP = func(buf []byte, s string, remain int) {
+		length := len(s)
+		if length > remain*3 || length < remain {
+			// 超过了, 或者不够
+			return
+		}
+		if remain == 0 && length == 0 {
+			ret = append(ret, string(buf))
+			return
+		}
+		if len(buf) > 0 {
+			buf = append(buf, '.')
+		}
+		var val int
+		for i := 1; i <= min(length, 3); i++ {
+			val = val*10 + int(s[i-1]-'0')
+			if i > 1 && val < 10 {
+				// 存在前缀0的情况
+				break
+			}
+			if val > 255 {
+				// 三位数, 但是和超过了255
+				break
+			}
+			validIP(append(buf, s[:i]...), s[i:], remain-1)
+		}
+	}
+	validIP(buf, s, 4)
+	return ret
+}
+
 func main() {
 	restoreIpAddresses("25525511135")
 }

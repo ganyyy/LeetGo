@@ -83,7 +83,7 @@ func NewTreeNode(val string) *TreeNode {
 
 type Codec struct{}
 
-func Constructor() Codec {
+func Constructor5() Codec {
 	return Codec{}
 }
 
@@ -147,6 +147,51 @@ func (this *Codec) deserialize(data string) *TreeNode {
 		setLeft ^= 1
 	}
 	return root
+}
+
+type Codec3 struct {
+}
+
+func Constructor4() Codec3 {
+	return Codec3{}
+}
+
+// Serializes a tree to a single string.
+func (c *Codec3) serialize(root *TreeNode) string {
+	var sb strings.Builder
+
+	var dfs func(root *TreeNode)
+	dfs = func(root *TreeNode) {
+		if root == nil {
+			sb.WriteString("#,")
+			return
+		}
+		sb.WriteString(strconv.Itoa(root.Val))
+		sb.WriteByte(',')
+		dfs(root.Left)
+		dfs(root.Right)
+	}
+	dfs(root)
+	return sb.String()
+}
+
+// Deserializes your encoded data to tree.
+func (c *Codec3) deserialize(data string) *TreeNode {
+	sp := strings.Split(data, ",")
+	if len(sp) == 0 {
+		return nil
+	}
+	var build func() *TreeNode
+	build = func() *TreeNode {
+		if sp[0] == "#" {
+			sp = sp[1:]
+			return nil
+		}
+		val, _ := strconv.Atoi(sp[0])
+		sp = sp[1:]
+		return &TreeNode{Val: val, Left: build(), Right: build()}
+	}
+	return build()
 }
 
 /**

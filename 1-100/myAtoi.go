@@ -3,6 +3,7 @@ package main
 import (
 	"fmt"
 	"math"
+	"strings"
 )
 
 func myAtoi(str string) int {
@@ -50,6 +51,8 @@ func myAtoi(str string) int {
 			break
 		}
 	}
+
+	strings.Builder{}
 
 	if flag {
 		if -res < math.MinInt32 {
