@@ -34,9 +34,7 @@ func atMostNGivenDigitSet(digits []string, n int) int {
 
 	dfs = func(idx int, isLimit, isNum bool) int {
 		layer = append(layer, ' ')
-		defer func() {
-			layer = layer[:len(layer)-1]
-		}()
+		defer func() { layer = layer[:len(layer)-1] }()
 		fmt.Println(string(layer), idx, isLimit, isNum)
 		if idx == ln {
 			// 1. 到达了数字结尾, 判定是否是一个合法的数字
