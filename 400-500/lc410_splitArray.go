@@ -43,6 +43,48 @@ func splitArray(nums []int, m int) int {
 	return max
 }
 
+func splitArray2(nums []int, k int) int {
+	var maxElement int
+	var total int
+	for _, num := range nums {
+		maxElement = max(num, maxElement)
+		total += num
+	}
+
+	if len(nums) <= k {
+		// fast path: 直接返回最大值. 每个组只有一个数字, 那么最大值就是数组整体的最大值
+		return maxElement
+	}
+
+	// 左边界: 每个数组只有一个数字
+	var left = maxElement
+	// 右边界: 所有的数字在一个数组中
+	var right = total
+
+	for left < right {
+		maxSubElement := left + (right-left)/2
+		var curGroupSum int
+		var groupCnt int
+		groupCnt++
+		for _, num := range nums {
+			curGroupSum += num
+			if curGroupSum > maxSubElement {
+				curGroupSum = num
+				groupCnt++
+			}
+		}
+		// 判断子数组的个数
+		if groupCnt > k {
+			// 最大值偏小, 增大左边界
+			left = maxSubElement + 1
+		} else {
+			// 最大值偏大, 缩减右边界
+			right = maxSubElement
+		}
+	}
+	return left
+}
+
 func main() {
 
 }
