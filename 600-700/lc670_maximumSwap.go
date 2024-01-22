@@ -25,3 +25,43 @@ func maximumSwap(num int) int {
 	v, _ := strconv.Atoi(string(s))
 	return v
 }
+
+func maximumSwap2(num int) int {
+	var buffer [10]int
+	var numBuffer = buffer[:0]
+
+	var maxNum = num
+
+	for num != 0 {
+		numBuffer = append(numBuffer, num%10)
+		num /= 10
+	}
+
+	// 找到首个最大值(位阶越小越好)
+	// 然后正序查找(相较于原数字是逆序的)
+	var maxIdx int
+	var first, second = 0, -1
+
+	for i := 1; i < len(numBuffer); i++ {
+		maxVal := numBuffer[maxIdx]
+		curVal := numBuffer[i]
+		if maxVal < curVal {
+			maxIdx = i
+		} else if maxVal > curVal {
+			first, second = maxIdx, i
+		}
+	}
+
+	if second == -1 {
+		return maxNum
+	}
+
+	numBuffer[first], numBuffer[second] = numBuffer[second], numBuffer[first]
+
+	maxNum = 0
+	for i := len(numBuffer) - 1; i >= 0; i-- {
+		maxNum = maxNum*10 + numBuffer[i]
+	}
+
+	return maxNum
+}
