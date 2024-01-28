@@ -5,6 +5,7 @@ package main
 import (
 	"fmt"
 	"math"
+	"slices"
 )
 
 // 失败了, 无法处理 相同字符连接字串的问题
@@ -95,43 +96,43 @@ func findRotateSteps(ring, key string) int {
 	// dp[i][j] 表示 从 拼到第i个key的字符, ring的第j个字符与12:00方向对其的最少步数
 
 	// 初始化每一个位置. 后期考虑压缩成一维数组
-	var dp = make([][]int, m)
-	for i := range dp {
-		dp[i] = make([]int, n)
-		for j := range dp[i] {
-			dp[i][j] = inf
+	// var dp = make([][]int, m)
+	// for i := range dp {
+	// 	dp[i] = make([]int, n)
+	// 	for j := range dp[i] {
+	// 		dp[i][j] = inf
+	// 	}
+	// }
+
+	resetInf := func(distances []int) {
+		for i := range distances {
+			distances[i] = inf
 		}
 	}
+
+	var pre = make([]int, n)
+	var cur = make([]int, n)
+	resetInf(pre)
+	resetInf(cur)
 
 	// 遍历 首个字符 的所有位置
 	for _, c := range pos[key[0]-'a'] {
 		// 找出ring中key[0]字符 相对于 ring[0](初始12:00的字符) 最短距离
-		dp[0][c] = min(c, n-c) + 1
+		pre[c] = min(c, n-c) + 1
 	}
 
 	for i := 1; i < m; i++ {
 		// 查找key中每一个字符, 找出相对于 ring 12:00 方向最近操作步骤
+		resetInf(cur)
 		for _, j := range pos[key[i]-'a'] {
 			for _, k := range pos[key[i-1]-'a'] {
-				dp[i][j] = min(dp[i][j], dp[i-1][k]+min(abs(j-k), n-abs(j-k))+1)
+				cur[j] = min(cur[j], pre[k]+min(abs(j-k), n-abs(j-k))+1)
 			}
 		}
+		pre, cur = cur, pre
 	}
 
-	return minSlice(dp[m-1]...)
-}
-
-func minSlice(a ...int) int {
-	if len(a) == 0 {
-		return 0
-	}
-	var m = a[0]
-	for _, v := range a[1:] {
-		if m > v {
-			m = v
-		}
-	}
-	return m
+	return slices.Min(dp[m-1])
 }
 
 func abs(a int) int {
