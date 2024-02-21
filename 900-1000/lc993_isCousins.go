@@ -53,3 +53,24 @@ func isCousins(r *TreeNode, x int, y int) bool {
 
 	return false
 }
+
+func isCousinsDFS(root *TreeNode, x, y int) (ans bool) {
+	depth := 0
+	var father *TreeNode
+	var dfs func(*TreeNode, *TreeNode, int) bool
+	dfs = func(node, fa *TreeNode, d int) bool {
+		if node == nil {
+			return false
+		}
+		if node.Val == x || node.Val == y { // 找到 x 或 y
+			if depth > 0 { // 之前已找到 x y 其中一个
+				ans = depth == d && father != fa
+				return true // 表示 x 和 y 都找到
+			}
+			depth, father = d, fa // 之前没找到，记录信息
+		}
+		return dfs(node.Left, node, d+1) || dfs(node.Right, node, d+1)
+	}
+	dfs(root, nil, 1)
+	return
+}
