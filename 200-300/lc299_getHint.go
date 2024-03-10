@@ -52,3 +52,22 @@ func getHint2(secret string, guess string) string {
 
 	return fmt.Sprintf("%dA%dB", ac, bc)
 }
+
+func getHint3(secret, guess string) string {
+	a, b := 0, 0
+	var cntS, cntG [10]int
+	for i := range secret {
+		if secret[i] == guess[i] {
+			a++
+		} else {
+			// 指定位置不同的计数
+			cntS[secret[i]-'0']++
+			cntG[guess[i]-'0']++
+		}
+	}
+	for i := 0; i < 10; i++ {
+		// 取二者中的最小值, 直接覆盖替换
+		b += min(cntS[i], cntG[i])
+	}
+	return fmt.Sprintf("%dA%dB", a, b)
+}
