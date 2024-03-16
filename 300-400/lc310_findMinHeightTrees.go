@@ -5,36 +5,37 @@ func findMinHeightTrees(n int, edges [][]int) []int {
 		return []int{0}
 	}
 
-	g := make([][]int, n)
-	deg := make([]int, n)
-	for _, e := range edges {
-		x, y := e[0], e[1]
-		g[x] = append(g[x], y)
-		g[y] = append(g[y], x)
-		deg[x]++
-		deg[y]++
+	graph := make([][]int, n)
+	degree := make([]int, n)
+	for _, edge := range edges {
+		from, to := edge[0], edge[1]
+		graph[from] = append(graph[from], to)
+		graph[to] = append(graph[to], from)
+		degree[from]++
+		degree[to]++
 	}
 
-	var q []int
-	for i, d := range deg {
-		if d == 1 {
-			q = append(q, i)
+	var queue []int
+	for node, deg := range degree {
+		if deg == 1 {
+			queue = append(queue, node)
 		}
 	}
 
 	remainNodes := n
 	for remainNodes > 2 {
-		remainNodes -= len(q)
-		tmp := q
-		q = nil
-		for _, x := range tmp {
-			for _, y := range g[x] {
-				deg[y]--
-				if deg[y] == 1 {
-					q = append(q, y)
+		// 移除叶子节点
+		remainNodes -= len(queue)
+		nextQueue := queue
+		queue = nil
+		for _, node := range nextQueue {
+			for _, next := range graph[node] {
+				degree[next]--
+				if degree[next] == 1 {
+					queue = append(queue, next)
 				}
 			}
 		}
 	}
-	return q
+	return queue
 }
