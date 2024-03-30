@@ -1,6 +1,8 @@
 package main
 
-import "fmt"
+import (
+	"fmt"
+)
 
 func isValidSerialization(preorder string) bool {
 
@@ -84,4 +86,149 @@ func isValidSerialization2(preorder string) bool {
 
 func main() {
 	fmt.Println(isValidSerialization("9,3,4,#,#,1,#,#,#,2,#,6,#,#"))
+}
+
+func isValidSerialization3(preorder string) bool {
+
+	const (
+		Num = 0 - iota
+		Nil
+		End
+	)
+
+	var getNext = func() int {
+		if len(preorder) == 0 {
+			return End
+		}
+		var idx int
+		for idx < len(preorder) && preorder[idx] != ',' {
+			idx++
+		}
+		var ret = Num
+		if preorder[0] == '#' {
+			ret = Nil
+		}
+		// fmt.Println(ret, preorder)
+		// 跳过','
+		if idx == len(preorder) {
+			idx--
+		}
+		preorder = preorder[idx+1:]
+		return ret
+	}
+
+	var build func() bool
+	build = func() bool {
+		next := getNext()
+		if next == Nil {
+			return true
+		}
+		if next == End {
+			// 不允许提前结束?
+			return false
+		}
+
+		// 左右分支
+		leftValid := build()
+		if !leftValid {
+			return false
+		}
+		return build()
+		// fmt.Println(next, leftValid, rightValid)
+		// if !leftValid || !rightValid {
+		//     return false
+		// }
+		// return true
+	}
+
+	// 全部消耗完毕
+	return build() && len(preorder) == 0
+}
+
+func isValidSerializationStack(preorder string) bool {
+
+	const (
+		Num = 0 - iota
+		Nil
+		End
+	)
+
+	var getNext = func() int {
+		if len(preorder) == 0 {
+			return End
+		}
+		var idx int
+		for idx < len(preorder) && preorder[idx] != ',' {
+			idx++
+		}
+		var ret = Num
+		if preorder[0] == '#' {
+			ret = Nil
+		}
+		// fmt.Println(ret, preorder)
+		// 跳过','
+		if idx == len(preorder) {
+			idx--
+		}
+		preorder = preorder[idx+1:]
+		return ret
+	}
+
+	var stack []int
+
+	for next := getNext(); next != End; next = getNext() {
+		stack = append(stack, next)
+		for len(stack) >= 3 && stack[len(stack)-1] == Nil && stack[len(stack)-2] == Nil && stack[len(stack)-3] != Nil {
+			stack = stack[:len(stack)-3]
+			stack = append(stack, Nil)
+		}
+	}
+	return len(stack) == 1 && stack[0] == Nil
+}
+
+func isValidSerializationDegree(preorder string) bool {
+
+	const (
+		Num = 0 - iota
+		Nil
+		End
+	)
+
+	var getNext = func() int {
+		if len(preorder) == 0 {
+			return End
+		}
+		var idx int
+		for idx < len(preorder) && preorder[idx] != ',' {
+			idx++
+		}
+		var ret = Num
+		if preorder[0] == '#' {
+			ret = Nil
+		}
+		// fmt.Println(ret, preorder)
+		// 跳过','
+		if idx == len(preorder) {
+			idx--
+		}
+		preorder = preorder[idx+1:]
+		return ret
+	}
+
+	var diff int // 出度-入读
+	// 根节点出度是2, 入度是0
+	// 非根节点的出度是2, 入度是1
+	// 叶子节点的出度是0, 入度是1
+	// 整棵树迭代完成后, 其差值应该是0!
+	diff++
+	for next := getNext(); next != End; next = getNext() {
+		diff--
+		if diff < 0 {
+			return false
+		}
+		if next != Nil {
+			diff += 2
+		}
+	}
+	return diff == 0
 }
