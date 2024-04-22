@@ -31,3 +31,25 @@ func maxSatisfied(customers []int, grumpy []int, X int) int {
 
 	return res
 }
+
+func maxSatisfied2(customers []int, grumpy []int, minutes int) int {
+	// 求和
+	var sum int
+	// 窗口内通过转换是否生气而增加的收益
+	var windowAdd int
+	var maxAdd int
+
+	maxAdd = max(maxAdd, windowAdd)
+	for i := 0; i < len(customers); i++ {
+		if i >= minutes && grumpy[i-minutes] == 1 {
+			windowAdd -= customers[i-minutes]
+		}
+		if grumpy[i] == 1 {
+			windowAdd += customers[i]
+		} else {
+			sum += customers[i]
+		}
+		maxAdd = max(maxAdd, windowAdd)
+	}
+	return sum + maxAdd
+}
