@@ -6,7 +6,7 @@ func longestAwesome(s string) int {
 	sequence := 0
 	for j := 0; j < len(s); j++ {
 		digit := int(s[j] - '0')
-		sequence ^= (1 << digit)
+		sequence ^= 1 << digit
 		if prevIndex, ok := prefix[sequence]; ok {
 			// 按照容斥原理, 如果前边出现了相同的,
 			// 那么j-prevIndex这段区间肯定是拥有偶数个不同字符的字符串,、
