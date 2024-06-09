@@ -63,6 +63,21 @@ func maxCoins2(nums []int) int {
 	// 区间长度最少是3, 去掉两个哨兵, 最小长度是1
 
 	// 子数组长度
+
+	/*
+	     [1,2,3,4,5]
+	   count ∈ [3, length+2]
+	   [1,1,2,3,4,5,1]
+	    | m |       |
+	   left |       |
+	     right   length+1
+
+	   left  ∈ [0      , length+1-(count-1)]
+	   right ∈ [count-1, length+1]
+	   m     ∈ [left+1 , right -1]
+
+	*/
+
 	for count := 3; count <= length+2; count++ {
 		// 左边界和有边界(不包括)
 		left, right := 0, count-1
