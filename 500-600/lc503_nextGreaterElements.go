@@ -74,3 +74,26 @@ func example(nums []int) []int {
 
 	return res
 }
+
+func nextGreaterElements2(nums []int) []int {
+	// 单调栈
+	var st = make([]int, 0, len(nums))
+	ln := len(nums)
+	var ret = make([]int, ln)
+	for i := range ret {
+		ret[i] = -1
+	}
+	for i := 0; i < ln*2; i++ {
+		idx := i % ln
+		val := nums[idx]
+		for len(st) > 0 && nums[st[len(st)-1]] < val {
+			last := st[len(st)-1]
+			st = st[:len(st)-1]
+			ret[last] = val
+		}
+		if i < ln {
+			st = append(st, idx)
+		}
+	}
+	return ret
+}
