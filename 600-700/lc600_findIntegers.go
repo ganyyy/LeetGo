@@ -1,5 +1,7 @@
 package main
 
+import "strconv"
+
 func findIntegersBad(n int) int {
 	var ret int
 	for i := 0; i <= n; i++ {
@@ -52,4 +54,42 @@ func findIntegers(n int) (ans int) {
 		}
 	}
 	return
+}
+
+func findIntegers2(n int) int {
+	s := strconv.FormatInt(int64(n), 2)
+	m := len(s)
+	// 每一位有两种可能: 0/1
+	dp := make([][2]int, m)
+	for i := range dp {
+		dp[i] = [2]int{-1, -1}
+	}
+	// 数位dp
+	var f func(int, int8, bool) int
+	f = func(i int, pre1 int8, isLimit bool) (res int) {
+		if i == m {
+			return 1
+		}
+		if !isLimit {
+			dv := dp[i][pre1]
+			if dv >= 0 {
+				return dv
+			}
+			defer func() { dp[i][pre1] = res }()
+		}
+		up := 1
+		if isLimit {
+			up = int(s[i] & 1)
+		}
+		// 无论前边是什么, 填0总是对的
+		// isLimit应该怎么理解呢? 可以认为这一次迭代是不是该位置的上限.
+		// 因为这里只有0/1, 所以是二元的. 但是, 在十进制的框架下, 非limit可选0-9, limit只能选到s[i]作为其上限
+		res = f(i+1, 0, isLimit && up == 0) // 填 0
+		if pre1 == 0 && up == 1 {           // 可以填 1
+			// 前边是0的情况下, 才可以填1
+			res += f(i+1, 1, isLimit) // 填 1
+		}
+		return
+	}
+	return f(0, 0, true)
 }
